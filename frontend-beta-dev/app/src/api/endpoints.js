@@ -1,0 +1,46 @@
+import { buildApiPath, buildRootVersionedPath } from './apiVersioning';
+
+const createDomain = (domainKey) => (suffix = '') => buildApiPath(domainKey, suffix);
+
+export const endpoints = {
+    users: createDomain('users'),
+    triplists: createDomain('triplists'),
+    triplistsCollaborators: createDomain('triplistsCollaborators'),
+    places: createDomain('places'),
+    search: createDomain('search'),
+    follows: createDomain('follows'),
+    drafts: createDomain('drafts'),
+    notifications: createDomain('notifications'),
+    chat: createDomain('chat'),
+    chatDirect: createDomain('chatDirect'),
+    chatRead: createDomain('chatRead'),
+    chatUnreadCount: createDomain('chatUnreadCount'),
+    rooms: createDomain('rooms'),
+    devices: createDomain('devices'),
+    reviews: createDomain('reviews'),
+    highlights: createDomain('highlights'),
+    images: createDomain('images'),
+    like: createDomain('like'),
+    community: createDomain('community'),
+    media: createDomain('media'),
+    categories: createDomain('categories'),
+    biometric: createDomain('biometric'),
+    instagram: createDomain('instagram'),
+    userPoints: createDomain('userPoints'),
+    quests: createDomain('quests'),
+    theme: createDomain('theme'),
+    tnc: createDomain('tnc'),
+    blocks: createDomain('blocks'),
+    reports: createDomain('reports'),
+    hotels: createDomain('hotels'),
+    flights: createDomain('flights'),
+    bookings: createDomain('bookings'),
+    paymentMethods: createDomain('paymentMethods'),
+    root: {
+        refresh: () => buildRootVersionedPath('/api/refresh'),
+        signup: () => buildRootVersionedPath('/api/signup'),
+        verify: () => buildRootVersionedPath('/api/verify'),
+        updateFcmToken: () => buildRootVersionedPath('/api/update-fcm-token'),
+    },
+};
+

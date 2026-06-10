@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>CADisableMinimumFrameDurationOnPhone</key>
+    <true />
+    <key>CFBundleAllowMixedLocalizations</key>
+    <true />
+    <key>CFBundleDevelopmentRegion</key>
+    <string>$(DEVELOPMENT_LANGUAGE)</string>
+    <key>CFBundleDisplayName</key>
+    <string>trippy</string>
+    <key>CFBundleExecutable</key>
+    <string>$(EXECUTABLE_NAME)</string>
+    <key>CFBundleIdentifier</key>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>CFBundleName</key>
+    <string>$(PRODUCT_NAME)</string>
+    <key>CFBundlePackageType</key>
+    <string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.1</string>
+    <key>CFBundleSignature</key>
+    <string>????</string>
+    <key>CFBundleURLTypes</key>
+    <array>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>trippy</string>
+          <string>com.anonymous.trippy</string>
+          <string>com.googleusercontent.apps.293792261808-3ssdvgjctv3n1so7cspft62cm6enhisd</string>
+        </array>
+      </dict>
+    </array>
+    <key>CFBundleVersion</key>
+    <string>2</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>12.0</string>
+    <key>LSRequiresIPhoneOS</key>
+    <true />
+    <key>NSAppTransportSecurity</key>
+    <dict>
+      <key>NSAllowsArbitraryLoads</key>
+      <false />
+      <key>NSAllowsLocalNetworking</key>
+      <true />
+    </dict>
+    <key>NSCameraUsageDescription</key>
+    <string>Trippy uses your camera to let you upload photos of places you visit and share them with other travelers.</string>
+    <key>NSFaceIDUsageDescription</key>
+    <string>Trippy uses Face ID to securely log you in without requiring a password each time.</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>Trippy uses your location to recommend trending places and generate Instant Trip Lists — curated themed spots near you.</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Trippy uses your location to recommend trending places and generate Instant Trip Lists — curated themed spots near you.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Trippy uses your location to recommend trending places and generate Instant Trip Lists — curated themed spots near you.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Trippy uses your microphone to let you search for places and destinations using voice input.</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Trippy saves place photos to your photo library so you can share them outside the app.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Trippy accesses your photo library so you can select and upload travel photos to your trips and place reviews.</string>
+    <key>NSUserActivityTypes</key>
+    <array>
+      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
+    </array>
+    <key>RCTNewArchEnabled</key>
+    <true />
+    <key>UILaunchStoryboardName</key>
+    <string>SplashScreen</string>
+    <key>UIRequiredDeviceCapabilities</key>
+    <array>
+      <string>arm64</string>
+    </array>
+    <key>UIRequiresFullScreen</key>
+    <false />
+    <key>UIStatusBarHidden</key>
+    <false />
+    <key>UIStatusBarStyle</key>
+    <string>UIStatusBarStyleDefault</string>
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+      <string>UIInterfaceOrientationPortrait</string>
+    </array>
+    <key>UIUserInterfaceStyle</key>
+    <string>Light</string>
+    <key>UIViewControllerBasedStatusBarAppearance</key>
+    <false/>
+  </dict>
+</plist>
