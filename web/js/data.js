@@ -126,3 +126,40 @@ const DATA = {
     "Fitness", "Shopping", "Nightlife", "Kid-friendly", "Pet-friendly", "Budget-friendly",
   ],
 };
+
+/* Demo fallback for the daily Top 50 (used when the TrippyAI server is off).
+   Deterministic per day so the ranking "changes daily" even in demo mode. */
+function buildTrendingFallback(kind) {
+  const bases = kind === "categories"
+    ? ["Rooftop Bars", "Harbour Hikes", "Dim Sum Crawls", "Night Markets", "Speakeasies", "Beach Days",
+       "Gallery Hopping", "Street Food", "Sunset Spots", "Coffee Crawls", "Temple Walks", "Island Hopping",
+       "Live Music", "Vintage Shopping", "Ramen Hunts", "Skyline Views", "Tai Chi Mornings", "Junk Boat Trips",
+       "K-BBQ Nights", "Hidden Bookshops", "Egg Waffle Tours", "Neon Photo Walks", "Wet Market Tours",
+       "Craft Beer Taprooms", "Omakase Counters"]
+    : ["Golden Hour at West Kowloon", "Sai Kung Island Hop", "Dragon's Back & Beach", "Old Town Central Walk",
+       "Mong Kok After Dark", "Lantau Big Buddha Day", "Cheung Chau Bike Loop", "PMQ Design Crawl",
+       "Victoria Peak Sunrise", "Yau Ma Tei Food Run", "Star Ferry & Symphony", "Tai O Stilt Village",
+       "K-Town Cafe Hop", "Quarry Bay Monster Walk", "Stanley Seaside Stroll", "Temple Street Eats",
+       "Kennedy Town Sunset", "Po Toi Island Escape", "Sham Shui Po Threads", "Repulse Bay Reset",
+       "Soho Gallery Night", "Lamma Island Seafood", "Hidden Speakeasy Trail", "Peng Chau Slow Day",
+       "Kowloon Walled City Park"];
+  const areas = ["Central", "Tsim Sha Tsui", "Wan Chai", "Sheung Wan", "Mong Kok", "Sai Kung",
+    "Causeway Bay", "Kennedy Town", "Sham Shui Po", "Stanley"];
+  const blurbs = ["Locals can't stop sharing it", "Perfect for this week's weather", "Reels are blowing up",
+    "New openings this month", "Weekend queues say it all", "Golden-hour favourite", "Big with couples right now",
+    "Budget-friendly pick", "Editors' pick this week", "Back in season"];
+  const day = Math.floor(Date.now() / 86400000);
+  const items = [];
+  for (let i = 0; i < 50; i++) {
+    const base = bases[(i + day) % bases.length];
+    const suffixed = i < bases.length ? base : `${base} · ${areas[(i * 3 + day) % areas.length]}`;
+    items.push({
+      name: suffixed,
+      area: areas[(i * 7 + day) % areas.length],
+      blurb: blurbs[(i * 5 + day) % blurbs.length],
+      trend: i < 3 ? "up" : ["up", "same", "new", "down", "same", "up"][(i + day) % 6],
+      score: Math.max(20, 99 - i - ((i * day) % 7)),
+    });
+  }
+  return { date: new Date().toISOString().slice(0, 10), items, demo: true };
+}

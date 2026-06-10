@@ -9,20 +9,33 @@ AI 기반 여행 플래너 **Trippy** 모노레포입니다. 디자인 소스는
 | 경로 | 설명 |
 | --- | --- |
 | `frontend-beta-dev/` | Trippy 모바일 앱 (Expo / React Native) |
-| `web/` | **Trippy 웹 버전** — Figma "New Designs" 페이지의 주요 플로우를 구현한 정적 웹앱 (빌드 불필요) |
+| `web/` | **Trippy 웹 버전** — Figma "New Designs" 플로우 전체 + 웹 최적화 레이아웃 (데스크톱 사이드바) |
+| `server/` | 웹 서버 — Claude AI 추천(TrippyAI) · 일일 트렌딩 Top 50 · 백엔드 CORS 프록시 |
 | `app.py` | Future Self Coach — Streamlit MVP (별도 프로젝트) |
 
-## Trippy Web (`web/`)
+## Trippy Web (`web/` + `server/`)
 
 Figma **New Designs** 페이지의 플로우를 그대로 옮긴 웹 버전입니다.
-순수 HTML/CSS/JS로 작성되어 빌드 과정 없이 어디서든 호스팅할 수 있습니다
-(GitHub Pages, Netlify, S3 등).
+모바일(<1024px)은 Figma 디자인 그대로, 데스크톱(≥1024px)은 사이드바 내비게이션과
+멀티 컬럼 레이아웃으로 재배치됩니다.
 
 ```bash
-cd web
-python3 -m http.server 8000
-# → http://localhost:8000
+# 풀 모드 — 실제 가입/로그인 + Claude AI + 트렌딩 Top 50
+cd server && cp .env.example .env   # ANTHROPIC_API_KEY 입력
+npm install && npm start            # → http://localhost:3000
+
+# 정적 데모 모드 — 서버 없이
+cd web && python3 -m http.server 8000
 ```
+
+실서비스 연동 기능 (풀 모드):
+
+- **회원가입/로그인** — `api.trippy.global` 실계정 (`/api/v1/signup` → 이메일 OTP `/api/v1/verify` → `/login`), 서버의 `/backend` 프록시로 브라우저 CORS 문제 없이 동작
+- **TrippyAI 추천 (Claude `claude-opus-4-8`)** — AI Magic 필터 → 실제 장소로 일정 생성, TrippySpot 새로고침 → 지금 영업 중인 주변 스팟 3곳, Custom Build 날짜 선택 → 일자별 일정
+- **트렌딩 Top 50** — 카테고리/트립리스트 랭킹을 Claude가 **매일 1회** 생성·캐시, 홈에 Top 5 미리보기
+- 모든 기능은 서버/키가 없으면 데모 데이터로 자동 폴백
+
+배포(trippy.global 연결)는 [`web/DEPLOY.md`](web/DEPLOY.md) 참고.
 
 구현된 화면 (Figma 플로우 기준):
 

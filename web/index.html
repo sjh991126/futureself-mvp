@@ -21,6 +21,28 @@
   <span class="tag">Web Beta · est. 2021</span>
 </header>
 
+<div class="shell">
+
+<!-- ── Desktop sidebar ─────────────────────────────────────── -->
+<aside class="sidebar" id="sidebar">
+  <img class="sb-logo" src="assets/trippy-logo-transparent.png" alt="Trippy" />
+  <nav class="sb-nav">
+    <button data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Home</button>
+    <button data-nav="triplist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 4v16M9.5 4v16M14 4l4.5 1.2L14.6 20"/></svg>My Trips</button>
+    <button data-nav="trending"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 13V7h-6"/></svg>Trending</button>
+    <button data-nav="community"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M14 9a7 7 0 1 0-7 7v3l3.5-3H14a7 7 0 0 0 7-7Z" transform="translate(1.5 1.5) scale(.86)"/><path d="M8 9h6M8 12.5h3.5" transform="translate(1.5 1.5) scale(.86)"/></svg>Community</button>
+    <button data-nav="profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>Profile</button>
+    <div class="sb-sep"></div>
+    <button data-go="hotels"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M2 17h20M2 17v3M22 17v3M4 17V8a2 2 0 0 1 2-2h8a4 4 0 0 1 4 4v7"/></svg>Hotels</button>
+    <button data-go="flights"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M2 22h20"/><path d="M3.6 13.4 21 9.2c.8-.2 1.2-1 .9-1.8-.3-.9-1.3-1.3-2.2-1L14 8 6.5 4 4 4.8l4.5 5-4.2 1.2-2.6-1.6-1.7.5 2.3 3.8c.3.5 1 .8 1.6.7Z"/></svg>Flights</button>
+  </nav>
+  <button class="sb-create" id="sbCreate">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
+    Create
+  </button>
+  <div class="sb-user" id="sbUser"></div>
+</aside>
+
 <main class="app" id="app">
 
   <!-- ── Welcome ─────────────────────────────────────────── -->
@@ -30,6 +52,64 @@
     <h1>Welcome to Trippy!</h1>
     <div class="cta">
       <button class="btn btn-grad" data-go="onboarding">Get Started</button>
+      <button class="btn btn-ghost" data-go="login">I already have an account</button>
+    </div>
+  </section>
+
+  <!-- ── Log in ──────────────────────────────────────────── -->
+  <section class="screen no-nav auth-screen" id="login">
+    <div class="topbar">
+      <button class="icon-btn" data-go="welcome" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <span class="title"></span><span class="spacer"></span>
+    </div>
+    <div class="auth-body">
+      <h1>Welcome back</h1>
+      <p class="auth-sub">Log in to your Trippy account</p>
+      <form id="loginForm" autocomplete="on">
+        <label class="field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg><input type="text" id="loginUser" placeholder="Username" autocomplete="username" required /></label>
+        <label class="field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="10" width="16" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><input type="password" id="loginPass" placeholder="Password" autocomplete="current-password" required /></label>
+        <div class="auth-error" id="loginError"></div>
+        <button class="btn btn-grad" type="submit" id="loginBtn">Log in</button>
+      </form>
+      <button class="text-btn auth-alt" data-go="signup">New to Trippy? <b>Sign up</b></button>
+      <button class="text-btn auth-alt" data-go="home">Continue as guest →</button>
+    </div>
+  </section>
+
+  <!-- ── Sign up ─────────────────────────────────────────── -->
+  <section class="screen no-nav auth-screen" id="signup">
+    <div class="topbar">
+      <button class="icon-btn" data-go="login" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <span class="title"></span><span class="spacer"></span>
+    </div>
+    <div class="auth-body">
+      <h1>Create your account</h1>
+      <p class="auth-sub">Join Trippy and start planning</p>
+      <form id="signupForm" autocomplete="on">
+        <label class="field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Z"/><path d="m3 7 9 6 9-6"/></svg><input type="email" id="suEmail" placeholder="Email" autocomplete="email" required /></label>
+        <label class="field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg><input type="text" id="suUser" placeholder="Username" autocomplete="username" required minlength="3" /></label>
+        <label class="field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="10" width="16" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><input type="password" id="suPass" placeholder="Password (8+ characters)" autocomplete="new-password" required minlength="8" /></label>
+        <div class="auth-error" id="signupError"></div>
+        <button class="btn btn-grad" type="submit" id="signupBtn">Sign up</button>
+      </form>
+      <button class="text-btn auth-alt" data-go="login">Already have an account? <b>Log in</b></button>
+    </div>
+  </section>
+
+  <!-- ── Verify email (OTP) ──────────────────────────────── -->
+  <section class="screen no-nav auth-screen" id="verify">
+    <div class="topbar">
+      <button class="icon-btn" data-go="signup" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <span class="title"></span><span class="spacer"></span>
+    </div>
+    <div class="auth-body">
+      <h1>Check your email</h1>
+      <p class="auth-sub">We sent a verification code to <b id="verifyEmail"></b></p>
+      <form id="verifyForm">
+        <label class="field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M7 12h.01M12 12h.01M17 12h.01"/></svg><input type="text" id="otpInput" inputmode="numeric" placeholder="6-digit code" maxlength="8" required /></label>
+        <div class="auth-error" id="verifyError"></div>
+        <button class="btn btn-grad" type="submit" id="verifyBtn">Verify &amp; log in</button>
+      </form>
     </div>
   </section>
 
@@ -63,6 +143,8 @@
       </div>
     </div>
 
+    <div class="home-cols">
+    <div class="hcol">
     <div class="hero" data-go="plan">
       <img src="assets/hero.jpg" alt="" />
       <div class="inner">
@@ -86,6 +168,11 @@
         <b>Flights</b>
       </button>
     </div>
+    </div>
+
+    <div class="hcol">
+    <div class="section-head"><h3>Trending Today</h3><a data-go="trending">Top 50 →</a></div>
+    <div class="mini-rank" id="homeTrending"></div>
 
     <div class="section-head"><h3>What’s Nearby Tsim Sha Tsui</h3></div>
     <div class="map-card">
@@ -111,6 +198,23 @@
       </button>
       <span class="gradient-dot">∞</span>
     </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- ── Trending Top 50 ─────────────────────────────────── -->
+  <section class="screen" id="trending">
+    <div class="topbar">
+      <button class="icon-btn" data-go="home" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <span class="title">Trending Top 50</span>
+      <span class="spacer"></span>
+    </div>
+    <div class="trend-sub" id="trendSub">Updated daily by TrippyAI</div>
+    <div class="seg">
+      <button class="on" data-trend="categories">Categories</button>
+      <button data-trend="triplists">TripLists</button>
+    </div>
+    <div class="rank-list" id="rankList"></div>
   </section>
 
   <!-- ── Where to next? ──────────────────────────────────── -->
@@ -147,7 +251,7 @@
     <div class="topbar">
       <button class="icon-btn" data-go="plan" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
       <span class="title"></span>
-      <button class="text-btn" data-go="loading">SKIP</button>
+      <button class="text-btn" id="aiSkip">SKIP</button>
     </div>
     <h1>Filter</h1>
 
@@ -165,18 +269,18 @@
       <div class="label">Date</div>
       <label class="field">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
-        <input type="text" placeholder="Add custom date range" />
+        <input type="text" id="aiDates" placeholder="Add custom date range" />
       </label>
 
       <div class="label">Location</div>
       <label class="field">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-        <input type="text" placeholder="Select Location" />
+        <input type="text" id="aiLocation" placeholder="Select Location" />
       </label>
     </div>
 
     <div class="filter-foot">
-      <button class="btn btn-dark" data-go="loading">NEXT</button>
+      <button class="btn btn-dark" id="aiNext">NEXT</button>
     </div>
   </section>
 
@@ -195,6 +299,8 @@
       <button class="icon-btn" data-toast="Share · Edit · Collaborate — coming to web soon" aria-label="More"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg></button>
     </div>
 
+    <div class="tl-cols">
+    <div class="tcol">
     <div class="tl-collage" id="tlCollage"></div>
 
     <div class="tl-titlerow"><h1 id="tlTitle">Time to enjoy nature ⛰️</h1></div>
@@ -211,7 +317,9 @@
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
       <span id="tlDate">May 11</span>
     </button>
+    </div>
 
+    <div class="tcol">
     <div class="trip-map">
       <svg viewBox="0 0 392 200" xmlns="http://www.w3.org/2000/svg" aria-label="Day 1 route map">
         <rect width="392" height="200" fill="#e9f0e6"/>
@@ -229,8 +337,9 @@
       <span class="day-chip">Day 1</span>
     </div>
 
-    <div class="day-head" id="tlDayHead">Day 1: May 11</div>
-    <div id="tlPlaces"></div>
+    <div id="tlDays"></div>
+    </div>
+    </div>
   </section>
 
   <!-- ── Custom Build (dates) ────────────────────────────── -->
@@ -303,7 +412,7 @@
       <button class="cancel" data-go="home">Cancel</button>
       <div class="spot-head">
         <h2>TrippySpot After Work</h2>
-        <button class="re" data-toast="Spots refreshed ✨"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 2.6-6.4"/><path d="M3 4v5h5"/></svg> 5</button>
+        <button class="re" id="spotRefresh"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 2.6-6.4"/><path d="M3 4v5h5"/></svg> <span id="spotRefreshN">5</span></button>
       </div>
       <div class="spot-sub">Tap for details &amp; visit your favorite spot!</div>
       <div id="spotCards"></div>
@@ -484,6 +593,7 @@
         <button class="btn btn-outline" data-toast="Edit profile — coming to web soon">Edit profile</button>
         <button class="btn btn-outline" data-toast="Profile link copied 🔗">Share profile</button>
       </div>
+      <div class="auth-row" id="profileAuthRow"></div>
     </div>
 
     <div class="stories" id="storyRow"></div>
@@ -516,6 +626,7 @@
     </button>
   </nav>
 </main>
+</div>
 
 <!-- ── Create sheet (the + button) ───────────────────────── -->
 <div class="modal" id="createModal">
@@ -539,7 +650,12 @@
 
 <div class="toast" id="toast"></div>
 
+<script>
+  /* Deployment config — edit for your environment (see web/DEPLOY.md) */
+  window.TRIPPY_CONFIG = { apiBase: "https://api.trippy.global" };
+</script>
 <script src="js/data.js"></script>
+<script src="js/api.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>
