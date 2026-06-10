@@ -1,0 +1,36 @@
+name: Fastlane TestFlight Deployment
+
+on:
+  push:
+    branches:
+      - main  # main 브랜치에 push 될 때마다 트리거됨
+
+jobs:
+  deploy:
+    runs-on: macos-latest  # GitHub Actions에서 macOS 환경을 사용할 수 있도록 설정
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3  # GitHub repository에서 코드를 체크아웃
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.1  # 사용하는 Ruby 버전 (Fastlane은 Ruby로 작성됨)
+
+      - name: Install dependencies
+        run: |
+          gem install fastlane  # Fastlane 설치
+          bundle install  # Bundler를 통해 의존성 설치 (필요한 경우)
+
+      - name: Authenticate with Apple
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}  # GitHub Secrets에 저장된 Apple ID (애플 개발자 계정)
+          APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}  # GitHub Secrets에 저장된 Apple 앱 전용 비밀번호
+        run: fastlane match appstore  # 앱스토어 배포 인증서/프로비저닝 프로필 매칭
+
+      - name: Run Fastlane for TestFlight
+        env:
+          FASTLANE_APPLE_ID: ${{ secrets.APPLE_ID }}  # Apple ID
+          FASTLANE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}  # Apple 앱 전용 비밀번호
+        run: fastlane beta  # Fastlane 'beta' lane 실행
