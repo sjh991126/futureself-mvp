@@ -52,6 +52,7 @@ def parse_twse_openapi(rows: list[dict], code: str = TSMC_CODE) -> Optional[dict
             continue
         d = roc_ym_to_date(r.get("資料年月", ""))
         out = {
+            "source": "twse_openapi",
             "code": code,
             "name": str(r.get("公司名稱", "")).strip(),
             "revenue": rev,
@@ -87,6 +88,7 @@ def parse_mops(html: str, code: str = TSMC_CODE) -> Optional[dict]:
         if rev is None:
             continue
         return {
+            "source": "mops",
             "code": code,
             "name": cells[1],
             "revenue": rev,

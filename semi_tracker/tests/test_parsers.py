@@ -233,3 +233,28 @@ def test_edgar_merges_facts_across_tags():
     client.concept = concept
     q = client.quarterly(1045810, edgar.REVENUE_TAGS)
     assert [r["end"] for r in q] == ["2020-01-26", "2025-07-27"]
+
+
+def test_naver_json_apis():
+    trend = [
+        {"itemCode": "005930", "bizdate": "20261002", "foreignerPureBuyQuant": "-350,942", "foreignerHoldRatio": "46.41%",
+         "organPureBuyQuant": "+614,278", "individualPureBuyQuant": "-2,217,946", "closePrice": "276,000",
+         "compareToPreviousClosePrice": "0", "accumulatedTradingVolume": "11,501,250"},
+        {"itemCode": "005930", "bizdate": "20261001", "foreignerPureBuyQuant": "+1,200,000", "foreignerHoldRatio": "46.45%",
+         "organPureBuyQuant": "-100", "closePrice": "276,000", "accumulatedTradingVolume": "9,000,000"},
+        {"itemCode": "005930", "bizdate": "20260930", "foreignerPureBuyQuant": None, "closePrice": "270,000"},
+    ]
+    rows = naver.parse_trend_json(trend)
+    assert [r["date"] for r in rows] == ["2026-10-01", "2026-10-02"]
+    assert rows[-1]["frgn_net"] == -350942 and rows[-1]["inst_net"] == 614278 and rows[-1]["close"] == 276000
+    assert rows[-1]["frgn_ratio"] == 46.41 and rows[-1]["volume"] == 11501250
+    integ = {"itemCode": "005930", "totalInfos": [
+        {"code": "lastClosePrice", "key": "전일", "value": "276,000"},
+        {"code": "per", "key": "PER", "value": "12.34배"},
+        {"code": "pbr", "key": "PBR", "value": "2.87배"},
+        {"code": "dividendYield", "key": "배당수익률", "value": "1.23%"},
+    ]}
+    assert naver.parse_integration_json(integ) == {"price": 276000.0, "per": 12.34, "pbr": 2.87}
+    fx = {"result": [{"localTradedAt": "2026-10-02", "closePrice": "1,344.00"}, {"localTradedAt": "2026-10-01", "closePrice": "1,350.50"}]}
+    assert [(r["date"], r["rate"]) for r in naver.parse_fx_json(fx)] == [("2026-10-01", 1350.5), ("2026-10-02", 1344.0)]
+    assert naver.parse_fx_json([{"bizdate": "20261002", "closePrice": "1,344"}])[0]["rate"] == 1344.0

@@ -103,7 +103,7 @@ class Pipeline:
 
     def _step_naver(self, code: str) -> Callable[[], tuple[str, int]]:
         def _fn() -> tuple[str, int]:
-            rows = naver.fetch_foreign_flows(self.session, code, pages=3)
+            rows = naver.fetch_foreign_flows(self.session, code, pages=2)
             if not rows:
                 raise RuntimeError("외국인 순매매 표를 찾지 못함")
             self.store.upsert_points(f"foreign_net_{code}", [Point(r["date"], r["frgn_net"], "naver") for r in rows])
@@ -148,8 +148,8 @@ class Pipeline:
         rows = mops.fetch_recent(self.session, months=self.backfill_months, today=self.today)
         if not rows:
             raise RuntimeError("MOPS 월매출 표에서 2330 행을 찾지 못함")
-        self.store.upsert_points("tsmc_monthly_revenue_ntd_bn", [Point(r["date"], r["revenue"] / 1e6, "mops") for r in rows])
-        self.store.upsert_points("tsmc_monthly_yoy_pct", [Point(r["date"], r["yoy_pct"], "mops") for r in rows if r.get("yoy_pct") is not None])
+        self.store.upsert_points("tsmc_monthly_revenue_ntd_bn", [Point(r["date"], r["revenue"] / 1e6, r.get("source", "mops")) for r in rows])
+        self.store.upsert_points("tsmc_monthly_yoy_pct", [Point(r["date"], r["yoy_pct"], r.get("source", "mops")) for r in rows if r.get("yoy_pct") is not None])
         latest = max(rows, key=lambda r: r["date"])
         return f"{latest['date'][:7]} NT${latest['revenue'] / 1e6:.1f}B (YoY {latest.get('yoy_pct')}%)", len(rows)
 

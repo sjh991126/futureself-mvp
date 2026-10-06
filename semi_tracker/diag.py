@@ -21,12 +21,12 @@ NAVER_HEADERS = {"Referer": "https://finance.naver.com/", "Accept": "text/html,a
 
 def _targets(today: date) -> list[tuple[str, str, dict]]:
     y, m = (today.year, today.month - 1) if today.month > 1 else (today.year - 1, 12)
+    api = {"Referer": "https://m.stock.naver.com/", "Accept": "application/json, text/plain, */*"}
     return [
-        ("naver_frgn", "https://finance.naver.com/item/frgn.naver?code=005930&page=1", NAVER_HEADERS),
-        ("naver_main", "https://finance.naver.com/item/main.naver?code=005930", NAVER_HEADERS),
-        ("naver_m_integration", "https://m.stock.naver.com/api/stock/005930/integration", NAVER_HEADERS),
-        ("naver_m_trend", "https://m.stock.naver.com/api/stock/005930/trend?pageSize=5&page=1", NAVER_HEADERS),
-        ("naver_fx", "https://finance.naver.com/marketindex/exchangeDailyQuote.naver?marketindexCd=FX_USDKRW&page=1", NAVER_HEADERS),
+        ("naver_m_trend", "https://m.stock.naver.com/api/stock/005930/trend?pageSize=60&page=1", api),
+        ("naver_m_integration", "https://m.stock.naver.com/api/stock/000660/integration", api),
+        ("naver_fx_front", "https://m.stock.naver.com/front-api/marketIndex/prices?category=exchange&reutersCode=FX_USDKRW&page=1&pageSize=5", api),
+        ("naver_fx_api", "https://m.stock.naver.com/api/marketIndex/exchange/FX_USDKRW/prices?page=1&pageSize=5", api),
         ("twse_openapi", TWSE_OPENAPI_URL, {"Accept": "application/json"}),
         ("mops", MOPS_URL.format(roc_year=y - 1911, month=m), {}),
         ("dramexchange", HOME_URL, {}),
@@ -95,18 +95,23 @@ def main(argv=None) -> int:
                     if hit:
                         print(f"  2330 row={json.dumps(hit[0], ensure_ascii=False)[:500]}")
                 else:
-                    print(f"  json keys={list(data)[:20]} head={json.dumps(data, ensure_ascii=False)[:500]}")
+                    print(f"  json keys={list(data)[:20]} head={json.dumps(data, ensure_ascii=False)[:300]}")
+                    infos = data.get("totalInfos") if isinstance(data, dict) else None
+                    if infos:
+                        print(f"  totalInfos={[(i.get('code'), i.get('key'), i.get('value')) for i in infos if isinstance(i, dict)][:30]}")
             except ValueError:
                 print(f"  json parse 실패 text[:300]={text[:300]!r}")
         else:
             for line in summarize_html(text, interest):
                 print(line)
-            if key == "naver_main":
-                m = re.search(r'id="_pbr"[^>]*>\s*([\d.,]+)', text)
-                print(f"  _pbr={m.group(1) if m else None}")
             if key == "dramexchange":
                 prods = sorted({match_product(td.get_text(' ', strip=True)) for td in BeautifulSoup(text, 'lxml').find_all('td')} - {None})
                 print(f"  products={prods}")
+                for i, mm in enumerate(re.finditer(r"(?i)contract", text)):
+                    if i >= 6:
+                        break
+                    ctx = re.sub(r"\s+", " ", text[max(0, mm.start() - 120): mm.end() + 160])
+                    print(f"  contract ctx[{i}]={ctx!r}")
     print("\n== series tails")
     sdir = os.path.join(args.data_dir, "series")
     for name in ("micron_revenue_usd_bn", "micron_gross_margin_pct", "nvidia_revenue_usd_bn", "spot_dram_ddr4_8gb",
