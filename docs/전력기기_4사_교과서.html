@@ -1,0 +1,1650 @@
+<title>전력기기 4사 교과서</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a fixed chapter rail on the left for desktop, a top bar with a drawer on phones.
+   Running text stays near 68ch; figures and tables may run wider inside their own scroll boxes. */
+:root{
+  --bg:#f4f6f9; --paper:#ffffff; --inset:#e8edf3;
+  --fg:#16212c; --fg-2:#46566a; --fg-3:#7c8b9a;
+  --line:#d4dce6; --line-2:#e6ebf1;
+  --accent:#2a78d6; --accent-soft:#e3eefb;
+  --copper:#b5641f; --copper-soft:#f8ebdf;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100;
+  --good:#0ca30c; --warn:#fab219; --crit:#d03b3b;
+  --shadow:0 1px 2px rgba(22,33,44,.06), 0 8px 24px -16px rgba(22,33,44,.25);
+  --font-display:"Noto Serif KR","Apple SD Gothic Neo","Nanum Myeongjo",serif;
+  --font-body:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic","Helvetica Neue",Arial,sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --rail:264px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1419; --paper:#161c23; --inset:#1e262f;
+    --fg:#e9eef3; --fg-2:#b3bfcb; --fg-3:#7f8c99;
+    --line:#2b3540; --line-2:#222b35;
+    --accent:#3987e5; --accent-soft:#1a2a3e;
+    --copper:#dd904a; --copper-soft:#3a2816;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.6);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1419; --paper:#161c23; --inset:#1e262f;
+  --fg:#e9eef3; --fg-2:#b3bfcb; --fg-3:#7f8c99;
+  --line:#2b3540; --line-2:#222b35;
+  --accent:#3987e5; --accent-soft:#1a2a3e;
+  --copper:#dd904a; --copper-soft:#3a2816;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.6);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.75;word-break:keep-all;overflow-wrap:anywhere;-webkit-text-size-adjust:100%}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1,h2,h3,h4{font-family:var(--font-display);line-height:1.3;text-wrap:balance;margin:0}
+p{margin:0 0 1em}
+ul,ol{margin:0 0 1em;padding-left:1.4em}
+li{margin:.25em 0}
+strong{font-weight:700}
+code,.num{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.shell{display:grid;grid-template-columns:minmax(0,1fr)}
+@media (min-width:1024px){.shell{grid-template-columns:var(--rail) minmax(0,1fr)}}
+
+/* top bar (phones) */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;display:flex;align-items:center;gap:12px;padding:10px 16px;background:var(--paper);border-bottom:1px solid var(--line)}
+.topbar .t{font-family:var(--font-display);font-weight:700;font-size:1.05rem}
+.topbar .sp{flex:1}
+.btn{appearance:none;border:1px solid var(--line);background:var(--paper);color:var(--fg);font:inherit;font-size:.9rem;padding:6px 12px;border-radius:6px;cursor:pointer;line-height:1.4}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.on{background:var(--accent);border-color:var(--accent);color:#fff}
+@media (min-width:1024px){.topbar{display:none}}
+
+/* rail */
+.rail{position:fixed;inset:0 auto 0 0;width:min(86vw,var(--rail));background:var(--paper);border-right:1px solid var(--line);padding:18px 16px calc(24px + env(safe-area-inset-bottom,0px));overflow-y:auto;z-index:60;transform:translateX(-105%);transition:transform .25s}
+.rail.open{transform:none}
+.scrim{position:fixed;inset:0;background:rgba(10,16,22,.45);z-index:50;display:none}
+.scrim.on{display:block}
+@media (min-width:1024px){.rail{position:sticky;top:0;height:100vh;transform:none;width:auto}.scrim{display:none!important}}
+.rail .brand{font-family:var(--font-display);font-weight:700;font-size:1.15rem;margin-bottom:4px}
+.rail .sub{font-size:.8rem;color:var(--fg-3);margin-bottom:14px}
+.toc{list-style:none;margin:0;padding:0}
+.toc li{margin:0;display:flex;align-items:center;gap:6px}
+.toc li a{flex:1;min-width:0}
+.toc a{display:flex;align-items:baseline;gap:8px;padding:6px 8px;border-radius:6px;color:var(--fg-2);font-size:.9rem;line-height:1.4}
+.toc a .n{font-family:var(--font-mono);font-size:.72rem;color:var(--fg-3);min-width:2.2em}
+.toc a:hover{background:var(--inset);text-decoration:none;color:var(--fg)}
+.toc a.cur{background:var(--accent-soft);color:var(--accent)}
+.toc input{margin:0 4px 0 0;accent-color:var(--accent);flex:none}
+.prog{margin-top:14px;font-size:.78rem;color:var(--fg-3)}
+.prog .bar{height:6px;background:var(--inset);border-radius:3px;overflow:hidden;margin-top:6px}
+.prog .bar i{display:block;height:100%;background:var(--accent);width:0}
+.rail .close{margin-top:14px}
+@media (min-width:1024px){.rail .close{display:none}}
+
+/* page */
+.page{min-width:0;padding-block:0 80px;padding-inline:16px}
+@media (min-width:720px){.page{padding-inline:32px}}
+.col{max-width:880px;margin:0 auto}
+.cover{padding:40px 0 28px;border-bottom:1px solid var(--line)}
+.cover .eyebrow{font-family:var(--font-mono);font-size:.78rem;letter-spacing:.08em;color:var(--copper);text-transform:uppercase}
+.cover h1{font-size:clamp(1.9rem,4.5vw,3rem);margin:8px 0 10px}
+.cover .lead{font-size:1.05rem;color:var(--fg-2);max-width:68ch}
+.cover .meta{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:.84rem;color:var(--fg-3);margin-top:14px}
+.howto{margin-top:22px;display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.howto div{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:.9rem;min-width:0}
+.howto b{display:block;font-family:var(--font-display);margin-bottom:4px}
+.warnbox{margin-top:18px;border-left:4px solid var(--copper);background:var(--copper-soft);padding:12px 16px;border-radius:0 8px 8px 0;font-size:.92rem}
+
+.chapter{padding-top:48px;scroll-margin-top:64px}
+.chapter + .chapter{border-top:1px solid var(--line)}
+.ch-num{font-family:var(--font-mono);font-size:.8rem;letter-spacing:.1em;color:var(--copper)}
+.chapter h2{font-size:clamp(1.5rem,3.2vw,2.1rem);margin:6px 0 14px}
+.chapter h3{font-size:1.22rem;margin:34px 0 10px;padding-left:12px;border-left:3px solid var(--accent)}
+.chapter h4{font-family:var(--font-body);font-weight:700;font-size:1rem;margin:22px 0 8px}
+.chapter > .col > p, .chapter .prose{max-width:68ch}
+.objectives{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px 18px;margin:0 0 22px;max-width:68ch}
+.objectives .lab,.summary .lab,.think .lab,.note .lab{font-family:var(--font-mono);font-size:.74rem;letter-spacing:.08em;color:var(--fg-3);margin-bottom:6px}
+.objectives ul,.summary ul{margin:0}
+.summary{background:var(--accent-soft);border-radius:8px;padding:14px 18px;margin:28px 0 8px;max-width:68ch}
+.summary .lab{color:var(--accent)}
+.note{background:var(--paper);border:1px dashed var(--line);border-radius:8px;padding:12px 16px;margin:14px 0 18px;max-width:68ch;font-size:.92rem}
+.note .lab{color:var(--copper)}
+.think{border-left:3px solid var(--copper);padding:6px 0 6px 14px;margin:18px 0;max-width:68ch;font-size:.95rem}
+.think .lab{color:var(--copper)}
+
+/* figures and tables */
+figure{margin:22px 0 26px}
+figure .box{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px;box-shadow:var(--shadow)}
+figure .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+figure svg{display:block;max-width:100%;height:auto;font-family:var(--font-body)}
+figure svg.wide{min-width:720px}
+figcaption{font-size:.86rem;color:var(--fg-2);margin-top:10px;line-height:1.55}
+figcaption b{color:var(--fg);font-family:var(--font-display)}
+.tablewrap{overflow-x:auto;margin:14px 0 22px;border:1px solid var(--line);border-radius:8px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:560px}
+th,td{padding:9px 12px;border-bottom:1px solid var(--line-2);vertical-align:top;text-align:left}
+th{background:var(--inset);font-weight:700;font-size:.84rem;color:var(--fg-2);white-space:nowrap}
+td.n,th.n{text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+caption{caption-side:top;text-align:left;font-size:.84rem;color:var(--fg-2);padding:10px 12px 6px;font-weight:500}
+caption b{color:var(--fg);font-family:var(--font-display)}
+.tablewrap.small table{min-width:420px}
+
+/* chart */
+.chart{position:relative;overflow-x:auto}
+.chart svg{min-width:400px}
+.chart svg text{font-family:var(--font-body);fill:var(--fg-2);font-size:13px}
+.chart .axis{stroke:var(--line);stroke-width:1}
+.chart .grid{stroke:var(--line-2);stroke-width:1}
+.chart .bar{transition:opacity .15s}
+.chart .bar:hover{opacity:.82}
+.chart .val{fill:var(--fg);font-size:12px;font-family:var(--font-mono)}
+.chart .lbl{fill:var(--fg-2);font-size:12.5px}
+.chart .ttl{fill:var(--fg);font-size:13.5px;font-weight:700}
+.tip{position:absolute;pointer-events:none;background:var(--fg);color:var(--bg);font-size:.78rem;line-height:1.4;padding:6px 9px;border-radius:6px;white-space:nowrap;opacity:0;transform:translate(-50%,-110%);transition:opacity .1s;z-index:5}
+.tip.on{opacity:1}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.8rem;color:var(--fg-2);margin:0 0 8px 6px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.grid2{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.grid2 > *{min-width:0}
+
+/* company tiles */
+.tiles{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin:18px 0 10px}
+.tile{background:var(--paper);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:8px;padding:14px 16px;min-width:0}
+.tile .nm{font-family:var(--font-display);font-weight:700;font-size:1.08rem}
+.tile .code{font-family:var(--font-mono);font-size:.74rem;color:var(--fg-3)}
+.tile .one{font-size:.86rem;color:var(--fg-2);margin:6px 0 10px;min-height:3.2em}
+.tile dl{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;margin:0;font-size:.84rem}
+.tile dt{color:var(--fg-3)}
+.tile dd{margin:0;font-family:var(--font-mono);font-variant-numeric:tabular-nums;text-align:right}
+
+/* company profile block */
+.profile{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin:12px 0 18px}
+.profile > div{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:.9rem;min-width:0}
+.profile b{display:block;font-family:var(--font-mono);font-size:.74rem;letter-spacing:.06em;color:var(--fg-3);margin-bottom:6px}
+.profile ul{margin:0;padding-left:1.1em}
+.pm{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));margin:10px 0 18px}
+.pm > div{border-radius:8px;padding:12px 16px;min-width:0;font-size:.92rem}
+.pm .plus{background:var(--accent-soft)}
+.pm .minus{background:var(--copper-soft)}
+.pm b{display:block;margin-bottom:6px;font-family:var(--font-display)}
+.pm ol{margin:0;padding-left:1.2em}
+.timeline{list-style:none;padding:0;margin:8px 0 18px;border-left:2px solid var(--line);max-width:68ch}
+.timeline li{position:relative;padding:4px 0 8px 18px;font-size:.92rem}
+.timeline li::before{content:"";position:absolute;left:-6px;top:12px;width:10px;height:10px;border-radius:50%;background:var(--paper);border:2px solid var(--accent)}
+.timeline time{font-family:var(--font-mono);font-size:.78rem;color:var(--fg-3);display:block}
+.check{list-style:none;padding:0;margin:8px 0 18px;max-width:68ch}
+.check li{display:flex;gap:10px;align-items:flex-start;padding:5px 0;font-size:.92rem;border-bottom:1px solid var(--line-2)}
+.check input{margin-top:5px;accent-color:var(--accent)}
+details.quiz{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:0 14px;margin:8px 0;max-width:68ch}
+details.quiz summary{cursor:pointer;padding:10px 0;font-weight:500}
+details.quiz p{padding:0 0 12px;margin:0;color:var(--fg-2)}
+details.quiz summary::marker{color:var(--copper)}
+.bb{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));margin:12px 0 18px}
+.bb > div{border:1px solid var(--line);border-radius:8px;padding:12px 16px;background:var(--paper);min-width:0;font-size:.92rem}
+.bb b{display:block;font-family:var(--font-display);margin-bottom:6px}
+.bb .bull b{color:var(--good)}
+.bb .bear b{color:var(--crit)}
+
+/* glossary */
+.gsearch{width:100%;max-width:420px;font:inherit;padding:8px 12px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--fg);margin-bottom:10px}
+.gloss details{border-bottom:1px solid var(--line-2);padding:4px 0}
+.gloss summary{cursor:pointer;font-weight:500;padding:6px 0}
+.gloss p{margin:0 0 10px;color:var(--fg-2);font-size:.92rem;max-width:68ch}
+
+/* 3D simulation */
+.sim{position:relative;background:var(--inset);border-radius:8px;overflow:hidden;min-height:280px}
+.sim canvas{display:block;width:100%;height:100%}
+.sim .stage{position:relative;width:100%;aspect-ratio:16/9;max-height:520px;min-height:280px;touch-action:pan-y;cursor:grab;user-select:none}
+.sim .ol{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}
+.sim .lb{position:absolute;transform:translate(-50%,-100%);background:var(--paper);color:var(--fg);border:1px solid var(--line);border-radius:5px;padding:2px 7px;font-size:11.5px;line-height:1.35;white-space:nowrap;box-shadow:var(--shadow)}
+.sim .lb small{display:block;color:var(--fg-3);font-family:var(--font-mono);font-size:10px}
+.sim .lb .short{display:none}
+@media (max-width:600px){.sim .lb{font-size:10.5px;padding:1px 5px}.sim .lb small{display:none}.sim .lb .full{display:none}.sim .lb .short{display:inline}}
+.sim .hint{position:absolute;right:10px;bottom:8px;font-size:11px;color:var(--fg-3);pointer-events:none}
+.simctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 0}
+.simctl .btn{font-size:.84rem;padding:5px 10px}
+.simctl label{font-size:.84rem;color:var(--fg-2);display:flex;align-items:center;gap:6px}
+.simctl input[type=range]{width:160px;accent-color:var(--accent)}
+.siminfo{margin-top:10px;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:10px 14px;font-size:.9rem;min-height:3.6em}
+.siminfo b{color:var(--accent)}
+.sim .fb{padding:14px}
+.sim .fb p{font-size:.88rem;color:var(--fg-2)}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:10px}
+.kv div{background:var(--inset);border-radius:6px;padding:8px 10px}
+.kv small{display:block;color:var(--fg-3);font-size:.74rem}
+.kv span{font-family:var(--font-mono);font-size:1rem;font-variant-numeric:tabular-nums}
+.lossbar{height:10px;background:var(--inset);border-radius:5px;overflow:hidden;margin-top:6px}
+.lossbar i{display:block;height:100%;background:var(--copper);width:100%}
+
+/* appendix */
+.src details{margin:6px 0}
+.src summary{cursor:pointer;font-weight:500}
+.src ul{font-size:.84rem;color:var(--fg-2)}
+.src a{overflow-wrap:anywhere}
+.foot{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-size:.8rem;color:var(--fg-3)}
+
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+<div class="shell">
+<div class="scrim" id="scrim"></div>
+<nav class="rail" id="rail" aria-label="목차">
+  <div class="brand">전력기기 4사 교과서</div>
+  <div class="sub">기준일 2026-10-06 · 학습용</div>
+  <ul class="toc" id="toc">
+    <li><a href="#cover"><span class="n">표지</span>책을 읽는 법</a></li>
+    <li><a href="#ch0"><span class="n">0장</span>오리엔테이션: 4사 한눈에</a><input type="checkbox" data-ch="ch0" aria-label="0장 완료"></li>
+    <li><a href="#ch1"><span class="n">1장</span>전기는 어떻게 흐르나</a><input type="checkbox" data-ch="ch1" aria-label="1장 완료"></li>
+    <li><a href="#ch2"><span class="n">2장</span>변압기의 원리와 기기들</a><input type="checkbox" data-ch="ch2" aria-label="2장 완료"></li>
+    <li><a href="#ch3"><span class="n">3장</span>왜 슈퍼사이클인가</a><input type="checkbox" data-ch="ch3" aria-label="3장 완료"></li>
+    <li><a href="#ch4"><span class="n">4장</span>관세와 통상</a><input type="checkbox" data-ch="ch4" aria-label="4장 완료"></li>
+    <li><a href="#ch5"><span class="n">5장</span>국내 수요</a><input type="checkbox" data-ch="ch5" aria-label="5장 완료"></li>
+    <li><a href="#ch6"><span class="n">6장</span>네 회사 깊이 읽기</a><input type="checkbox" data-ch="ch6" aria-label="6장 완료"></li>
+    <li><a href="#ch7"><span class="n">7장</span>4사 비교 분석</a><input type="checkbox" data-ch="ch7" aria-label="7장 완료"></li>
+    <li><a href="#ch8"><span class="n">8장</span>2026년의 논쟁</a><input type="checkbox" data-ch="ch8" aria-label="8장 완료"></li>
+    <li><a href="#ch9"><span class="n">9장</span>용어집</a><input type="checkbox" data-ch="ch9" aria-label="9장 완료"></li>
+    <li><a href="#ch10"><span class="n">10장</span>학습 로드맵과 평가</a><input type="checkbox" data-ch="ch10" aria-label="10장 완료"></li>
+    <li><a href="#apx"><span class="n">부록</span>출처와 신뢰도</a></li>
+  </ul>
+  <div class="prog">학습 진도 <span id="prog-t">0 / 11장</span><div class="bar"><i id="prog-b"></i></div></div>
+  <button class="btn close" id="rail-close">목차 닫기</button>
+</nav>
+
+<main class="page">
+<header class="topbar"><span class="t">전력기기 4사 교과서</span><span class="sp"></span><button class="btn" id="rail-open" aria-controls="rail">목차</button></header>
+
+<div class="col">
+<header class="cover" id="cover">
+  <div class="eyebrow">Power Equipment Textbook · 2026 Edition</div>
+  <h1>전력기기 4사 교과서</h1>
+  <p class="lead">HD현대일렉트릭, 효성중공업, LS일렉트릭, 산일전기. 네 회사를 통해 전력기기 산업의 구조, 2023년부터 이어진 슈퍼사이클, 관세와 통상, 그리고 회사별 투자 논리를 배운다. 그림과 3D 시뮬레이션으로 전기가 흐르는 길과 변압기의 원리를 먼저 익힌 뒤 숫자로 들어간다.</p>
+  <div class="meta"><span>기준일 2026-10-06</span><span>단위: 억원 (수주 일부는 달러)</span><span>주가·시가총액은 9월 30일~10월 2일 기준</span></div>
+  <div class="howto">
+    <div><b>처음 읽는다면</b>0장 → 1장 → 2장 순서로 읽고, 3D 시뮬레이션을 직접 조작해 본다. 그다음 3장부터 순서대로.</div>
+    <div><b>회사만 급하다면</b>0장의 한눈에 보기와 6장의 해당 회사 절, 7장의 비교표만 읽어도 뼈대가 잡힌다.</div>
+    <div><b>복습할 때는</b>각 장 끝의 핵심 정리와 10장의 셀프테스트를 푼다. 목차의 체크박스로 진도를 남길 수 있다.</div>
+  </div>
+  <div class="warnbox"><strong>읽기 전에.</strong> 이 책은 투자 권유가 아니라 학습용 정리다. 수치는 언론 보도와 증권사 리포트 요약을 종합했고, 공시 원문과 대조하지 못한 항목은 "추정", "역산", "확인 필요"로 표시했다. 판단 전에는 DART 보고서와 회사 IR 자료로 재확인한다.</div>
+</header>
+
+<!-- ===================== 0장 ===================== -->
+<section class="chapter" id="ch0">
+  <div class="ch-num">제0장</div>
+  <h2>오리엔테이션: 4사 한눈에 보기</h2>
+  <div class="objectives"><div class="lab">학습 목표</div><ul><li>네 회사가 각각 어떤 제품을, 누구에게, 어디서 파는지 한 문장으로 말할 수 있다.</li><li>수익성(영업이익률)과 가시성(수주잔고 커버리지)이 회사마다 왜 다른지 감을 잡는다.</li></ul></div>
+
+  <div class="tiles">
+    <div class="tile" style="--c:var(--s1)"><div class="nm">HD현대일렉트릭</div><div class="code">267260 · HD현대 37.2%</div><div class="one">초고압 변압기·GIS 중심의 수출형 종합 전력기기사. 미국 앨라배마 현지공장.</div><dl><dt>시가총액</dt><dd>24.4조</dd><dt>FY25 영업이익률</dt><dd>24.4%</dd><dt>북미 비중</dt><dd>39.5%</dd><dt>수주잔고</dt><dd>84.9억$</dd></dl></div>
+    <div class="tile" style="--c:var(--s2)"><div class="nm">효성중공업</div><div class="code">298040 · ㈜효성 32.5%</div><div class="one">초고압 변압기·차단기·HVDC·STATCOM에 건설 부문이 붙은 회사. 미국 멤피스 현지공장.</div><dl><dt>시가총액</dt><dd>25.9조</dd><dt>FY25 영업이익률</dt><dd>12.5%</dd><dt>북미 비중</dt><dd>38%</dd><dt>수주잔고</dt><dd>17.5조</dd></dl></div>
+    <div class="tile" style="--c:var(--s3)"><div class="nm">LS일렉트릭</div><div class="code">010120 · ㈜LS 48.5%</div><div class="one">국내 배전기기 1위가 북미 데이터센터 배전과 초고압으로 확장 중. 2026-04 5:1 액면분할.</div><dl><dt>시가총액</dt><dd>30.8조</dd><dt>FY25 영업이익률</dt><dd>8.6%</dd><dt>북미 비중</dt><dd>33%</dd><dt>수주잔고</dt><dd>약 7조</dd></dl></div>
+    <div class="tile" style="--c:var(--s4)"><div class="nm">산일전기</div><div class="code">062040 · 박동석 35.8%</div><div class="one">신재생·ESS·데이터센터용 특수(배전급) 변압기 수출 전문. 2024-07 상장.</div><dl><dt>시가총액</dt><dd>6.9조</dd><dt>FY25 영업이익률</dt><dd>36.1%</dd><dt>북미 비중</dt><dd>약 70%</dd><dt>수주잔고</dt><dd>5,567억</dd></dl></div>
+  </div>
+
+  <div class="grid2">
+    <figure><div class="box chart" id="c-opm"></div><figcaption><b>그림 0.1</b> FY2025 영업이익률. 산일전기가 36%로 가장 높고 LS일렉트릭이 8.6%로 가장 낮다. 전압대와 제품 믹스, 국내 비중이 차이를 만든다.</figcaption></figure>
+    <figure><div class="box chart" id="c-cover"></div><figcaption><b>그림 0.2</b> 수주잔고 커버리지(수주잔고 ÷ 연매출). 효성중공업은 약 4년치, 산일전기는 약 1년치. 리드타임이 길수록 잔고가 길게 쌓인다.</figcaption></figure>
+  </div>
+
+  <div class="tablewrap"><table><caption><b>표 0.1</b> 기본 정보 (2026-10-02 전후)</caption>
+  <thead><tr><th>구분</th><th>HD현대일렉트릭</th><th>효성중공업</th><th>LS일렉트릭</th><th>산일전기</th></tr></thead>
+  <tbody>
+  <tr><td>주가</td><td class="n">678,000원</td><td class="n">2,781,000원</td><td class="n">205,500원</td><td class="n">226,500원</td></tr>
+  <tr><td>PER (최근 12개월)</td><td class="n">28.5배</td><td class="n">44.3배</td><td class="n">79.7배</td><td class="n">38.3배</td></tr>
+  <tr><td>PBR</td><td class="n">10.7배</td><td class="n">10.0배</td><td class="n">14.9배</td><td class="n">10.4배</td></tr>
+  <tr><td>FY2025 매출</td><td class="n">40,795</td><td class="n">59,685</td><td class="n">49,622</td><td class="n">5,020</td></tr>
+  <tr><td>FY2025 영업이익</td><td class="n">9,953</td><td class="n">7,470</td><td class="n">4,269</td><td class="n">1,812</td></tr>
+  <tr><td>2Q26 매출 / 영업이익</td><td class="n">11,418 / 2,870</td><td class="n">16,870 / 2,643</td><td class="n">15,770 / 1,785</td><td class="n">1,642 / 620</td></tr>
+  <tr><td>2026 수주 가이던스</td><td>51.85억달러 (7월 상향)</td><td>12조 (8.45조에서 상향)</td><td>4조880억 (상반기에 거의 달성)</td><td>6,000~7,000억</td></tr>
+  <tr><td>FY2025 주당배당</td><td class="n">7,100원</td><td class="n">7,500원</td><td class="n">3,000원 (분할 후 600원)</td><td class="n">1,250원</td></tr>
+  <tr><td>미국 현지 생산</td><td>앨라배마 (초고압)</td><td>멤피스 (765kV) + 콴타 JV 차단기</td><td>텍사스·유타 (배전만)</td><td>없음</td></tr>
+  </tbody></table></div>
+
+  <div class="summary"><div class="lab">핵심 정리</div><ul><li>시가총액 순서(LS &gt; 효성 &gt; HD현대 &gt; 산일)와 영업이익 순서(HD현대 &gt; 효성 &gt; LS &gt; 산일)가 다르다. 시장은 성장률과 수익성에 다른 배수를 매긴다.</li><li>대형 3사는 초고압(송전급), 산일전기는 배전·특수급. 전압대가 리드타임, 마진, 관세 노출을 가른다.</li></ul></div>
+</section>
+
+<!-- ===================== 1장 ===================== -->
+<section class="chapter" id="ch1">
+  <div class="ch-num">제1장</div>
+  <h2>전기는 어떻게 흐르나: 전력기기 밸류체인</h2>
+  <div class="objectives"><div class="lab">학습 목표</div><ul><li>발전 → 송전 → 변전 → 배전 → 수용가의 다섯 단계와 각 단계의 전압을 말할 수 있다.</li><li>각 단계에 어떤 기기가 들어가고, 4사 중 누가 그 기기를 만드는지 짚을 수 있다.</li></ul></div>
+
+  <p>발전소에서 만든 전기는 곧바로 집이나 공장으로 가지 않는다. 멀리 보내려면 전압을 수십 배 올려야 손실이 줄고(송전), 도착한 뒤에는 여러 번에 걸쳐 전압을 낮춰야 쓸 수 있다(변전, 배전). 전압을 올리고 내리는 기계가 <strong>변압기</strong>, 고장 전류를 끊는 기계가 <strong>차단기</strong>, 이것들을 한 상자에 모은 것이 <strong>배전반(스위치기어)</strong>이다. 전압이 높을수록 기기는 크고 비싸며, 만들 수 있는 회사가 적다.</p>
+
+  <figure><div class="box"><div class="scroll">
+  <svg class="wide" viewBox="0 0 960 330" role="img" aria-label="발전에서 수용가까지 다섯 단계의 전압과 기기, 4사의 위치를 보여주는 흐름도">
+    <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
+    <g font-size="13" fill="currentColor">
+      <!-- stage boxes -->
+      <g>
+        <rect x="20" y="44" width="160" height="64" rx="8" style="fill:var(--inset);stroke:var(--line)"/>
+        <text x="100" y="70" text-anchor="middle" font-weight="700">발전소</text>
+        <text x="100" y="92" text-anchor="middle" font-size="12" style="fill:var(--fg-2)">발전기 출력 약 22kV</text>
+      </g>
+      <g>
+        <rect x="210" y="44" width="160" height="64" rx="8" style="fill:var(--accent-soft);stroke:var(--accent)"/>
+        <text x="290" y="70" text-anchor="middle" font-weight="700">송전</text>
+        <text x="290" y="92" text-anchor="middle" font-size="12" style="fill:var(--fg-2)">765kV / 345kV 초고압</text>
+      </g>
+      <g>
+        <rect x="400" y="44" width="160" height="64" rx="8" style="fill:var(--accent-soft);stroke:var(--accent)"/>
+        <text x="480" y="70" text-anchor="middle" font-weight="700">변전소</text>
+        <text x="480" y="92" text-anchor="middle" font-size="12" style="fill:var(--fg-2)">154kV</text>
+      </g>
+      <g>
+        <rect x="590" y="44" width="160" height="64" rx="8" style="fill:var(--inset);stroke:var(--line)"/>
+        <text x="670" y="70" text-anchor="middle" font-weight="700">배전</text>
+        <text x="670" y="92" text-anchor="middle" font-size="12" style="fill:var(--fg-2)">22.9kV</text>
+      </g>
+      <g>
+        <rect x="780" y="44" width="160" height="64" rx="8" style="fill:var(--inset);stroke:var(--line)"/>
+        <text x="860" y="70" text-anchor="middle" font-weight="700">수용가</text>
+        <text x="860" y="92" text-anchor="middle" font-size="12" style="fill:var(--fg-2)">380V · 데이터센터·공장</text>
+      </g>
+      <!-- arrows -->
+      <g stroke="currentColor" stroke-width="1.6" fill="none" marker-end="url(#ar)">
+        <line x1="182" y1="76" x2="206" y2="76"/><line x1="372" y1="76" x2="396" y2="76"/><line x1="562" y1="76" x2="586" y2="76"/><line x1="752" y1="76" x2="776" y2="76"/>
+      </g>
+      <g font-size="11" text-anchor="middle" style="fill:var(--copper)" font-weight="700">
+        <text x="194" y="36">승압</text><text x="384" y="36">강압</text><text x="574" y="36">강압</text><text x="764" y="36">강압</text>
+      </g>
+      <!-- products -->
+      <g font-size="11.5" style="fill:var(--fg-2)">
+        <text x="100" y="134" text-anchor="middle">GSU(승압) 변압기</text>
+        <text x="290" y="134" text-anchor="middle">초고압 변압기 · GIS · 리액터</text>
+        <text x="290" y="150" text-anchor="middle">HVDC · STATCOM</text>
+        <text x="480" y="134" text-anchor="middle">초고압·고압 변압기 · GIS</text>
+        <text x="670" y="134" text-anchor="middle">배전변압기 · 수배전반 · 차단기</text>
+        <text x="670" y="150" text-anchor="middle">38kV 스위치기어</text>
+        <text x="860" y="134" text-anchor="middle">몰드·특수 변압기 · PCS · ESS</text>
+      </g>
+      <!-- company dots -->
+      <g font-size="11.5">
+        <g transform="translate(40,178)"><circle cx="5" cy="-4" r="5" style="fill:var(--s1)"/><text x="15" y="0">HD현대일렉트릭</text></g>
+        <g transform="translate(40,196)"><circle cx="5" cy="-4" r="5" style="fill:var(--s2)"/><text x="15" y="0">효성중공업</text></g>
+        <g transform="translate(228,178)"><circle cx="5" cy="-4" r="5" style="fill:var(--s1)"/><text x="15" y="0">HD현대일렉트릭</text></g>
+        <g transform="translate(228,196)"><circle cx="5" cy="-4" r="5" style="fill:var(--s2)"/><text x="15" y="0">효성중공업 (HVDC·STATCOM)</text></g>
+        <g transform="translate(228,214)"><circle cx="5" cy="-4" r="5" style="fill:var(--s3)"/><text x="15" y="0">LS일렉트릭 (345kV, 후발)</text></g>
+        <g transform="translate(418,178)"><circle cx="5" cy="-4" r="5" style="fill:var(--s1)"/><text x="15" y="0">HD현대일렉트릭</text></g>
+        <g transform="translate(418,196)"><circle cx="5" cy="-4" r="5" style="fill:var(--s2)"/><text x="15" y="0">효성중공업</text></g>
+        <g transform="translate(418,214)"><circle cx="5" cy="-4" r="5" style="fill:var(--s3)"/><text x="15" y="0">LS일렉트릭 (154kV)</text></g>
+        <g transform="translate(418,232)"><circle cx="5" cy="-4" r="5" style="fill:var(--s4)"/><text x="15" y="0">산일전기 (154kV, 2028 양산)</text></g>
+        <g transform="translate(608,178)"><circle cx="5" cy="-4" r="5" style="fill:var(--s3)"/><text x="15" y="0">LS일렉트릭 (국내 50%+)</text></g>
+        <g transform="translate(608,196)"><circle cx="5" cy="-4" r="5" style="fill:var(--s1)"/><text x="15" y="0">HD현대일렉트릭 (배전 16%)</text></g>
+        <g transform="translate(608,214)"><circle cx="5" cy="-4" r="5" style="fill:var(--s4)"/><text x="15" y="0">산일전기 (주상·패드)</text></g>
+        <g transform="translate(798,178)"><circle cx="5" cy="-4" r="5" style="fill:var(--s4)"/><text x="15" y="0">산일전기 (특수변압기)</text></g>
+        <g transform="translate(798,196)"><circle cx="5" cy="-4" r="5" style="fill:var(--s3)"/><text x="15" y="0">LS일렉트릭 (PCS·ESS)</text></g>
+        <g transform="translate(798,214)"><circle cx="5" cy="-4" r="5" style="fill:var(--s1)"/><text x="15" y="0">HD현대일렉트릭 (ESS)</text></g>
+      </g>
+      <!-- bottom band -->
+      <g>
+        <rect x="210" y="262" width="350" height="46" rx="6" style="fill:var(--copper-soft);stroke:var(--copper)"/>
+        <text x="385" y="282" text-anchor="middle" font-size="12" font-weight="700" style="fill:var(--copper)">송전급(초고압): 글로벌 과점, 리드타임 약 3년</text>
+        <text x="385" y="299" text-anchor="middle" font-size="11.5" style="fill:var(--fg-2)">Hitachi Energy · Siemens Energy · GE Vernova + 한국 3사</text>
+        <rect x="590" y="262" width="350" height="46" rx="6" style="fill:var(--inset);stroke:var(--line)"/>
+        <text x="765" y="282" text-anchor="middle" font-size="12" font-weight="700">배전급: 공급자 많음, 리드타임 6개월~1년</text>
+        <text x="765" y="299" text-anchor="middle" font-size="11.5" style="fill:var(--fg-2)">Eaton · Schneider · ABB 등 + LS · 산일 · HD현대 배전</text>
+      </g>
+    </g>
+  </svg></div></div>
+  <figcaption><b>그림 1.1</b> 전력기기 밸류체인. 전압이 높은 왼쪽(송전급)은 공급자가 적어 리드타임이 길고 마진이 높다. 오른쪽(배전급)은 공급자가 많지만 데이터센터 수요가 몰리며 2026년에 LS일렉트릭·산일전기의 성장 축이 됐다. 폭이 좁은 화면에서는 그림을 옆으로 밀어 본다.</figcaption></figure>
+
+  <h3>1.1 3D로 보는 전력망</h3>
+  <p class="prose">아래 시뮬레이션은 발전소에서 데이터센터까지 전기가 지나는 길을 입체로 보여준다. 점이 전류, 점의 색이 전압 구간이다. 단계 버튼을 누르면 해당 설비가 강조되고 어떤 회사가 그 기기를 만드는지 아래에 표시된다. 화면을 드래그하면 돌려 볼 수 있다.</p>
+  <figure id="fig-grid"><div class="box">
+    <div class="sim" id="sim-grid">
+      <div class="stage" id="stage-grid"><canvas id="cv-grid"></canvas><div class="ol" id="ol-grid"></div><div class="hint">드래그: 회전 · 버튼: 단계 선택</div></div>
+      <div class="fb" id="fb-grid" hidden><p><strong>3D 보기를 불러오지 못했습니다.</strong> 이 기기나 브라우저에서 WebGL을 쓸 수 없거나 라이브러리를 받지 못한 경우입니다. 같은 내용은 바로 위 그림 1.1과 아래 표 1.1에 정리돼 있습니다.</p></div>
+    </div>
+    <div class="simctl" id="ctl-grid">
+      <button class="btn on" data-stage="all">전체</button>
+      <button class="btn" data-stage="gen">발전</button>
+      <button class="btn" data-stage="tx">송전</button>
+      <button class="btn" data-stage="sub">변전</button>
+      <button class="btn" data-stage="dist">배전</button>
+      <button class="btn" data-stage="load">수용가</button>
+      <button class="btn" id="grid-play">일시정지</button>
+      <label>속도 <input type="range" id="grid-speed" min="0.2" max="3" step="0.1" value="1"></label>
+    </div>
+    <div class="siminfo" id="info-grid"><b>전체 흐름</b> · 발전기 22kV → 승압 변압기 → 765kV 송전 → 변전소에서 154kV → 배전 22.9kV → 수용가 380V. 전압을 올리면 같은 전력을 더 작은 전류로 보낼 수 있어 선로 손실(전류의 제곱에 비례)이 줄어든다.</div>
+  </div>
+  <figcaption><b>그림 1.2</b> 전력망 3D 시뮬레이션. 점의 색: 구리색 22kV, 파란색 765kV 송전, 초록색 154kV·22.9kV, 노란색 380V. 실제 송전탑 간격과 설비 크기는 축척을 무시했다.</figcaption></figure>
+
+  <div class="tablewrap"><table><caption><b>표 1.1</b> 단계별 대표 기기와 공급자 구조</caption>
+  <thead><tr><th>단계</th><th>대표 기기</th><th>공급자 구조</th><th>4사 중 누가</th></tr></thead>
+  <tbody>
+  <tr><td>송전·변전 (초고압)</td><td>765/345/154kV 변압기, GIS, 리액터</td><td>글로벌 과점 (Hitachi Energy, Siemens Energy, GE Vernova + 한국 3사)</td><td>HD현대일렉트릭, 효성중공업, LS일렉트릭(후발)</td></tr>
+  <tr><td>계통 안정화</td><td>HVDC 변환설비, STATCOM</td><td>매우 적음</td><td>효성중공업 (국내 선두), LS일렉트릭 일부</td></tr>
+  <tr><td>배전</td><td>배전변압기, 수배전반, 차단기</td><td>많음 (Eaton, Schneider, ABB 등)</td><td>LS일렉트릭 (국내 50% 이상), HD현대일렉트릭 배전, 산일전기</td></tr>
+  <tr><td>수용가·특수</td><td>몰드/유입 특수변압기, PCS 승압 변압기, ESS</td><td>중간</td><td>산일전기, LS일렉트릭 (PCS·ESS), HD현대일렉트릭 (ESS)</td></tr>
+  </tbody></table></div>
+
+  <div class="think"><div class="lab">생각해 보기</div>같은 "변압기 회사"인데 산일전기의 수주잔고는 1년치, 효성중공업은 4년치다. 그림 1.1의 어느 칸에 있는지가 이 차이를 어떻게 설명하는가?</div>
+
+  <div class="summary"><div class="lab">핵심 정리</div><ul><li>전압을 올려 보내고(승압) 여러 번 낮춰 쓴다(강압). 단계마다 변압기와 차단기가 들어간다.</li><li>초고압은 과점·장기 리드타임·고마진, 배전은 다수 공급자·단기 리드타임. HD현대·효성은 초고압, 산일은 배전·특수, LS는 배전에서 초고압으로 상향 중.</li></ul></div>
+</section>
+
+<!-- ===================== 2장 ===================== -->
+<section class="chapter" id="ch2">
+  <div class="ch-num">제2장</div>
+  <h2>변압기의 원리와 전력기기들</h2>
+  <div class="objectives"><div class="lab">학습 목표</div><ul><li>권수비가 전압과 전류를 어떻게 바꾸는지 식으로 설명할 수 있다.</li><li>유입·몰드·주상(패드) 변압기, GIS, STATCOM, HVDC(LCC·VSC)가 각각 어디에 쓰이는지 구분한다.</li></ul></div>
+
+  <p>변압기는 움직이는 부품이 없다. 철심(코어)에 감은 두 코일 중 1차 코일에 교류를 흘리면 철심 안에 자속이 생기고, 그 자속이 2차 코일에 전압을 만든다. 전압의 비는 코일을 감은 횟수(권수)의 비와 같다. 전력은 보존되므로 전압이 오르면 전류는 그만큼 내려가고, 선로 손실은 전류의 제곱에 비례해 줄어든다. 송전 전압을 765kV까지 올리는 이유가 여기에 있다.</p>
+  <div class="note"><div class="lab">용어</div><strong>권수비</strong> N₂/N₁. <strong>V₂ = V₁ × N₂/N₁</strong>, <strong>I₂ = I₁ × N₁/N₂</strong>. 철심 재료가 <strong>방향성 전기강판(GOES)</strong>이고 변압기 원가의 약 25%를 차지한다. 코일은 구리다.</div>
+
+  <figure id="fig-tr"><div class="box">
+    <div class="sim" id="sim-tr">
+      <div class="stage" id="stage-tr"><canvas id="cv-tr"></canvas><div class="ol" id="ol-tr"></div><div class="hint">드래그: 회전</div></div>
+      <div class="fb" id="fb-tr" hidden>
+        <p><strong>3D 보기를 불러오지 못했습니다.</strong> 아래 그림으로 같은 원리를 설명합니다.</p>
+        <svg viewBox="0 0 520 300" role="img" aria-label="철심에 감긴 1차 코일과 2차 코일, 자속의 흐름을 보여주는 변압기 단면도" style="max-width:520px">
+          <path d="M60 40H460V260H60zM140 100H380V200H140z" fill-rule="evenodd" style="fill:var(--fg-3);opacity:.55"/>
+          <g fill="none" style="stroke:var(--copper)" stroke-width="5">
+            <ellipse cx="100" cy="110" rx="46" ry="9"/><ellipse cx="100" cy="132" rx="46" ry="9"/><ellipse cx="100" cy="154" rx="46" ry="9"/><ellipse cx="100" cy="176" rx="46" ry="9"/><ellipse cx="100" cy="198" rx="46" ry="9"/>
+          </g>
+          <g fill="none" style="stroke:var(--copper)" stroke-width="3">
+            <ellipse cx="420" cy="104" rx="46" ry="7"/><ellipse cx="420" cy="118" rx="46" ry="7"/><ellipse cx="420" cy="132" rx="46" ry="7"/><ellipse cx="420" cy="146" rx="46" ry="7"/><ellipse cx="420" cy="160" rx="46" ry="7"/><ellipse cx="420" cy="174" rx="46" ry="7"/><ellipse cx="420" cy="188" rx="46" ry="7"/><ellipse cx="420" cy="202" rx="46" ry="7"/>
+          </g>
+          <path d="M260 70 H400 V230 H120 V70 H250" fill="none" style="stroke:var(--accent)" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#ar2)"/>
+          <defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" style="fill:var(--accent)"/></marker></defs>
+          <g font-size="13" fill="currentColor"><text x="100" y="282" text-anchor="middle">1차 코일 N₁ · V₁</text><text x="420" y="282" text-anchor="middle">2차 코일 N₂ · V₂</text><text x="260" y="150" text-anchor="middle" style="fill:var(--accent)">자속 Φ (철심 안을 순환)</text><text x="260" y="26" text-anchor="middle" font-weight="700">V₂ / V₁ = N₂ / N₁</text></g>
+        </svg>
+      </div>
+    </div>
+    <div class="simctl" id="ctl-tr">
+      <button class="btn on" data-v1="22" data-v2="765" data-nm="발전소 승압 22kV → 765kV">승압 (발전소)</button>
+      <button class="btn" data-v1="765" data-v2="345" data-nm="송전 강압 765kV → 345kV">765 → 345kV</button>
+      <button class="btn" data-v1="345" data-v2="154" data-nm="변전 강압 345kV → 154kV">345 → 154kV</button>
+      <button class="btn" data-v1="154" data-v2="22.9" data-nm="배전 강압 154kV → 22.9kV">154 → 22.9kV</button>
+      <button class="btn" data-v1="22.9" data-v2="0.38" data-nm="주상 변압기 22.9kV → 380V">22.9kV → 380V</button>
+      <label>권수비 직접 조절 <input type="range" id="tr-ratio" min="-2" max="2" step="0.01" value="1.54"></label>
+    </div>
+    <div class="siminfo" id="info-tr">
+      <div id="tr-title"><b>발전소 승압 22kV → 765kV</b> · 권수비 N₂/N₁ ≈ 34.8</div>
+      <div class="kv">
+        <div><small>1차 전압 V₁</small><span id="tr-v1">22 kV</span></div>
+        <div><small>2차 전압 V₂</small><span id="tr-v2">765 kV</span></div>
+        <div><small>권수비 N₂/N₁</small><span id="tr-n">34.8</span></div>
+        <div><small>전류비 I₂/I₁</small><span id="tr-i">0.029</span></div>
+        <div><small>선로 손실 (상대값)</small><span id="tr-l">0.08%</span><div class="lossbar"><i id="tr-loss"></i></div></div>
+      </div>
+    </div>
+  </div>
+  <figcaption><b>그림 2.1</b> 변압기 원리 3D 시뮬레이션. 코일 수는 권수비를 비례적으로 보여주기 위한 상징이며 실제 권수는 수백~수천 회다. 파란 점은 철심을 도는 자속. 슬라이더를 움직이면 2차 전압과 전류, 같은 전력을 보낼 때의 상대 손실이 바뀐다.</figcaption></figure>
+
+  <h3>2.1 변압기의 종류</h3>
+  <div class="tablewrap"><table><caption><b>표 2.1</b> 변압기 분류와 4사의 주력</caption>
+  <thead><tr><th>구분</th><th>특징</th><th>쓰이는 곳</th><th>4사 중 누가</th></tr></thead>
+  <tbody>
+  <tr><td>초고압 변압기 (154kV 이상, 765kV까지)</td><td>수백 톤, 유입식, 리드타임 3~4년. 관세청 통계는 1만kVA 초과를 초고압으로 집계</td><td>송전·변전소, 발전소 GSU</td><td>HD현대일렉트릭, 효성중공업, LS일렉트릭(154~345kV), 산일전기(2028 양산 목표)</td></tr>
+  <tr><td>유입 변압기</td><td>절연·냉각에 광유를 사용. 대용량의 표준</td><td>송전급 전반</td><td>대형 3사, 산일전기(특수용)</td></tr>
+  <tr><td>몰드(건식) 변압기</td><td>에폭시로 권선을 성형해 기름이 없다. 화재 위험이 낮다</td><td>빌딩, 데이터센터 실내</td><td>산일전기, LS일렉트릭</td></tr>
+  <tr><td>주상·패드(pad-mounted) 변압기</td><td>전주 위 또는 지상 기초 위 소형 배전변압기</td><td>미국 주택·상업지 교체 수요의 핵심</td><td>산일전기, LS일렉트릭</td></tr>
+  <tr><td>PCS 승압·특수 변압기</td><td>태양광·ESS 인버터 출력을 계통 전압으로 올림. 고객 맞춤 설계</td><td>신재생 발전소, ESS, 연료전지, 데이터센터 온사이트 전원</td><td>산일전기 (매출의 60%)</td></tr>
+  <tr><td>SST (반도체 변압기)</td><td>전력전자로 변압·제어. 데이터센터 직류 배전용 차세대</td><td>데이터센터</td><td>효성중공업, LS일렉트릭 (개발 단계)</td></tr>
+  </tbody></table></div>
+
+  <h3>2.2 변압기 말고도 알아야 할 기기</h3>
+  <ul class="prose">
+    <li><strong>GIS(가스절연개폐장치)</strong>: 차단기·단로기·모선을 SF6 또는 대체가스로 밀폐한 변전설비. 부지가 좁은 도심과 데이터센터 변전소에 필수. 효성중공업이 미국 콴타서비스와 합작해 2026-10부터 펜실베이니아에서 72.5~800kV 가스차단기를 생산한다.</li>
+    <li><strong>차단기·배전반(스위치기어)</strong>: 고장 전류를 끊고 회로를 나누는 패널. 데이터센터 배전의 핵심이며 LS일렉트릭의 본업. 2026년 북미 빅테크 데이터센터에 38kV 스위치기어와 수배전반을 공급했다.</li>
+    <li><strong>STATCOM</strong>: 전력전자 기반 무효전력 보상장치. 태양광·풍력이 늘어 전압이 흔들리는 계통을 안정시킨다. 효성중공업이 미국·유럽·중동에 공급했고 슈퍼커패시터를 결합한 e-STATCOM을 2027년 목표로 개발 중이다.</li>
+    <li><strong>HVDC(초고압 직류송전)</strong>: 장거리·해저·대용량 송전에서 교류보다 손실이 적다. 양 끝에 변환소(변환용 변압기 + 밸브)가 필요하다. 아래 그림 2.2에서 두 방식을 비교한다.</li>
+    <li><strong>ESS·PCS</strong>: 배터리와 전력변환장치. MW는 출력, MWh는 저장량. LS일렉트릭이 LG에너지솔루션과 공동개발한 PCS를 2026-08에 처음 출하했다.</li>
+  </ul>
+
+  <figure><div class="box"><div class="scroll">
+  <svg class="wide" viewBox="0 0 900 300" role="img" aria-label="LCC 방식과 VSC 방식 HVDC의 구성 차이. 해상풍력 같은 약한 계통은 VSC에만 연결된다">
+    <defs><marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
+    <g fill="currentColor" font-size="12.5">
+      <text x="225" y="26" text-anchor="middle" font-weight="700" font-size="14">LCC (전류형, 사이리스터)</text>
+      <text x="675" y="26" text-anchor="middle" font-weight="700" font-size="14">VSC (전압형, IGBT)</text>
+      <!-- LCC -->
+      <rect x="20" y="60" width="110" height="52" rx="6" style="fill:var(--inset);stroke:var(--line)"/><text x="75" y="82" text-anchor="middle">강한 교류계통</text><text x="75" y="100" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">대형 발전단지</text>
+      <rect x="160" y="60" width="130" height="52" rx="6" style="fill:var(--accent-soft);stroke:var(--accent)"/><text x="225" y="82" text-anchor="middle">변환소 (사이리스터)</text><text x="225" y="100" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">변환용 변압기 + 밸브</text>
+      <rect x="320" y="60" width="110" height="52" rx="6" style="fill:var(--inset);stroke:var(--line)"/><text x="375" y="82" text-anchor="middle">수요지 계통</text><text x="375" y="100" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">역변환소 포함</text>
+      <g stroke="currentColor" stroke-width="1.6" fill="none" marker-end="url(#ar3)"><line x1="132" y1="86" x2="156" y2="86"/><line x1="292" y1="86" x2="316" y2="86"/></g>
+      <text x="304" y="78" text-anchor="middle" font-size="10" style="fill:var(--copper)">DC</text>
+      <g font-size="11.5" style="fill:var(--fg-2)">
+        <text x="30" y="150">· 대용량·저비용, 검증된 기술</text>
+        <text x="30" y="170">· 무효전력을 소비해 강한 계통이 필요</text>
+        <text x="30" y="190">· 다단자 구성과 역조류가 어렵다</text>
+        <text x="30" y="210">· 사우디 리야드 500kV HVDC 등</text>
+      </g>
+      <!-- VSC -->
+      <rect x="470" y="60" width="110" height="52" rx="6" style="fill:var(--copper-soft);stroke:var(--copper)"/><text x="525" y="82" text-anchor="middle">해상풍력·태양광</text><text x="525" y="100" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">약한 계통도 가능</text>
+      <rect x="610" y="60" width="130" height="52" rx="6" style="fill:var(--accent-soft);stroke:var(--accent)"/><text x="675" y="82" text-anchor="middle">변환소 (IGBT)</text><text x="675" y="100" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">무효전력 독립 제어</text>
+      <rect x="770" y="60" width="110" height="52" rx="6" style="fill:var(--inset);stroke:var(--line)"/><text x="825" y="82" text-anchor="middle">수요지 계통</text><text x="825" y="100" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">다단자·양방향</text>
+      <g stroke="currentColor" stroke-width="1.6" fill="none" marker-end="url(#ar3)"><line x1="582" y1="86" x2="606" y2="86"/><line x1="742" y1="86" x2="766" y2="86"/></g>
+      <text x="754" y="78" text-anchor="middle" font-size="10" style="fill:var(--copper)">DC</text>
+      <g font-size="11.5" style="fill:var(--fg-2)">
+        <text x="480" y="150">· 약계통·해상풍력 연계, 다단자 가능</text>
+        <text x="480" y="170">· 변환 손실과 비용은 LCC보다 높음</text>
+        <text x="480" y="190">· 서해안 에너지고속도로가 이 방식 중심</text>
+        <text x="480" y="210">· 효성중공업: 2GW VSC 개발, 한전 국산화 실증 밸브·제어기 공급사</text>
+      </g>
+      <rect x="20" y="236" width="860" height="44" rx="6" style="fill:var(--paper);stroke:var(--line)" stroke-dasharray="5 4"/>
+      <text x="450" y="256" text-anchor="middle" font-size="12">두 방식의 결정적 차이: <tspan font-weight="700" style="fill:var(--copper)">재생에너지처럼 약한 계통</tspan>은 VSC에만 붙일 수 있다. 그래서 해상풍력·서해안 사업은 VSC, 대형 발전소 장거리 송전은 LCC가 많다.</text>
+      <text x="450" y="273" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">변환소에는 변환용 변압기가 들어가므로 HVDC 확산은 초고압 변압기 수요이기도 하다.</text>
+    </g>
+  </svg></div></div>
+  <figcaption><b>그림 2.2</b> HVDC 두 방식의 비교. 왼쪽 LCC는 강한 계통끼리 대용량을 싸게 잇고, 오른쪽 VSC는 해상풍력 같은 약한 계통을 붙일 수 있다.</figcaption></figure>
+
+  <div class="summary"><div class="lab">핵심 정리</div><ul><li>V₂/V₁ = N₂/N₁. 전압을 올리면 전류가 줄어 손실이 전류의 제곱만큼 감소한다. 765kV 송전의 이유.</li><li>초고압(유입)은 대형 3사, 몰드·주상·PCS 특수는 산일전기·LS일렉트릭. GIS·차단기는 효성·LS, STATCOM·HVDC는 효성중공업이 강하다.</li></ul></div>
+</section>
+
+<!-- ===================== 3장 ===================== -->
+<section class="chapter" id="ch3">
+  <div class="ch-num">제3장</div>
+  <h2>왜 2023~2026년에 슈퍼사이클이 왔나</h2>
+  <div class="objectives"><div class="lab">학습 목표</div><ul><li>수요 4요인과 공급 병목이 어떻게 리드타임·가격·수주잔고로 이어졌는지 그림 3.1로 설명한다.</li><li>한국 업체가 수혜를 받은 이유와, 2026년 들어 수출 증가율이 둔화된 의미를 말할 수 있다.</li></ul></div>
+
+  <p>수요 쪽 네 가지가 동시에 왔고, 공급 쪽은 10년 넘게 투자가 없었다. 그 결과가 리드타임 3년, 가격 +86%, 수주잔고 3~4년치다.</p>
+
+  <figure><div class="box"><div class="scroll">
+  <svg class="wide" viewBox="0 0 920 380" role="img" aria-label="네 가지 수요 요인과 공급 병목이 변압기 발주 급증을 거쳐 리드타임, 가격, 수주잔고, 마진으로 이어지는 흐름도">
+    <defs><marker id="ar4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
+    <g fill="currentColor" font-size="12.5">
+      <text x="110" y="22" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--fg-3)" letter-spacing="1">수요</text>
+      <g>
+        <rect x="20" y="34" width="190" height="46" rx="6" style="fill:var(--inset);stroke:var(--line)"/><text x="115" y="53" text-anchor="middle">① 노후 전력망 교체</text><text x="115" y="70" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">미국 대형 변압기 평균 40년</text>
+        <rect x="20" y="96" width="190" height="46" rx="6" style="fill:var(--inset);stroke:var(--line)"/><text x="115" y="115" text-anchor="middle">② AI 데이터센터</text><text x="115" y="132" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">2030년 전력소비 2배 (IEA)</text>
+        <rect x="20" y="158" width="190" height="46" rx="6" style="fill:var(--inset);stroke:var(--line)"/><text x="115" y="177" text-anchor="middle">③ 신재생·전기화</text><text x="115" y="194" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">계통연계, STATCOM·HVDC</text>
+        <rect x="20" y="220" width="190" height="46" rx="6" style="fill:var(--inset);stroke:var(--line)"/><text x="115" y="239" text-anchor="middle">④ 유틸리티 CAPEX</text><text x="115" y="256" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">2026~30년 1.4조달러, 절반이 송배전</text>
+      </g>
+      <g stroke="currentColor" stroke-width="1.4" fill="none" marker-end="url(#ar4)">
+        <path d="M212 57 C 280 57, 290 140, 346 146"/><path d="M212 119 C 270 119, 290 146, 346 150"/><path d="M212 181 C 270 181, 290 158, 346 154"/><path d="M212 243 C 280 243, 290 165, 346 158"/>
+      </g>
+      <rect x="350" y="120" width="200" height="64" rx="8" style="fill:var(--accent-soft);stroke:var(--accent)" stroke-width="1.5"/>
+      <text x="450" y="146" text-anchor="middle" font-weight="700" font-size="14">변압기 발주 급증</text>
+      <text x="450" y="166" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">주문이 공급 능력을 넘어섬</text>
+      <!-- supply -->
+      <text x="450" y="238" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--fg-3)" letter-spacing="1">공급</text>
+      <rect x="320" y="248" width="260" height="70" rx="6" style="fill:var(--copper-soft);stroke:var(--copper)"/>
+      <text x="450" y="270" text-anchor="middle" font-weight="700">과점 + 10년 투자 공백</text>
+      <text x="450" y="288" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">초고압은 글로벌 4~5사, 전기강판(GOES)·숙련공 제약</text>
+      <text x="450" y="305" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">2025~26 전력변압기 공급 부족 30% (Wood Mackenzie)</text>
+      <path d="M450 246 V188" stroke="currentColor" stroke-width="1.4" fill="none" marker-end="url(#ar4)"/>
+      <text x="470" y="222" font-size="11" style="fill:var(--copper)" font-weight="700">병목</text>
+      <!-- outcomes -->
+      <text x="760" y="22" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--fg-3)" letter-spacing="1">결과</text>
+      <g stroke="currentColor" stroke-width="1.4" fill="none" marker-end="url(#ar4)">
+        <path d="M552 140 C 600 140, 600 58, 636 58"/><path d="M552 148 C 600 148, 600 122, 636 122"/><path d="M552 156 C 600 156, 600 186, 636 186"/><path d="M552 164 C 600 164, 600 250, 636 250"/>
+      </g>
+      <rect x="640" y="36" width="260" height="44" rx="6" style="fill:var(--paper);stroke:var(--line)"/><text x="770" y="54" text-anchor="middle">리드타임 24~30개월 → 160주 이상</text><text x="770" y="71" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">초고압은 최대 4~5년</text>
+      <rect x="640" y="100" width="260" height="44" rx="6" style="fill:var(--paper);stroke:var(--line)"/><text x="770" y="118" text-anchor="middle">가격 상승: 변압기 PPI +86%</text><text x="770" y="135" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">2019-12 → 2026-01 (미국 BLS)</text>
+      <rect x="640" y="164" width="260" height="44" rx="6" style="fill:var(--paper);stroke:var(--line)"/><text x="770" y="182" text-anchor="middle">수주잔고 3~4년치</text><text x="770" y="199" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">한국 3사 합산 약 43조 (2Q26)</text>
+      <rect x="640" y="228" width="260" height="44" rx="6" style="fill:var(--paper);stroke:var(--line)"/><text x="770" y="246" text-anchor="middle">마진 상승</text><text x="770" y="263" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">고단가 잔고가 1~3년 뒤 매출로 전환</text>
+      <!-- feedback -->
+      <rect x="640" y="300" width="260" height="52" rx="6" style="fill:var(--paper);stroke:var(--line)" stroke-dasharray="5 4"/>
+      <text x="770" y="320" text-anchor="middle" font-size="12">글로벌 증설 2027~28년 완공</text><text x="770" y="338" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">리드타임 30~36개월로 안정화 전망 (공급과잉 콜은 아직 없음)</text>
+      <path d="M638 326 H 600 C 590 326, 590 300, 584 290" stroke="currentColor" stroke-width="1.4" fill="none" stroke-dasharray="5 4" marker-end="url(#ar4)"/>
+    </g>
+  </svg></div></div>
+  <figcaption><b>그림 3.1</b> 슈퍼사이클의 메커니즘. 네 수요가 한 지점으로 모이고, 공급이 병목이 되어 리드타임·가격·잔고·마진이 차례로 움직였다. 점선은 2027~28년 증설이 병목을 얼마나 풀지가 다음 사이클의 변수임을 뜻한다.</figcaption></figure>
+
+  <h3>3.1 수요 4요인의 근거</h3>
+  <div class="tablewrap"><table><caption><b>표 3.1</b> 수요 요인별 핵심 수치</caption>
+  <thead><tr><th>요인</th><th>핵심 수치</th><th>출처</th></tr></thead>
+  <tbody>
+  <tr><td>노후 전력망 교체</td><td>미국 대형 전력변압기(100MVA 이상) 평균 연령 약 40년, 70% 이상이 25년 이상. 배전변압기 6,000만~8,000만 대 중 약 55%가 33년 이상. 대형 변압기의 80% 이상 수입</td><td>DOE, NREL 추정</td></tr>
+  <tr><td>AI 데이터센터</td><td>글로벌 데이터센터 전력 2030년 약 945TWh로 2배 이상, 미국 +240TWh. NERC 10년 하계 피크 +224GW(전년 전망 대비 69% 상향). 하이퍼스케일러 2026 CAPEX 7,200억~7,450억달러</td><td>IEA 2025-04, NERC 2025 LTRA</td></tr>
+  <tr><td>신재생·전기화</td><td>유럽 2030년까지 송전망 5,840억유로 필요(EC), TenneT 2025~29년 1,080억유로. 계통연계에 STATCOM·HVDC 필요</td><td>EC, TenneT</td></tr>
+  <tr><td>유틸리티 CAPEX</td><td>미국 투자자소유 유틸리티 2026~30년 1.4조달러(+21%), 그중 6,860억달러가 송배전</td><td>PowerLines 2026-04, EEI</td></tr>
+  </tbody></table></div>
+
+  <h3>3.2 공급 병목: 리드타임과 가격</h3>
+  <div class="grid2">
+    <figure><div class="box chart" id="c-lead"></div><figcaption><b>그림 3.2</b> 미국 전력변압기 리드타임(주). 2020년 이전 약 2년(보도별 12~30개월)에서 2026년 1분기 160주 이상(약 3년)으로 늘었다. 초고압은 최대 4~5년. 출처: Wood Mackenzie 서베이 정리.</figcaption></figure>
+    <figure><div class="box chart" id="c-export"></div><figcaption><b>그림 3.3</b> 한국 초고압 변압기(1만kVA 초과) 대미 수출(억달러). 2022년 1.09억달러에서 2025년 7.38억달러로 6.8배. 2023·2024년은 "돌파" 보도 기준 근사치. 출처: 관세청 통계 보도.</figcaption></figure>
+  </div>
+  <p class="prose">가격도 올랐다. 미국 변압기 생산자물가지수(PPI)는 2019년 12월 대비 2026년 1월 +85.8%이고, 배전변압기 한 대 가격이 2020년 3,730달러에서 7,879달러로 오른 요금 신청 사례가 있다. 2026년 상반기 한국 초고압 변압기 전체 수출은 7.02억달러로 +6.7%에 그쳐 증가율이 둔화됐다. 현지 생산 전환과 기저효과 둘 다로 읽히므로 월별 수출 통계를 계속 봐야 한다.</p>
+
+  <h3>3.3 경쟁 구도와 원재료</h3>
+  <div class="tablewrap"><table><caption><b>표 3.2</b> 글로벌 경쟁사의 백로그와 증설</caption>
+  <thead><tr><th>회사</th><th>최근 지표</th><th>증설</th></tr></thead>
+  <tbody>
+  <tr><td>Hitachi Energy</td><td>백로그 300억달러 이상 (2024)</td><td>2024~27년 60억달러, 미국 10억달러. 버지니아 South Boston 대형변압기 공장 2028년 가동</td></tr>
+  <tr><td>Siemens Energy (그리드)</td><td>FY26 3분기 수주 54억유로(+28%), 백로그 510억유로(사상 최대), 마진 19.9%</td><td>2030년까지 생산능력 +50%</td></tr>
+  <tr><td>GE Vernova</td><td>2Q26 총 백로그 1,760억달러, 전기화 장비 406억달러(+69%)</td><td>Prolec GE 인수</td></tr>
+  <tr><td>Eaton · Schneider · ABB</td><td>데이터센터용 스위치기어 시장은 Schneider 점유율 18%로 선두</td><td>미국 스위치기어·3상 변압기 증설</td></tr>
+  <tr><td>한국 3사 합산</td><td>2Q26 수주잔고 약 43조</td><td>울산·앨라배마, 창원·멤피스, 부산·텍사스</td></tr>
+  </tbody></table></div>
+  <ul class="prose">
+    <li><strong>방향성 전기강판(GOES)</strong>: 변압기 원가의 약 25%. 2020년 이후 가격 약 2배. 북미 가격(4.29달러/kg)이 동북아(1.48달러/kg)의 3배 가까워 미국 현지 공장도 소재는 수입에 기댄다. 미국 유일 생산자 Cleveland-Cliffs(연 24만t) 대비 미국 수요 50만t 이상. EU는 한국산 GOES에 세이프가드 쿼터를 두고 완성 변압기로의 확대를 검토 중.</li>
+    <li><strong>구리</strong>: LME 2025년 12월 톤당 13,000달러에서 2026-09-08 14,737달러로 사상 최고. 수주 시 원재료 가격을 계약에 반영하지만 시차가 있다.</li>
+    <li>중국 업체는 관세와 보안 문제로 미국 시장 접근이 막혀 있다. 경쟁은 일본·유럽·미국 메이저와의 미국 내 CAPA 경쟁이다.</li>
+  </ul>
+
+  <div class="summary"><div class="lab">핵심 정리</div><ul><li>수요 4요인(노후망, AI 데이터센터, 신재생, 유틸리티 CAPEX)이 겹치고 공급은 과점·투자 공백. 리드타임 160주 이상, PPI +86%, 잔고 3~4년치.</li><li>한국 초고압 변압기 대미 수출은 3년 만에 6.8배. 2026년 상반기 증가율 둔화는 추적 대상.</li><li>2027~28년 글로벌 증설 완공이 다음 사이클의 변수. 아직 공급과잉 콜은 없다.</li></ul></div>
+</section>
+
+<!-- ===================== 4장 ===================== -->
+<section class="chapter" id="ch4">
+  <div class="ch-num">제4장</div>
+  <h2>관세와 통상: 미국 시장의 규칙</h2>
+  <div class="objectives"><div class="lab">학습 목표</div><ul><li>232조, 상호관세, 반덤핑(AD) 세 가지 관세의 차이와 현재 세율을 말할 수 있다.</li><li>현지생산·관세 전가·FOB라는 세 가지 대응이 4사에 어떻게 다르게 적용되는지 그림 4.1로 설명한다.</li></ul></div>
+
+  <div class="tablewrap"><table><caption><b>표 4.1</b> 미국 관세·통상 연표</caption>
+  <thead><tr><th>시점</th><th>조치</th><th>한국산 변압기에 미치는 효과</th></tr></thead>
+  <tbody>
+  <tr><td>2012년~</td><td>한국산 대형변압기 반덤핑(AD) 관세 부과, 연례재심 반복 (2017년 61%, 2018년 60% 전례)</td><td>회사별 세율. 과거 HD현대일렉트릭이 큰 타격</td></tr>
+  <tr><td>2025-07-30 / 10-29</td><td>한미 관세 합의 (상호관세 15%, 대미투자 3,500억달러)</td><td>일반 품목 15%</td></tr>
+  <tr><td>2025-08-18</td><td>232조 철강·알루미늄 파생제품 407개 추가. 변압기 11개 품목 포함, 금속 함량가치에 50%</td><td>변압기 가격 중 철강 부분에 50%</td></tr>
+  <tr><td>2026-02-19</td><td>AD 연례재심 예비판정: HD현대일렉트릭·일진전기 0%, 효성중공업 4.32%, LS일렉트릭 16.87% (보도 기준. LS도 4.32%라는 보도가 있어 확인 필요)</td><td>효성·LS가 2026-09-11 미국 국제무역법원(CIT)에 제소</td></tr>
+  <tr><td>2026-04-02 / 04-06</td><td>232조 개편: 금속 함량 기준 폐지, 전체가격 기준 25%. 단 변압기·산업기계류는 2027년 말까지 한시 15%</td><td>초고압 변압기 15%</td></tr>
+  <tr><td>2026-06-01 / 06-08</td><td>대형 변압기 25% → 15% 편입 확정 (2027-12-31까지)</td><td>무역협회 추산 한국 수출 23억달러에 영향</td></tr>
+  <tr><td>2026-10-01</td><td>상무부, 한국산 대형변압기 AD 연례재심 개시 (대상기간 2025-08~2026-07). 최종 판정 2027-08-31</td><td>2027년 하반기 변수</td></tr>
+  </tbody></table></div>
+
+  <figure><div class="box"><div class="scroll">
+  <svg class="wide" viewBox="0 0 920 380" role="img" aria-label="한국 공장에서 수출하는 경우, 미국 공장에서 생산하는 경우, FOB 조건으로 파는 경우에 관세가 어디에 붙는지 비교한 그림">
+    <defs><marker id="ar5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
+    <g fill="currentColor" font-size="12.5">
+      <!-- row A -->
+      <text x="20" y="30" font-weight="700" font-size="13">A. 한국 공장에서 수출</text>
+      <rect x="20" y="44" width="170" height="56" rx="6" style="fill:var(--inset);stroke:var(--line)"/><text x="105" y="66" text-anchor="middle">한국 공장</text><text x="105" y="84" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">울산 · 창원 · 부산</text>
+      <rect x="400" y="44" width="150" height="56" rx="6" style="fill:var(--copper-soft);stroke:var(--copper)"/><text x="475" y="66" text-anchor="middle">미국 세관</text><text x="475" y="84" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">관세 부과 지점</text>
+      <rect x="730" y="44" width="170" height="56" rx="6" style="fill:var(--inset);stroke:var(--line)"/><text x="815" y="66" text-anchor="middle">미국 고객</text><text x="815" y="84" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">유틸리티 · 데이터센터</text>
+      <g stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#ar5)"><line x1="192" y1="72" x2="396" y2="72"/><line x1="552" y1="72" x2="726" y2="72"/></g>
+      <text x="294" y="64" text-anchor="middle" font-size="11" style="fill:var(--copper)" font-weight="700">232조 15% (2027년 말까지)</text>
+      <text x="294" y="90" text-anchor="middle" font-size="10.5" style="fill:var(--fg-2)">이후 25% 복귀 가능성</text>
+      <text x="639" y="64" text-anchor="middle" font-size="11" style="fill:var(--copper)" font-weight="700">+ AD 세율 (회사별)</text>
+      <text x="639" y="90" text-anchor="middle" font-size="10.5" style="fill:var(--fg-2)">HD현대 0% · 효성 4.32% · LS 16.87%(보도)</text>
+      <path d="M815 102 V 118 H 105 V 102" stroke="currentColor" stroke-width="1.2" fill="none" stroke-dasharray="5 4" marker-end="url(#ar5)"/>
+      <text x="460" y="131" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">관세를 계약가에 반영해 고객에게 전가 (HD현대일렉트릭: 반영비율 84% → 2027년 발주분 100%)</text>
+      <g font-size="11.5"><g transform="translate(20,154)"><circle cx="5" cy="-4" r="5" style="fill:var(--s3)"/><text x="15" y="0">LS일렉트릭 초고압 (미국 초고압 공장 없음)</text></g><g transform="translate(300,154)"><circle cx="5" cy="-4" r="5" style="fill:var(--s1)"/><text x="15" y="0">HD현대·효성의 국내 생산분 일부</text></g></g>
+      <!-- row B -->
+      <text x="20" y="196" font-weight="700" font-size="13">B. 미국 공장에서 생산</text>
+      <rect x="20" y="210" width="170" height="56" rx="6" style="fill:var(--accent-soft);stroke:var(--accent)"/><text x="105" y="232" text-anchor="middle">미국 공장</text><text x="105" y="250" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">앨라배마 · 멤피스 · 텍사스</text>
+      <rect x="730" y="210" width="170" height="56" rx="6" style="fill:var(--inset);stroke:var(--line)"/><text x="815" y="232" text-anchor="middle">미국 고객</text>
+      <line x1="192" y1="238" x2="726" y2="238" stroke="currentColor" stroke-width="1.5" marker-end="url(#ar5)"/>
+      <text x="459" y="230" text-anchor="middle" font-size="11" style="fill:var(--accent)" font-weight="700">완제품 관세 없음</text>
+      <text x="459" y="256" text-anchor="middle" font-size="10.5" style="fill:var(--fg-2)">단, 전기강판(GOES) 수입 관세·인건비·증설 CAPEX 부담</text>
+      <g font-size="11.5"><g transform="translate(20,292)"><circle cx="5" cy="-4" r="5" style="fill:var(--s1)"/><text x="15" y="0">HD현대일렉트릭 (미국 매출의 60%)</text></g><g transform="translate(260,292)"><circle cx="5" cy="-4" r="5" style="fill:var(--s2)"/><text x="15" y="0">효성중공업 (765kV, 차단기 JV)</text></g><g transform="translate(500,292)"><circle cx="5" cy="-4" r="5" style="fill:var(--s3)"/><text x="15" y="0">LS일렉트릭 (배전·배전반만)</text></g></g>
+      <!-- row C -->
+      <text x="20" y="330" font-weight="700" font-size="13">C. FOB 조건 수출 (관세는 수입자 부담)</text>
+      <rect x="20" y="342" width="170" height="34" rx="6" style="fill:var(--inset);stroke:var(--line)"/><text x="105" y="364" text-anchor="middle">산일전기 (안산·시흥)</text>
+      <rect x="730" y="342" width="170" height="34" rx="6" style="fill:var(--inset);stroke:var(--line)"/><text x="815" y="364" text-anchor="middle">미국 고객이 관세 납부</text>
+      <line x1="192" y1="359" x2="726" y2="359" stroke="currentColor" stroke-width="1.5" marker-end="url(#ar5)"/>
+      <text x="459" y="353" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">배전·저압 변압기(매출 40%)는 232조 비대상 · 특수변압기(60%)는 FOB</text>
+      <text x="459" y="371" text-anchor="middle" font-size="10.5" style="fill:var(--copper)">직접 부담은 없지만 최종 수요가 둔화되면 발주가 밀린다 (2Q25 수주 -45%)</text>
+    </g>
+  </svg></div></div>
+  <figcaption><b>그림 4.1</b> 세 가지 관세 노출 구조. 같은 제품이라도 어디서 만들어 어떤 조건으로 파느냐에 따라 관세가 붙는 지점이 다르다. 관세 부과 구간(2025-08~2026-06)에도 4사 영업이익은 모두 늘었다.</figcaption></figure>
+
+  <div class="note"><div class="lab">주의</div>2027년에 두 가지가 겹친다. <strong>2027-08-31</strong> AD 연례재심 최종 판정과 <strong>2027-12-31</strong> 232조 변압기 15% 특례 종료. 둘 다 LS일렉트릭 초고압처럼 국내에서 생산해 수출하는 물량에 영향이 크다.</div>
+
+  <div class="summary"><div class="lab">핵심 정리</div><ul><li>232조는 품목·안보 관세(변압기 15% 한시), 상호관세는 국가별(한국 15%), AD는 기업별 덤핑마진 세율로 매년 재산정.</li><li>대응은 현지생산(HD현대·효성), 전가(HD현대 84→100%), FOB(산일). LS일렉트릭 초고압은 전량 국내 생산이라 노출이 가장 크다.</li></ul></div>
+</section>
+
+<!-- ===================== 5장 ===================== -->
+<section class="chapter" id="ch5">
+  <div class="ch-num">제5장</div>
+  <h2>국내 수요: 송변전 72.8조와 서해안 HVDC</h2>
+  <div class="objectives"><div class="lab">학습 목표</div><ul><li>11차 전기본, 장기 송변전설비계획, 서해안 에너지고속도로, ESS 중앙계약시장의 규모와 일정을 말할 수 있다.</li><li>국내 수요가 4사 중 누구에게 의미가 큰지 짚는다.</li></ul></div>
+
+  <div class="tablewrap"><table><caption><b>표 5.1</b> 국내 전력 인프라 계획</caption>
+  <thead><tr><th>항목</th><th>내용</th><th>관련 회사</th></tr></thead>
+  <tbody>
+  <tr><td>11차 전력수급기본계획 (2025-02 확정)</td><td>2038년 목표수요 129.3GW, 설비 157.8GW. 반도체 15.4GW, 데이터센터 4.4GW</td><td>전체</td></tr>
+  <tr><td>11차 장기 송변전설비계획 (2025-05)</td><td>2024~2038년 72.8조 (10차 56.5조 대비 +28.8%)</td><td>HD현대, 효성, LS</td></tr>
+  <tr><td>한전 송·변·배전 투자</td><td>2024년 8.3조 → 2025년 8.9조 → 2026년 9.6조 → 2028년 11조 (계획)</td><td>HD현대, 효성, LS</td></tr>
+  <tr><td>서해안 에너지고속도로 (HVDC)</td><td>4개 루트·8개 변환소, 총 11~12조. 1단계 새만금~화성 220km 2GW, 2030년 준공, 2.8조. 2027년 초 해저케이블 발주</td><td>효성중공업 (HVDC 밸브·제어기, 변환용 변압기)</td></tr>
+  <tr><td>ESS 중앙계약시장</td><td>1차(2025) 540MW, 2차(2026-02) 565MW, 3차(2026-09 공고) 1,180MW/7.08GWh 약 2조, 11월 11일 마감. 2038년까지 11회 약 40조</td><td>LS일렉트릭 (PCS), 효성중공업 (ESS)</td></tr>
+  <tr><td>용인 반도체 클러스터</td><td>장기 10GW 이상, LNG 3GW 2029년, 345kV 신원주~동용인 2032년. 345kV 송전망 70% 미착공</td><td>HD현대 (배전·반도체), LS (배전)</td></tr>
+  </tbody></table></div>
+
+  <figure><div class="box"><div class="scroll">
+  <svg class="wide" viewBox="0 0 920 270" role="img" aria-label="서해안 에너지고속도로 1단계의 구성: 새만금 재생에너지가 변환소에서 직류로 바뀌어 해저케이블 220km를 지나 화성 변환소에서 다시 교류가 되어 수도권으로 간다">
+    <defs><marker id="ar6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
+    <g fill="currentColor" font-size="12.5">
+      <rect x="20" y="60" width="170" height="70" rx="8" style="fill:var(--copper-soft);stroke:var(--copper)"/><text x="105" y="86" text-anchor="middle" font-weight="700">새만금·서해안</text><text x="105" y="104" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">해상풍력 · 태양광 (교류)</text><text x="105" y="120" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">호남 재생에너지 12GW → 39GW</text>
+      <rect x="230" y="60" width="160" height="70" rx="8" style="fill:var(--accent-soft);stroke:var(--accent)"/><text x="310" y="86" text-anchor="middle" font-weight="700">변환소 A (AC → DC)</text><text x="310" y="104" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">전압형(VSC) 밸브 · 제어기</text><text x="310" y="120" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">변환용 변압기</text>
+      <rect x="530" y="60" width="160" height="70" rx="8" style="fill:var(--accent-soft);stroke:var(--accent)"/><text x="610" y="86" text-anchor="middle" font-weight="700">변환소 B 화성 (DC → AC)</text><text x="610" y="104" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">전압형(VSC) 밸브 · 제어기</text><text x="610" y="120" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">변전소 0.6조</text>
+      <rect x="730" y="60" width="170" height="70" rx="8" style="fill:var(--inset);stroke:var(--line)"/><text x="815" y="86" text-anchor="middle" font-weight="700">수도권 계통</text><text x="815" y="104" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">용인 반도체 · 데이터센터</text><text x="815" y="120" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">345kV 송전망과 연계</text>
+      <g stroke="currentColor" stroke-width="1.6" fill="none" marker-end="url(#ar6)"><line x1="192" y1="95" x2="226" y2="95"/><line x1="692" y1="95" x2="726" y2="95"/></g>
+      <path d="M392 88 H526" stroke="currentColor" stroke-width="3" fill="none"/><path d="M392 102 H526" stroke="currentColor" stroke-width="3" fill="none" stroke-dasharray="8 5"/>
+      <text x="459" y="76" text-anchor="middle" font-size="11.5" font-weight="700" style="fill:var(--accent)">해저 HVDC 케이블 220km × 왕복 2회선 (440km)</text>
+      <text x="459" y="124" text-anchor="middle" font-size="11" style="fill:var(--fg-2)">용량 2GW · 송전 1.2조 · 2027년 초 발주</text>
+      <rect x="20" y="168" width="880" height="84" rx="8" style="fill:var(--paper);stroke:var(--line)"/>
+      <text x="36" y="192" font-size="12" font-weight="700">1단계 (2030년 준공 목표) 투자 2조8,000억 = 변환설비 1조 + 송전 1.2조 + 변전소 0.6조</text>
+      <text x="36" y="214" font-size="11.5" style="fill:var(--fg-2)">전체 사업: 4개 루트 · 8개 변환소 · 2038년까지 · 총 11~12조 (보도 혼재). 2026년 내 기본설계 완료.</text>
+      <text x="36" y="236" font-size="11.5" style="fill:var(--copper)">효성중공업은 2026-09 한전 전압형 HVDC 국산화 실증의 밸브·제어기 공급사로 선정됐다. 변환소마다 변환용 변압기가 들어가 초고압 변압기 수요이기도 하다.</text>
+    </g>
+  </svg></div></div>
+  <figcaption><b>그림 5.1</b> 서해안 에너지고속도로 1단계 구성. 재생에너지가 많은 서해안의 전기를 직류로 바꿔 해저로 수도권에 보낸다. 약한 계통을 붙일 수 있는 전압형(VSC) 방식이 핵심이다.</figcaption></figure>
+
+  <p class="prose">국내 수요는 효성중공업(HVDC, STATCOM), LS일렉트릭(배전, ESS PCS), HD현대일렉트릭(배전, 반도체 공장)에 의미가 크다. 다만 한전 재무와 송전선로 주민 반발로 집행 속도가 변수다. 345kV 송전망의 70%가 아직 착공되지 않았다.</p>
+
+  <div class="summary"><div class="lab">핵심 정리</div><ul><li>송변전 72.8조(2024~38), 한전 투자 연 8.3조 → 11조, 서해안 HVDC 11~12조, ESS 중앙계약시장 40조. 국내도 작지 않다.</li><li>HVDC는 효성중공업, ESS·배전은 LS일렉트릭의 영역. 집행 속도(한전 재무, 주민 반발)가 변수.</li></ul></div>
+</section>
+
+<!-- ===================== 6장 ===================== -->
+<section class="chapter" id="ch6">
+  <div class="ch-num">제6장</div>
+  <h2>네 회사 깊이 읽기</h2>
+  <div class="objectives"><div class="lab">학습 목표</div><ul><li>각 회사의 사업 구조, 실적 추이, 수주잔고, 고객, 관세 노출, 밸류에이션을 같은 틀로 비교할 수 있다.</li><li>회사별 투자포인트와 리스크를 세 개씩 말하고, 분기마다 무엇을 확인할지 체크리스트를 가진다.</li></ul></div>
+  <p class="prose">네 회사를 같은 순서로 읽는다. 요약 → 프로필 → 실적 차트와 표 → 수주 → 고객 → 타임라인 → 관세 → 밸류에이션 → 투자포인트와 리스크 → 체크리스트 → 퀴즈. 체크리스트는 이 브라우저에만 저장된다.</p>
+
+  <!-- 6.1 HD현대일렉트릭 -->
+  <h3 id="hd">6.1 HD현대일렉트릭 (267260)</h3>
+  <p class="prose"><strong>1분 요약.</strong> 4사 중 가장 높은 수익성(FY25 영업이익률 24.4%, 2Q26 25.1%)과 765kV 변압기·GIS 초고압 풀라인을 가진 "미국 초고압 변압기 점유율 1위" 업체. 앨라배마 공장이 미국 매출의 60%를 현지 생산해 관세 방어력이 가장 높다. 2026-07 빅테크와 1.1조 장기계약을 맺었지만 "매출 반영은 2029년 이후"라는 컨콜 발언으로 이틀간 약 25% 급락했다. 수주잔고 84.9억달러(약 3년치).</p>
+  <div class="profile">
+    <div><b>정체성·지배구조</b><ul><li>2017년 4월 현대중공업에서 분할. 최대주주 HD현대 37.2%, 외국인 33.8%</li><li>대표이사 김영기(2025-03~), 전임 조석 부회장</li><li>HD현대 그룹 영업이익의 약 16%(FY25)를 담당</li><li>최근 3년 주가 27배</li></ul></div>
+    <div><b>사업·제품 (FY25 매출 비중)</b><ul><li>전력기기 69.5%: 초고압 변압기(765kV), 고압차단기·GIS, 리액터</li><li>회전기기 14.4%: 전동기, 발전기, 선박용</li><li>배전기기 등 16.1%: 배전반, 저압차단기, ESS</li><li>지역: 북미 39.5%, 중동 8,540억, 유럽 4,059억, 선박용 4,762억</li></ul></div>
+    <div><b>생산거점·증설 (총 3,968억)</b><ul><li>울산 2,118억 신축: 초고압 연 300대 → 360대, 2026년 말 완공·2027년 가동</li><li>미국 앨라배마 2억달러 2공장: 연 100대 → 150대. 2026-08 누적 1,000대</li><li>중국 양중: 중저압 전동기</li></ul></div>
+  </div>
+  <div class="grid2">
+    <figure><div class="box chart" id="c-hd-rev"></div><figcaption><b>그림 6.1</b> HD현대일렉트릭 매출(억원). 5년 연속 성장. 2026 가이던스 4조3,500억.</figcaption></figure>
+    <figure><div class="box chart" id="c-hd-op"></div><figcaption><b>그림 6.2</b> HD현대일렉트릭 영업이익(억원)과 영업이익률. 2년 만에 3배가 됐고 이익률은 11.7%에서 24.4%로.</figcaption></figure>
+  </div>
+  <div class="tablewrap"><table><caption><b>표 6.1</b> HD현대일렉트릭 실적 (연결, 억원)</caption>
+  <thead><tr><th></th><th class="n">FY2023</th><th class="n">FY2024</th><th class="n">FY2025</th><th class="n">1Q26</th><th class="n">2Q26</th></tr></thead>
+  <tbody>
+  <tr><td>매출</td><td class="n">27,028</td><td class="n">33,223</td><td class="n">40,795</td><td class="n">10,365 (+2.1%)</td><td class="n">11,418 (+26.0%)</td></tr>
+  <tr><td>영업이익</td><td class="n">3,152</td><td class="n">6,690</td><td class="n">9,953</td><td class="n">2,583</td><td class="n">2,870</td></tr>
+  <tr><td>영업이익률</td><td class="n">11.7%</td><td class="n">20.1%</td><td class="n">24.4%</td><td class="n">24.9%</td><td class="n">25.1%</td></tr>
+  <tr><td>순이익</td><td class="n">2,595</td><td class="n">확인 불가</td><td class="n">7,318</td><td class="n">2,077</td><td class="n">2,061</td></tr>
+  </tbody></table></div>
+  <ul class="prose"><li>1Q26 매출이 +2.1%에 그친 이유는 배전기기 역성장. 2Q26은 배전이 국내 반도체 프로젝트로 +20% 회복.</li><li>2026 가이던스: 매출 4조3,500억, 수주 51.85억달러(7월 상향). 영업이익 컨센서스 1조2,400억~1조2,700억(환율 가정 1,350원).</li></ul>
+  <div class="tablewrap small"><table><caption><b>표 6.2</b> HD현대일렉트릭 수주 (달러)</caption>
+  <thead><tr><th>시점</th><th>신규수주</th><th>수주잔고</th></tr></thead>
+  <tbody><tr><td>FY2025</td><td>42.74억 (목표 38.22억 초과)</td><td>67.31억 (+21.5%)</td></tr><tr><td>1Q26</td><td>17.97억 (분기 최대)</td><td>78.88억</td></tr><tr><td>2Q26</td><td>약 14억</td><td>84.9억 (+29.6% YoY)</td></tr></tbody></table></div>
+  <h4>고객과 대표 수주</h4>
+  <ul class="prose"><li>2026-07-02 글로벌 빅테크 북미 데이터센터 최대 1조1,212억 장기공급 기본계약(배전 5,539억 + 전력기기 5,673억, 2028년까지 납품).</li><li>2026-05-07 미국 대형 유틸리티 1,730억 초고압 변압기(SPP 765kV 백본 프로젝트).</li><li>사우디: SEC 380kV 878억, 디리야 신도시 943억, 알기하즈 678억, 아람코 280억.</li></ul>
+  <h4>2025~2026 타임라인</h4>
+  <ul class="timeline">
+    <li><time>2025-01-19</time>울산·앨라배마 3,968억 투자 결정</li>
+    <li><time>2026-01-06</time>2026 수주 목표 42.22억달러 제시</li>
+    <li><time>2026-05~06</time>한 달 -37% (AI 속도조절론, 수급 이동)</li>
+    <li><time>2026-07-02 · 07-06</time>빅테크 1.1조 장기계약, 수주 목표 51.85억달러로 상향</li>
+    <li><time>2026-07-28~29</time>2Q 호실적에도 "배전 매출 2029년 이후" 발언으로 2일간 약 -25%</li>
+    <li><time>2026-08</time>앨라배마 누적 1,000대, 2억달러 증설 착수</li>
+    <li><time>2026-10-22</time>3Q26 실적 발표 예정</li>
+  </ul>
+  <div class="profile">
+    <div><b>관세 노출</b><ul><li>2020년 AD 최대 61% 경험. 2026-02 AD 예비판정 0%</li><li>미국 수요는 현지생산으로 전량 대응 방침. 관세 전가율 84% → 2027년 발주분 100%</li><li>2Q26 상계관세 환급 효과 60억에 그침. 실질 개선은 약 2년 후</li></ul></div>
+    <div><b>주주환원·밸류에이션</b><ul><li>배당정책: 2025~27년 별도 순이익의 30% 이상, ROE 28% 목표. FY25 주당배당 7,100원, 별도 배당성향 40.2%</li><li>주가 678,000원(10/2), 시총 24.4조, 52주 고가 1,449,000원 대비 -53%</li><li>PER 28.5배(TTM), 선행 약 25배, PBR 10.7배, 배당수익률 1.1%</li><li>목표주가: 한국투자 150만, KB 148만, NH 140만, 대신 122만, SK 120만, LS 115만, 하나 108만, IBK 105만</li></ul></div>
+  </div>
+  <div class="pm">
+    <div class="plus"><b>투자포인트</b><ol><li>공급자 우위 시장에서 4사 최고 수익성(OPM 25%)</li><li>765kV·친환경 GIS 등 고부가 믹스, 고단가 잔고의 매출 전환</li><li>잔고 약 3년치와 수주 목표 상향</li><li>빅테크 배전·데이터센터가 제2 성장축</li><li>앨라배마 현지생산으로 관세 방어력 최고</li><li>배당성향 30% 이상과 분기배당</li></ol></div>
+    <div class="minus"><b>리스크</b><ol><li>신규사업 매출 반영 지연(2029년 이후)으로 2027~28년 성장 공백 우려</li><li>15% 관세 특례 2027년 말 종료, 상계관세 환급 미미</li><li>피크아웃·공급과잉 논쟁 시 멀티플 급축소</li><li>PBR 10.7배, 어닝 비트에도 급락하는 변동성</li><li>환율(가이던스 1,350원), 배전 변동성, 증설 지연, 그룹 노사</li></ol></div>
+  </div>
+  <h4>모니터링 체크리스트</h4>
+  <ul class="check" data-key="hd">
+    <li><input type="checkbox" id="hd-c1"><label for="hd-c1">3Q26 (10/22): 영업이익률 25% 유지, 배전 회복, 분기 수주(달러)</label></li>
+    <li><input type="checkbox" id="hd-c2"><label for="hd-c2">연간 수주 51.85억달러 진척 (상반기 약 32억달러)</label></li>
+    <li><input type="checkbox" id="hd-c3"><label for="hd-c3">관세 전가율, 15% 특례 연장 여부, AD 재심</label></li>
+    <li><input type="checkbox" id="hd-c4"><label for="hd-c4">울산·앨라배마 2027년 가동 일정</label></li>
+    <li><input type="checkbox" id="hd-c5"><label for="hd-c5">빅테크 계약의 매출 전환 시점(2028~29), 원/달러 환율</label></li>
+  </ul>
+  <details class="quiz"><summary>퀴즈 6.1 HD현대일렉트릭의 2Q26 급락 원인은 실적 미달이 아니었다. 무엇이었나?</summary><p>빅테크 배전 매출 반영이 2029년 이후라는 컨콜 발언과 관세 효과 지연. 시장이 원한 것은 수주가 아니라 "수주가 언제 매출이 되는가"였다.</p></details>
+  <details class="quiz"><summary>퀴즈 6.2 미국 매출 중 앨라배마 현지 생산 비중은?</summary><p>약 60%. 그래서 4사 중 관세 방어력이 가장 높다.</p></details>
+
+  <!-- 6.2 효성중공업 -->
+  <h3 id="hs">6.2 효성중공업 (298040)</h3>
+  <p class="prose"><strong>1분 요약.</strong> 초고압 변압기·차단기에 HVDC·STATCOM 같은 계통 안정화 기술을 가진 중공업 부문과, PF 리스크가 있는 건설 부문(진흥기업 포함)이 합쳐진 회사. 중공업 수주잔고 17.5조(북미 57%)로 4사 중 가시성이 가장 길고, 미국 멤피스는 미국 내 유일한 765kV 현지 설계·제조 공장이다. 2026 수주 가이던스를 8.45조에서 12조로 올렸고 1~8월에 이미 9.3조를 수주했다. 2025-04 49만원에서 2026-04 391만원까지 8배 오른 뒤 약 40% 조정됐다.</p>
+  <div class="profile">
+    <div><b>정체성·지배구조</b><ul><li>2018년 ㈜효성 인적분할. 2024-07 그룹이 ㈜효성(조현준)과 HS효성(조현상)으로 분리</li><li>㈜효성 32.5% + 조현준 회장 10%. 대표이사 우태희</li><li>기업지배구조보고서 47점. 진흥기업 지분 48.19%</li></ul></div>
+    <div><b>사업·제품 (4Q25)</b><ul><li>중공업: 매출 70% / 영업이익 94%. 초고압·배전 변압기, 리액터, GIS, 배전반, STATCOM, HVDC, ESS, SST</li><li>건설: 매출 30% / 영업이익 6%. 자체 건설 + 진흥기업</li><li>1Q26 중공업 8,807억/1,177억(13.4%), 건설 4,767억/344억</li></ul></div>
+    <div><b>생산거점·증설</b><ul><li>창원: 2025-06 초고압 증설 가동, HVDC용 변압기 공장 신축, 창원·인도 차단기 증설 약 1,000억</li><li>미국 멤피스: 2020년 미쓰비시전기로부터 인수. 1.57억달러 3차 증설로 2028년까지 CAPA +50%. 미국 내 유일 765kV 설계·제조</li><li>미국 펜실베이니아: 콴타서비스 합작, 72.5~800kV 가스차단기 2026-10 생산</li><li>인도 푸네 GIS 공장, 사우디 Alfanar 합작 추진</li></ul></div>
+  </div>
+  <div class="grid2">
+    <figure><div class="box chart" id="c-hs-rev"></div><figcaption><b>그림 6.3</b> 효성중공업 매출(억원, 건설 포함). 2026 가이던스는 중공업 매출 성장 25%.</figcaption></figure>
+    <figure><div class="box chart" id="c-hs-op"></div><figcaption><b>그림 6.4</b> 효성중공업 영업이익(억원)과 영업이익률. 중공업 부문만 보면 6.8% → 17.8%.</figcaption></figure>
+  </div>
+  <div class="tablewrap"><table><caption><b>표 6.3</b> 효성중공업 실적 (연결, 억원)</caption>
+  <thead><tr><th></th><th class="n">FY2023</th><th class="n">FY2024</th><th class="n">FY2025</th><th class="n">1Q26</th><th class="n">2Q26</th></tr></thead>
+  <tbody>
+  <tr><td>매출</td><td class="n">43,005</td><td class="n">48,950</td><td class="n">59,685</td><td class="n">13,582 (+26.2%)</td><td class="n">16,870 (+10.6%)</td></tr>
+  <tr><td>영업이익</td><td class="n">2,578</td><td class="n">3,625</td><td class="n">7,470</td><td class="n">1,523</td><td class="n">2,643 (분기 최대)</td></tr>
+  <tr><td>영업이익률</td><td class="n">6.0%</td><td class="n">7.4%</td><td class="n">12.5%</td><td class="n">11.2%</td><td class="n">15.7%</td></tr>
+  <tr><td>중공업 영업이익률</td><td class="n">6.8%</td><td class="n">10.2%</td><td class="n">17.8%</td><td class="n">13.4%</td><td class="n">확인 불가</td></tr>
+  <tr><td>순이익</td><td class="n">1,319</td><td class="n">2,229</td><td class="n">약 5,200 (역산)</td><td class="n">약 914 (역산)</td><td class="n">1,717</td></tr>
+  </tbody></table></div>
+  <ul class="prose"><li>4Q25 중공업 영업이익률 20.2%로 정점을 찍은 뒤 1Q26 13.4%로 하락(회사 설명: "2분기에 고수익 주문 집중"). 분기별 믹스 변동이 크다.</li><li>2026 가이던스(7/31 상향): 중공업 수주 12조, 매출 성장 25%, 영업이익률 "10%대 후반". 대신증권 2026E 영업이익 1조1,820억. 3Q26 컨센서스 3,337억.</li></ul>
+  <div class="tablewrap small"><table><caption><b>표 6.4</b> 효성중공업 중공업 수주 (원화)</caption>
+  <thead><tr><th>시점</th><th>신규수주</th><th>수주잔고</th></tr></thead>
+  <tbody><tr><td>FY2024</td><td>약 5.5조</td><td>9.2조</td></tr><tr><td>FY2025</td><td>약 7.6조</td><td>약 12.0조</td></tr><tr><td>1Q26</td><td>4.17조 (역대 최대)</td><td>약 15조 (추정)</td></tr><tr><td>2Q26</td><td>3.32조</td><td>17.5조 (+63%, 북미 57%)</td></tr><tr><td>2026년 1~8월</td><td>약 9.3조 (전년 연간 초과)</td><td></td></tr></tbody></table></div>
+  <h4>고객과 지역</h4>
+  <ul class="prose"><li>중공업 매출 미국 비중 2Q25 23% → 2Q26 38%. 미국 초고압변압기 점유율 1위. 미국 판매법인 매출처: Intersect Power 13%, SoftBank 9%, LS Power 5%, xAI 3%.</li><li>2026-09-15 미국 빅테크 2곳의 AI 데이터센터용 765kV 2,200억 + 345kV 1,665억 = 3,865억.</li><li>유럽: 2025-12 한 달 2,300억 이상(영국 SPEN 1,200억 등). 2022년부터 영국 초고압변압기 점유율 1위.</li></ul>
+  <h4>2025~2026 타임라인</h4>
+  <ul class="timeline">
+    <li><time>2025-12</time>멤피스 1.57억달러 증설 발표, 유럽 2,300억 수주</li>
+    <li><time>2026-02-19</time>AD 예비판정 4.32% (보도)</li>
+    <li><time>2026-07-01 · 07-31</time>콴타 JV 설립. 2Q 분기 최대, 수주 가이던스 12조</li>
+    <li><time>2026-08</time>잠원동 PF 채무 3,463억 인수</li>
+    <li><time>2026-09-11 · 09-15 · 09-17</time>CIT에 AD 제소. 빅테크 3,865억 수주. 한전 HVDC 실증 공급사 선정</li>
+    <li><time>2026-10</time>콴타 JV 차단기 양산 개시 예정</li>
+  </ul>
+  <div class="profile">
+    <div><b>재무·건설 리스크 (이 회사만의 숙제)</b><ul><li>부채비율 2022년 325% → 2025년 190.3%, 차입금 8,024억, 순차입금비율 22.2%로 개선</li><li>책임준공 약정 약 6.08조(자기자본 2.1조의 2.9배). PF 채무 인수 부산·대구 2,863억 + 잠원동 3,463억</li><li>진흥기업 2025 매출 5,764억(-24%), 영업이익 -230억(2년 연속 적자)</li></ul></div>
+    <div><b>주주환원·밸류에이션</b><ul><li>주당배당 2023 2,500 → 2024 5,000 → 2025 7,500원. 배당성향 13.4%(4사 중 최저)</li><li>주가 2,781,000원(10/2 장중), 시총 25.9조, PER 44.3배, 선행 PER 33.3배, PBR 10.0배. 고점 대비 약 -40%</li><li>목표주가: 유진 500만, 유안타 500만, 미래에셋 500만, IBK 490만, 대신 420만, 신한 420만, LS 410만</li></ul></div>
+  </div>
+  <div class="pm">
+    <div class="plus"><b>투자포인트</b><ol><li>북미 송전투자와 공급 부족이 겹쳐 고마진 미국 매출 비중 급증(23% → 38%)</li><li>미국 내 유일 765kV 현지 설계·생산, AI 데이터센터 직접 수주</li><li>잔고 17.5조로 2027~28년 실적 가시성, 2030년 납기 조율</li><li>변압기+차단기 미국 풀패키지(콴타 JV), HVDC 국산화, SST 신사업</li><li>4사 중 선행 PER이 낮은 편, 재무구조 개선</li></ol></div>
+    <div class="minus"><b>리스크</b><ol><li>1년 +700% 후 변동성. 특별 악재 없는 5%대 급락 반복</li><li>AD 소송과 15% 특례 만료</li><li>건설 PF 우발채무 6조대, 채무 인수 누적 6,300억, 진흥기업 적자</li><li>멤피스 등 대규모 CAPEX로 차입 재확대 가능성, 글로벌 동시 증설</li><li>거버넌스 47점, 배당성향 13%, 계열분리 지분 정리 오버행 가능성</li></ol></div>
+  </div>
+  <h4>모니터링 체크리스트</h4>
+  <ul class="check" data-key="hs">
+    <li><input type="checkbox" id="hs-c1"><label for="hs-c1">3Q26: 영업이익 컨센서스 3,337억, 중공업 영업이익률 재상승 여부, 미국 비중</label></li>
+    <li><input type="checkbox" id="hs-c2"><label for="hs-c2">2026 수주 12조 달성(1~8월 9.3조), 잔고 북미 비중</label></li>
+    <li><input type="checkbox" id="hs-c3"><label for="hs-c3">콴타 JV 양산(2026-10), 멤피스 1차(2026 말)·3차(2028)</label></li>
+    <li><input type="checkbox" id="hs-c4"><label for="hs-c4">AD 최종판정·CIT 결과, 15% 특례</label></li>
+    <li><input type="checkbox" id="hs-c5"><label for="hs-c5">책임준공 약정 잔액, 추가 PF 채무 인수, 진흥기업 분기 실적, 부채비율</label></li>
+    <li><input type="checkbox" id="hs-c6"><label for="hs-c6">한전 HVDC 실증 진행, 유럽 2GW VSC-HVDC 수주, HS효성 측 지분 변동</label></li>
+  </ul>
+  <details class="quiz"><summary>퀴즈 6.3 효성중공업 영업이익의 약 94%(4Q25)는 어느 부문에서 나오나?</summary><p>중공업. 건설은 매출의 30%를 차지하지만 영업이익 기여는 6%에 그치고, 책임준공 PF 약정과 진흥기업 적자라는 리스크를 안고 있다.</p></details>
+  <details class="quiz"><summary>퀴즈 6.4 2026-10 미국에서 생산을 시작하는 제품과 파트너는?</summary><p>72.5~800kV 가스차단기, 콴타서비스와의 합작법인. 한국 업체 최초로 미국에서 변압기와 차단기를 동시에 생산한다.</p></details>
+
+  <!-- 6.3 LS일렉트릭 -->
+  <h3 id="ls">6.3 LS일렉트릭 (010120)</h3>
+  <p class="prose"><strong>1분 요약.</strong> 국내 배전기기(수배전반·차단기) 점유율 50% 이상의 "배전 강자"가 북미 AI 데이터센터 배전 직거래와 초고압 변압기(부산, 구 KOC전기)로 체급을 올리는 중이다. 2Q26 초고압 매출 +91%, 북미 매출 비중 20% → 33%, 분기 수주 첫 2조 돌파, 잔고 약 7조. 99분기 연속 흑자. 2026-04 5:1 액면분할. 시총은 4사 중 최대(약 30.8조)이지만 영업이익률은 11%대로 가장 낮아 PER 70~80배의 밸류 부담이 가장 크다.</p>
+  <div class="profile">
+    <div><b>정체성·지배구조</b><ul><li>최대주주 ㈜LS 48.46%, 국민연금 8.79%, 구자균 회장(대표이사) 0.87%</li><li>2026-04-13 5:1 액면분할(3,000만주 → 1억5,000만주). 4월 이전 주가·목표가·배당은 5로 나눠 비교</li></ul></div>
+    <div><b>사업·제품</b><ul><li>전력기기(배전): 수배전반, 배전변압기, 차단기, 38kV 스위치기어, UL 인증 PDU·RPP·CTTS. 국내 50% 이상</li><li>전력인프라(초고압): 154/230/345kV, 부산 + LS파워솔루션(구 KOC전기)</li><li>자동화(PLC·인버터), 신재생(ESS·PCS, 인피니언 DC 배전 MOU)</li><li>자회사: LS이모빌리티솔루션(EV 릴레이), LS메카피온. 수출 비중 2024년 51.3%</li></ul></div>
+    <div><b>생산거점·증설</b><ul><li>청주·천안(배전, ESS PCS). 부산 초고압 CAPA 2,000억 → 6,000억 → 2027년 7,000억</li><li>LS파워솔루션 154kV → 230kV, CAPA 300억 → 1,000억</li><li>베트남 박닌(2025 매출 1.37억달러). 미국 텍사스 배스트롭(2025-04), 유타 1.68억달러. 북미 2030년까지 2.4억달러</li><li>초고압은 미국 공장이 없어 전량 국내 생산·수출</li></ul></div>
+  </div>
+  <div class="grid2">
+    <figure><div class="box chart" id="c-ls-rev"></div><figcaption><b>그림 6.5</b> LS일렉트릭 매출(억원). 2026E 컨센서스 6.2~6.6조.</figcaption></figure>
+    <figure><div class="box chart" id="c-ls-op"></div><figcaption><b>그림 6.6</b> LS일렉트릭 영업이익(억원)과 영업이익률. 2Q26 11.3%로 레벨업, 2026E 6,900~7,100억.</figcaption></figure>
+  </div>
+  <div class="tablewrap"><table><caption><b>표 6.5</b> LS일렉트릭 실적 (연결, 억원)</caption>
+  <thead><tr><th></th><th class="n">FY2023</th><th class="n">FY2024</th><th class="n">FY2025</th><th class="n">1Q26</th><th class="n">2Q26</th></tr></thead>
+  <tbody>
+  <tr><td>매출</td><td class="n">42,305</td><td class="n">45,518</td><td class="n">49,622</td><td class="n">13,766 (+33%)</td><td class="n">15,770 (+32.2%)</td></tr>
+  <tr><td>영업이익</td><td class="n">3,249</td><td class="n">3,897</td><td class="n">4,269</td><td class="n">1,266 (+45%)</td><td class="n">1,785 (+64.4%)</td></tr>
+  <tr><td>영업이익률</td><td class="n">7.7%</td><td class="n">8.6%</td><td class="n">8.6%</td><td class="n">9.2%</td><td class="n">11.3%</td></tr>
+  <tr><td>순이익</td><td class="n">약 2,077 (역산)</td><td class="n">2,422</td><td class="n">확인 불가</td><td class="n">확인 불가</td><td class="n">확인 불가</td></tr>
+  </tbody></table></div>
+  <ul class="prose"><li>1Q26 북미 매출 약 3,000억(+80%), 초고압 +83%, 전력사업 해외 비중 51%(처음 국내 추월). 2Q26 북미 약 4,000억(33%), 초고압 +91.2%.</li><li>2026 수주 가이던스 4조880억은 상반기에 거의 달성(1Q 약 2.0조, 2Q 약 2.1조). 대신증권은 5~6조 전망. 잔고 2025년 말 5조 → 1Q26 5.6조(초고압 3.1조) → 2Q26 약 7조.</li></ul>
+  <div class="tablewrap"><table><caption><b>표 6.6</b> LS일렉트릭 2026년 데이터센터 수주 (공시 기준 약 1조)</caption>
+  <thead><tr><th>일자</th><th>내용</th></tr></thead>
+  <tbody>
+  <tr><td>2026-04-13</td><td>북미 빅테크 하이퍼스케일 데이터센터 수배전반·배전변압기 1.15억달러(1,703억). "국내 제조사 최초 메이저 AI 데이터센터 공급망 진입"</td></tr>
+  <tr><td>2026-04-29</td><td>Bloom Energy 뉴멕시코 빅테크 데이터센터 배전 솔루션 약 3,190억</td></tr>
+  <tr><td>2026-05-18 · 05-20</td><td>미국 빅테크 데이터센터 배전기기 약 7,000만달러. 마이크로그리드용 38kV 스위치기어 6,400만달러</td></tr>
+  <tr><td>2026-10-01</td><td>북미 하이퍼스케일 AI 데이터센터용 345kV 초고압 변압기 1.33억달러(1,812억), 9개 변전소에 2030년까지. 배전에서 송변전으로 확장</td></tr>
+  </tbody></table></div>
+  <h4>2025~2026 타임라인</h4>
+  <ul class="timeline">
+    <li><time>2025-04-14</time>텍사스 배스트롭 개소</li>
+    <li><time>2026-01-27 · 02-05</time>FY25 실적, 북미 매출 1조 돌파. 5:1 분할 결정(1년 +180%)</li>
+    <li><time>2026-04-13 · 04-29</time>분할 후 거래 재개, 빅테크 데이터센터 1,703억. Bloom Energy 3,190억</li>
+    <li><time>2026-07-23</time>2Q 분기 최대, 수주 2.1조</li>
+    <li><time>2026-08-05</time>ESS PCS G2 초도 출하</li>
+    <li><time>2026-09-11 · 10-01</time>AD CIT 제소. 345kV 1,812억</li>
+  </ul>
+  <div class="profile">
+    <div><b>관세 노출</b><ul><li>AD 예비판정 16.87%(보도. 다른 보도는 4.32%라 확인 필요), 매출 대비 관세 부담 약 3%대 추산</li><li>초고압은 전량 국내 생산이라 2027년 말 특례 종료 시 25% 복귀 리스크. 배전은 텍사스·유타로 현지화</li></ul></div>
+    <div><b>주주환원·밸류에이션</b><ul><li>FY25 주당배당 3,000원(분할 전, 분할 후 600원), 4년 연속 증액, 시가배당률 0.5%</li><li>주가 205,500원(9/30), 시총 약 30.8조, PER 79.7배(TTM), 2026E PER 약 60~69배, PBR 14.9배</li><li>목표주가(분할 후): LS증권 350,000, 한국투자 330,000, NH 325,000, 대신 217,000. 8~10월 개정치는 확인 불가</li></ul></div>
+  </div>
+  <div class="pm">
+    <div class="plus"><b>투자포인트</b><ol><li>북미 AI 데이터센터 배전 직거래 본격화, 345kV로 송변전까지 확장</li><li>초고압 CAPA 6,000억 → 7,000억, 초고압 잔고 3.1조, 매출 +80~90%</li><li>수주 가이던스 조기 달성에 따른 상향 모멘텀</li><li>영업이익률 8.6% → 11.3%로 레벨업, 2026E 영업이익 +60%대</li><li>텍사스·유타 현지화, 안정적 국내 배전 기반(99분기 흑자)</li></ol></div>
+    <div class="minus"><b>리스크</b><ol><li>4사 중 가장 높은 밸류(PER 70~80배, PBR 15배). 실적 상향이 멈추면 멀티플 압축</li><li>북미 데이터센터 CAPEX 의존 심화(북미 비중 20% → 33%)</li><li>초고압 전량 국내 생산으로 관세 특례 종료·AD 세율에 노출</li><li>Schneider·Eaton·ABB·Vertiv와 납기·레퍼런스 경쟁. 수출 비중이 대형 3사 중 낮다는 지적</li><li>자회사 구조조정 비용(중국), 자동화·이모빌리티 부진</li></ol></div>
+  </div>
+  <h4>모니터링 체크리스트</h4>
+  <ul class="check" data-key="ls">
+    <li><input type="checkbox" id="ls-c1"><label for="ls-c1">3Q26(10월 말): 영업이익률 11%대 유지, 북미 매출·비중, 초고압 성장률, 순이익</label></li>
+    <li><input type="checkbox" id="ls-c2"><label for="ls-c2">수주 가이던스 공식 상향 여부, 잔고 7조 이후 추이, 리피트 오더 공시</label></li>
+    <li><input type="checkbox" id="ls-c3"><label for="ls-c3">AD 재심 세율·CIT, 15% 특례. 미국 내 변압기 생산 결정 여부</label></li>
+    <li><input type="checkbox" id="ls-c4"><label for="ls-c4">부산 7,000억 CAPA(2027), LS파워솔루션 230kV·수출 40%</label></li>
+    <li><input type="checkbox" id="ls-c5"><label for="ls-c5">빅테크 CAPEX 가이던스, Bloom Energy 동향, ESS PCS G2 수주</label></li>
+  </ul>
+  <details class="quiz"><summary>퀴즈 6.5 2026-10-01 수주가 "확장"으로 평가받는 이유는?</summary><p>배전 중심이던 데이터센터 공급이 345kV 초고압 송변전으로 넓어졌기 때문이다. 9개 변전소에 2030년까지 납품한다.</p></details>
+  <details class="quiz"><summary>퀴즈 6.6 초고압 변압기의 관세 리스크가 HD현대·효성보다 큰 이유는?</summary><p>미국 현지 초고압 공장이 없어 전량 국내에서 생산해 수출하기 때문이다. 배전기기만 텍사스·유타에서 현지화됐다.</p></details>
+
+  <!-- 6.4 산일전기 -->
+  <h3 id="sn">6.4 산일전기 (062040)</h3>
+  <p class="prose"><strong>1분 요약.</strong> 1994년 설립, 2024-07 코스피에 상장한 특수변압기 전문기업. 태양광·ESS 인버터(PCS)용 승압 변압기와 미국 배전변압기가 주력이고 수출 비중 95% 이상, 미국 약 70%. 영업이익률 36~38%로 4사 중 압도적이다. 2공장(안산, 자동화율 40%)으로 CAPA 8,000억, 2028년 3공장(154kV 초고압)까지 1.2조 로드맵. 2026년 Bloom Energy 벤더 등록으로 데이터센터 고객이 열렸다. 2026-03 2대주주 블록딜(-13%)과 2026-04-30 Bloom 수주(+25%)를 거쳐 10/2 226,500원.</p>
+  <div class="profile">
+    <div><b>정체성·지배구조</b><ul><li>최대주주 박동석 회장 35.82%(상장 후 미매각), 배우자 강은숙 19.06% → 9.09%(2026-03-27 블록딜 305만주, 147,000원, 4,490억)</li><li>특수관계인 합산 45.07%. 3남매 승계 구도</li><li>발행주식 약 3,060만주. 2030년 배당성향 30% 목표(밸류업 공시)</li></ul></div>
+    <div><b>사업·제품</b><ul><li>유입·몰드·주상(pad-mounted) 특수변압기. 변압기 매출 92%(FY24)</li><li>용도: 1Q24 신재생 56.5% / 전력망 32.1% / 산업 11.4%. 잔고(4Q25) 신재생 75% / 전력망 20% / 산업 5%</li><li>단가: 신재생향 대당 1~1.5억, 데이터센터향 2~30억</li></ul></div>
+    <div><b>생산거점·CAPA</b><ul><li>1공장 시흥 약 3,500억</li><li>2공장 안산: A동 2024-12, B동 2025-03 가동, 자동화율 40%. CAPA 8,000억(조업 확대 시 1조)</li><li>3공장 안산 성곡동: 2026-08-26 692.5억 양수 결의, 154kV 전용, 2028년 양산, 2029년부터 연 2,000억 이상</li><li>2028년 CAPA 최대 1.2조(KB증권). 미국 현지 공장 계획은 확인되지 않음</li></ul></div>
+  </div>
+  <div class="grid2">
+    <figure><div class="box chart" id="c-sn-rev"></div><figcaption><b>그림 6.7</b> 산일전기 매출(억원). 3년간 4.2배. 2026E 6,565~6,847억.</figcaption></figure>
+    <figure><div class="box chart" id="c-sn-op"></div><figcaption><b>그림 6.8</b> 산일전기 영업이익(억원)과 영업이익률. 11%에서 36%로. 2공장 자동화와 미국 가격 상승이 겹친 결과.</figcaption></figure>
+  </div>
+  <div class="tablewrap"><table><caption><b>표 6.7</b> 산일전기 실적 (연결, 억원)</caption>
+  <thead><tr><th></th><th class="n">FY2022</th><th class="n">FY2023</th><th class="n">FY2024</th><th class="n">FY2025</th><th class="n">1Q26</th><th class="n">2Q26</th></tr></thead>
+  <tbody>
+  <tr><td>매출</td><td class="n">1,183</td><td class="n">2,145</td><td class="n">3,340</td><td class="n">5,020 (+50%)</td><td class="n">1,503 (+52%)</td><td class="n">1,642 (+28%)</td></tr>
+  <tr><td>영업이익</td><td class="n">130</td><td class="n">466</td><td class="n">1,092</td><td class="n">1,812 (+66%)</td><td class="n">555</td><td class="n">620</td></tr>
+  <tr><td>영업이익률</td><td class="n">11.0%</td><td class="n">21.7%</td><td class="n">32.7%</td><td class="n">36.1%</td><td class="n">36.9%</td><td class="n">37.9%</td></tr>
+  <tr><td>순이익</td><td class="n">7</td><td class="n">391</td><td class="n">837</td><td class="n">1,508</td><td class="n">459</td><td class="n">확인 불가</td></tr>
+  </tbody></table></div>
+  <div class="tablewrap small"><table><caption><b>표 6.8</b> 산일전기 수주 (억원)</caption>
+  <thead><tr><th>시점</th><th>신규수주</th><th>수주잔고</th></tr></thead>
+  <tbody><tr><td>2Q25</td><td>약 924 (-45% QoQ, 관세 회피 목적의 미국 발주 지연)</td><td></td></tr><tr><td>4Q25</td><td>1,767</td><td>4,489</td></tr><tr><td>FY2025</td><td>5,660 (가이던스 5,000 초과)</td><td></td></tr><tr><td>2Q26</td><td>2,435 (역대 최대, +163% YoY)</td><td>5,567 (+33% YoY)</td></tr></tbody></table></div>
+  <ul class="prose"><li>2026 가이던스 6,000~7,000억. 상반기 누적 약 4,200억. 리드타임이 약 6개월로 짧아 잔고는 약 1년치. 분기 신규수주가 핵심 지표다.</li><li>고객: GE Vernova(13년 거래), TMEIC, 미국 유틸리티 PG&amp;E·Duke·Southern, 유럽 Siemens·Wärtsilä. 데이터센터: EPC Power(2025-12, 430억), Bloom Energy(2026-04-30 503억 + 후속 2건, 2Q26 신규수주의 25~30% 추정). 2026-06-22 BESS·신재생 425.9억, 2026-08-20 리액터 512억 공시.</li></ul>
+  <h4>2025~2026 타임라인</h4>
+  <ul class="timeline">
+    <li><time>2025-03</time>2공장 B동 가동</li>
+    <li><time>2Q25</time>관세 회피 발주 지연으로 수주 -45% QoQ</li>
+    <li><time>2025-12</time>EPC Power 데이터센터향 430억</li>
+    <li><time>2026-02-10 · 03-26</time>FY25 실적, 주당배당 1,250원. 밸류업 공시(2030 배당성향 30%)</li>
+    <li><time>2026-03-27</time>2대주주 블록딜 4,490억, 당일 -13%</li>
+    <li><time>2026-04-30</time>Bloom Energy 503억, 당일 +25%</li>
+    <li><time>2026-08-07 · 08-26</time>2Q 수주 2,435억 역대 최대. 3공장 692.5억 부지 양수 결의</li>
+    <li><time>2026-10-02</time>226,500원 (+6.1%)</li>
+  </ul>
+  <div class="profile">
+    <div><b>관세·정책 노출</b><ul><li>배전·저압 변압기(매출 40%)는 232조 비대상, 신재생 특수변압기(60%)는 FOB 조건. 4사 중 관세 노출 최소. AD 대상도 아님</li><li>FOB는 직접 부담만 없을 뿐, 미국 최종수요가 둔화되면 발주가 밀린다(2Q25 사례)</li><li>OBBBA(2025-07): 태양광 ITC/PTC 축소(2026-07-04까지 착공, 2027년 말 가동), ESS ITC는 2035년까지 30% 유지. 잔고의 75%가 신재생</li></ul></div>
+    <div><b>주주환원·밸류에이션</b><ul><li>주당배당 FY24 420원 → FY25 1,250원(배당성향 25%), 2030년 30% 목표. 배당수익률 약 0.55%</li><li>주가 226,500원(10/2), 시총 6.94조, PER 38.3배(TTM), 선행 33~34배(자체 추정), PBR 10.4배. 공모가 35,000원 대비 6.5배</li><li>목표주가: NH 332,000, KB 300,000, 한국투자 270,000, SK 250,000, 유안타 239,000</li></ul></div>
+  </div>
+  <div class="pm">
+    <div class="plus"><b>투자포인트</b><ol><li>미국 전력망 교체와 AI 데이터센터 전력의 직접 수혜(미국 70%)</li><li>EPC Power·Bloom Energy 벤더 등록으로 반복 수주, 데이터센터 고단가 믹스</li><li>영업이익률 36~38%, 자동화율 40%, 관세 노출 최소</li><li>CAPA 3,500억 → 8,000억 → 1.2조(2028), 154kV 초고압 진입</li><li>잔고 5,567억(+33%), 2026 수주 가이던스 상회 가능, 배당성향 30% 로드맵</li></ol></div>
+    <div class="minus"><b>리스크</b><ol><li>PER 38배·PBR 10배의 기대치 부담. 실적 발표 후 조정 반복</li><li>변압기 단일제품(92%), 소수 고객, 미국 단일시장</li><li>관세·OBBBA 정책 변동, 2Q25식 발주 지연 재연 가능성</li><li>오버행(강은숙 잔여 9.09%), 승계 구도</li><li>154kV 초고압은 대형 3사의 영역. 2028년 양산까지 인증·레퍼런스 확보 과제</li></ol></div>
+  </div>
+  <h4>모니터링 체크리스트</h4>
+  <ul class="check" data-key="sn">
+    <li><input type="checkbox" id="sn-c1"><label for="sn-c1">분기 신규수주(2Q26 2,435억)·잔고, 데이터센터·Bloom 비중, 북미 비중</label></li>
+    <li><input type="checkbox" id="sn-c2"><label for="sn-c2">3Q26(11월 초): 매출 1,600억대, 영업이익률 37% 유지, 2Q 순이익 확인</label></li>
+    <li><input type="checkbox" id="sn-c3"><label for="sn-c3">3공장 진행(2027-02 잔금, 착공, 154kV 인증·첫 수주, 2028 양산)</label></li>
+    <li><input type="checkbox" id="sn-c4"><label for="sn-c4">OBBBA 이후 미국 태양광 착공 추이, ESS ITC, 고객사 가이던스</label></li>
+    <li><input type="checkbox" id="sn-c5"><label for="sn-c5">지분 변동(강은숙 9.09%, 자녀, 국민연금), FY26 배당</label></li>
+  </ul>
+  <details class="quiz"><summary>퀴즈 6.7 산일전기의 수주잔고가 대형 3사보다 짧은 이유는?</summary><p>리드타임이 약 6개월로 짧아 잔고가 약 1년치만 쌓인다. 그래서 잔고보다 분기 신규수주가 더 중요한 지표다.</p></details>
+  <details class="quiz"><summary>퀴즈 6.8 관세 노출이 가장 낮다고 평가받는 두 가지 근거는?</summary><p>배전·저압 변압기는 232조 비대상이고, 특수변압기는 FOB 조건이라 관세를 수입자가 낸다. 다만 수요 둔화로 발주가 밀릴 수는 있다.</p></details>
+
+  <div class="summary"><div class="lab">핵심 정리</div><ul><li>HD현대: 최고 수익성·현지생산, 숙제는 2029년 매출 전환. 효성: 최장 잔고·HVDC, 숙제는 건설 PF. LS: 데이터센터 성장률, 숙제는 밸류와 초고압 관세. 산일: 최고 마진·최소 관세, 숙제는 단일제품·단일시장.</li></ul></div>
+</section>
+
+<!-- ===================== 7장 ===================== -->
+<section class="chapter" id="ch7">
+  <div class="ch-num">제7장</div>
+  <h2>4사 비교 분석</h2>
+  <div class="objectives"><div class="lab">학습 목표</div><ul><li>전압대·고객·지역·현지생산·리드타임 다섯 축으로 4사를 한 장에 배치할 수 있다.</li><li>시나리오가 바뀔 때 어느 회사가 유리하고 불리한지 근거와 함께 말할 수 있다.</li></ul></div>
+
+  <div class="grid2">
+    <figure><div class="box chart" id="c-pos"></div><figcaption><b>그림 7.1</b> 포지셔닝 매트릭스. 가로축은 북미 매출 비중, 세로축은 FY2025 영업이익률, 원의 넓이는 시가총액. 산일전기는 미국 의존도와 마진이 모두 높고, LS일렉트릭은 시총은 가장 크지만 마진은 가장 낮다.</figcaption></figure>
+    <figure><div class="box chart" id="c-val"></div><figcaption><b>그림 7.2</b> 밸류에이션. 최근 12개월 PER과 2026년 선행 PER(추정). LS일렉트릭의 배수가 두드러지고 HD현대일렉트릭이 가장 낮다. 선행 PER은 증권사 추정치를 정리한 근사값.</figcaption></figure>
+  </div>
+
+  <div class="tablewrap"><table><caption><b>표 7.1</b> 포지셔닝 다섯 축</caption>
+  <thead><tr><th>축</th><th>HD현대일렉트릭</th><th>효성중공업</th><th>LS일렉트릭</th><th>산일전기</th></tr></thead>
+  <tbody>
+  <tr><td>전압대</td><td>초고압(765kV) 중심 + 배전·회전기</td><td>초고압 + HVDC/STATCOM</td><td>배전 중심에서 초고압(345kV)으로 상향</td><td>배전·특수에서 154kV 예정</td></tr>
+  <tr><td>고객 유형</td><td>유틸리티 &gt; 빅테크·EPC &gt; 조선·중동</td><td>유틸리티 &gt; 데이터센터 개발사·IPP &gt; 유럽 TSO</td><td>빅테크·데이터센터 EPC &gt; 국내 산업 &gt; 유틸리티</td><td>인버터·연료전지 제조사(TMEIC, Bloom) &gt; 유틸리티</td></tr>
+  <tr><td>지역</td><td>북미 40%, 중동 20%, 유럽 10%</td><td>북미 38%(잔고 57%), 유럽·인도·중동</td><td>북미 33%, 국내 약 50%, 베트남</td><td>미국 70%, 유럽·인도·일본</td></tr>
+  <tr><td>미국 현지생산</td><td>있음(초고압)</td><td>있음(초고압 + 차단기)</td><td>있음(배전만)</td><td>없음</td></tr>
+  <tr><td>리드타임 / 잔고 커버리지</td><td>3년 / 약 3년치</td><td>3년 이상 / 약 4년치</td><td>1~2년 / 1.4년치</td><td>6개월 / 1년치</td></tr>
+  <tr><td>사이클 민감도</td><td>유틸리티 CAPEX</td><td>유틸리티 CAPEX + 건설 경기</td><td>빅테크 CAPEX</td><td>미국 태양광·ESS·데이터센터 정책</td></tr>
+  </tbody></table></div>
+
+  <div class="tablewrap"><table><caption><b>표 7.2</b> 관세·현지생산 노출</caption>
+  <thead><tr><th>회사</th><th>초고압 미국 생산</th><th>AD 세율 (2026-02 예비, 보도)</th><th>232조</th><th>전가 구조</th></tr></thead>
+  <tbody>
+  <tr><td>HD현대일렉트릭</td><td>앨라배마 (미국 매출 60%)</td><td>0%</td><td>15% 한시</td><td>고객 전가 84% → 100%</td></tr>
+  <tr><td>효성중공업</td><td>멤피스 (765kV)</td><td>4.32%</td><td>15% 한시</td><td>현지생산</td></tr>
+  <tr><td>LS일렉트릭</td><td>없음 (국내 부산)</td><td>16.87% (상충 보도 있음)</td><td>15% 한시</td><td>배전은 현지화, 초고압 노출</td></tr>
+  <tr><td>산일전기</td><td>없음</td><td>비대상</td><td>배전 비대상, 특수는 FOB</td><td>수입자 부담</td></tr>
+  </tbody></table></div>
+
+  <div class="tablewrap"><table><caption><b>표 7.3</b> 시나리오별 유불리</caption>
+  <thead><tr><th>시나리오</th><th>유리</th><th>불리</th></tr></thead>
+  <tbody>
+  <tr><td>빅테크 CAPEX가 2027년에도 +20% 이상</td><td>LS일렉트릭(배전 직거래), 산일전기(데이터센터 믹스), 효성(데이터센터 개발사)</td><td>상대적으로 HD현대(배전 매출 2029년)</td></tr>
+  <tr><td>빅테크 CAPEX 둔화, 유틸리티 CAPEX는 유지</td><td>HD현대일렉트릭, 효성중공업(유틸리티 잔고)</td><td>LS일렉트릭(멀티플), 산일전기(데이터센터 기대 축소)</td></tr>
+  <tr><td>2027년 말 15% 특례 종료, 관세 25% 복귀</td><td>HD현대·효성(현지생산), 산일(FOB·비대상)</td><td>LS일렉트릭 초고압</td></tr>
+  <tr><td>미국 태양광 착공 절벽(OBBBA)</td><td>대형 3사는 영향 적음</td><td>산일전기(잔고 75% 신재생)</td></tr>
+  <tr><td>원화 강세(1,250원대)</td><td>국내 비중 높은 LS일렉트릭</td><td>수출 95% 산일전기, HD현대</td></tr>
+  <tr><td>국내 HVDC·ESS 발주 가속</td><td>효성중공업(HVDC), LS일렉트릭(PCS·배전)</td><td>산일전기</td></tr>
+  <tr><td>건설 경기 악화·PF 부실 확대</td><td>해당 없음</td><td>효성중공업</td></tr>
+  </tbody></table></div>
+
+  <div class="think"><div class="lab">생각해 보기</div>시가총액 순서(LS &gt; 효성 &gt; HD현대 &gt; 산일)와 영업이익 순서(HD현대 &gt; 효성 &gt; LS &gt; 산일)가 다르다. 이 격차가 좁혀진다면 어느 쪽이 움직여야 하는가? LS의 디레이팅인가, HD현대의 리레이팅인가? 어떤 지표가 먼저 알려줄까?</div>
+
+  <div class="summary"><div class="lab">핵심 정리</div><ul><li>다섯 축(전압대, 고객, 지역, 현지생산, 리드타임)으로 보면 네 회사는 서로 다른 사이클에 노출돼 있다. 같은 "전력기기주"로 묶어 사고팔면 이 차이를 놓친다.</li><li>관세 노출은 LS 초고압이 가장 크고 산일이 가장 작다. 빅테크 CAPEX 둔화에는 LS·산일이, 건설 경기에는 효성이 민감하다.</li></ul></div>
+</section>
+
+<!-- ===================== 8장 ===================== -->
+<section class="chapter" id="ch8">
+  <div class="ch-num">제8장</div>
+  <h2>2026년의 논쟁: 피크아웃인가, 숨고르기인가</h2>
+  <div class="objectives"><div class="lab">학습 목표</div><ul><li>2026년 5~6월 급락과 7월 실적 반응을 "잔고 전환 속도"로 설명할 수 있다.</li><li>강세론과 약세론의 근거를 지표별로 나누고, 분기마다 어느 쪽 증거가 쌓이는지 추적하는 법을 익힌다.</li></ul></div>
+
+  <p class="prose">2026년 5~6월 한 달간 HD현대일렉트릭 -37%, LS일렉트릭 -35%, 효성중공업 -31%. 트리거는 "AI 속도조절론", 반도체 대형주로의 수급 이동, 전력기기 ETF 환매였다. 7월 2분기 실적(4사 모두 사상 최대)과 수주 가이던스 상향 이후 반등을 시도했지만, 10월 초 현재 대형 2사는 고점 대비 40~55% 낮은 수준이다.</p>
+
+  <figure><div class="box"><div class="scroll">
+  <svg class="wide" viewBox="0 0 960 250" role="img" aria-label="2025년 1월부터 2026년 10월까지 관세, 수주, 실적, 주가 관련 주요 사건을 배치한 타임라인">
+    <g fill="currentColor" font-size="11">
+      <line x1="40" y1="120" x2="920" y2="120" stroke="currentColor" stroke-width="1.5"/>
+      <g style="fill:var(--fg-3)" font-family="IBM Plex Mono, monospace" font-size="10.5">
+        <g stroke="currentColor" stroke-width="1"><line x1="40" y1="116" x2="40" y2="124"/><line x1="160" y1="116" x2="160" y2="124"/><line x1="280" y1="116" x2="280" y2="124"/><line x1="400" y1="116" x2="400" y2="124"/><line x1="520" y1="116" x2="520" y2="124"/><line x1="640" y1="116" x2="640" y2="124"/><line x1="760" y1="116" x2="760" y2="124"/><line x1="880" y1="116" x2="880" y2="124"/></g>
+        <text x="40" y="138" text-anchor="middle">2025-01</text><text x="160" y="138" text-anchor="middle">2025-04</text><text x="280" y="138" text-anchor="middle">2025-07</text><text x="400" y="138" text-anchor="middle">2025-10</text><text x="520" y="138" text-anchor="middle">2026-01</text><text x="640" y="138" text-anchor="middle">2026-04</text><text x="760" y="138" text-anchor="middle">2026-07</text><text x="880" y="138" text-anchor="middle">2026-10</text>
+      </g>
+      <!-- range: 2026-05~06 crash -->
+      <rect x="680" y="112" width="60" height="16" rx="3" style="fill:var(--crit);opacity:.25"/>
+      <!-- above events -->
+      <g stroke="currentColor" stroke-width="1" style="stroke:var(--line)"><line x1="318" y1="120" x2="318" y2="74"/><line x1="436" y1="120" x2="436" y2="74"/><line x1="586" y1="120" x2="586" y2="74"/><line x1="710" y1="120" x2="710" y2="74"/><line x1="790" y1="120" x2="790" y2="74"/><line x1="880" y1="120" x2="880" y2="74"/></g>
+      <g><circle cx="318" cy="120" r="4" style="fill:var(--accent)"/><circle cx="436" cy="120" r="4" style="fill:var(--accent)"/><circle cx="586" cy="120" r="4" style="fill:var(--copper)"/><circle cx="710" cy="120" r="4" style="fill:var(--crit)"/><circle cx="790" cy="120" r="4" style="fill:var(--good)"/><circle cx="880" cy="120" r="4" style="fill:var(--copper)"/></g>
+      <g text-anchor="middle">
+        <text x="318" y="52" font-weight="700">7-30 한미 관세 합의</text><text x="318" y="68" style="fill:var(--fg-2)">상호관세 15%</text>
+        <text x="436" y="52" font-weight="700">10-29 정상회담 확정</text><text x="436" y="68" style="fill:var(--fg-2)">대미투자 3,500억$</text>
+        <text x="586" y="52" font-weight="700">2-19 AD 예비판정</text><text x="586" y="68" style="fill:var(--fg-2)">효성 4.32% · LS 16.87%</text>
+        <text x="710" y="52" font-weight="700" style="fill:var(--crit)">5~6월 급락 -30~38%</text><text x="710" y="68" style="fill:var(--fg-2)">AI 속도조절론</text>
+        <text x="790" y="36" font-weight="700" style="fill:var(--good)">7월 2Q 사상 최대</text><text x="790" y="52" style="fill:var(--fg-2)">가이던스 상향</text><text x="790" y="68" style="fill:var(--fg-2)">HD현대 -25%</text>
+        <text x="880" y="52" font-weight="700" text-anchor="end">10-1 AD 재심 개시</text><text x="880" y="68" style="fill:var(--fg-2)" text-anchor="end">LS 345kV 1,812억</text>
+      </g>
+      <!-- below events -->
+      <g stroke="currentColor" stroke-width="1" style="stroke:var(--line)"><line x1="40" y1="120" x2="40" y2="160"/><line x1="343" y1="120" x2="343" y2="160"/><line x1="500" y1="120" x2="500" y2="160"/><line x1="650" y1="120" x2="650" y2="160"/><line x1="756" y1="120" x2="756" y2="160"/><line x1="855" y1="120" x2="855" y2="160"/></g>
+      <g><circle cx="40" cy="120" r="4" style="fill:var(--s1)"/><circle cx="343" cy="120" r="4" style="fill:var(--copper)"/><circle cx="500" cy="120" r="4" style="fill:var(--s2)"/><circle cx="650" cy="120" r="4" style="fill:var(--copper)"/><circle cx="756" cy="120" r="4" style="fill:var(--copper)"/><circle cx="855" cy="120" r="4" style="fill:var(--s2)"/></g>
+      <g text-anchor="middle">
+        <text x="40" y="178" font-weight="700" text-anchor="start">1-19 HD현대 3,968억 투자</text><text x="40" y="194" style="fill:var(--fg-2)" text-anchor="start">울산·앨라배마 증설</text>
+        <text x="343" y="178" font-weight="700">8-18 232조 파생제품</text><text x="343" y="194" style="fill:var(--fg-2)">변압기 금속가치 50%</text>
+        <text x="500" y="178" font-weight="700">12월 효성 멤피스 증설</text><text x="500" y="194" style="fill:var(--fg-2)">유럽 2,300억 수주</text>
+        <text x="650" y="178" font-weight="700">4월 232조 개편 15%</text><text x="650" y="194" style="fill:var(--fg-2)">LS 분할 · DC 수주 잇달아</text>
+        <text x="756" y="212" font-weight="700">6-28 대형변압기 15% 편입</text><text x="756" y="228" style="fill:var(--fg-2)">2027년 말까지</text>
+        <text x="855" y="178" font-weight="700">9월 AD 제소 · 효성 3,865억</text><text x="855" y="194" style="fill:var(--fg-2)">한전 HVDC 공급사 선정</text>
+      </g>
+      <line x1="756" y1="160" x2="756" y2="198" style="stroke:var(--line)" stroke-width="1"/>
+    </g>
+  </svg></div></div>
+  <figcaption><b>그림 8.1</b> 2025~2026년 주요 사건. 관세 결정(구리색), 수주·증설(회사색), 주가 사건(빨강·초록)이 번갈아 나온다. 2026년 5~6월 급락은 실적 변화 없이 심리와 수급만으로 일어났다.</figcaption></figure>
+
+  <div class="bb">
+    <div class="bull"><b>강세론: 숨고르기</b><ul><li>수주: 3사 잔고 43조, 2026 가이던스를 20% 상회 가능(LS증권)</li><li>수요: 유틸리티 송배전 CAPEX 6,860억달러는 데이터센터와 별개 사이클</li><li>공급: 2027~28 증설 후에도 리드타임 30~36개월</li><li>마진: 고단가 잔고의 매출 전환으로 2026~27 마진 상향</li><li>밸류: 선행 PER 25~35배(HD현대·효성·산일)</li></ul></div>
+    <div class="bear"><b>약세론: 피크아웃</b><ul><li>수주: 2026 상반기 초고압 변압기 수출 증가율 +6.7%로 둔화</li><li>수요: 데이터센터 30~50% 지연 추정, 빅테크 CAPEX 둔화 시 멀티플 급축소(2025-04에 3사 PER 22 → 14배 경험)</li><li>공급: 글로벌 메이저·한국 3사 동시 증설로 2028년 이후 가격 피크</li><li>마진: 관세 15% 특례 2027년 말 종료, AD 재심</li><li>밸류: LS일렉트릭 PER 70~80배, 4사 PBR 10배 이상</li></ul></div>
+  </div>
+
+  <h3>8.1 사이클 읽기 연습</h3>
+  <ul class="prose">
+    <li><strong>5~6월</strong>: 수주·실적 변화 없이 심리와 수급만으로 30~38% 하락. 전력기기주가 펀더멘털이 아니라 AI 투자 심리의 베타로 거래된다는 뜻이다.</li>
+    <li><strong>7월</strong>: 4사 사상 최대 실적과 가이던스 상향. 그러나 HD현대일렉트릭은 "매출 반영 2029년" 한마디로 -25%. 시장이 원한 것은 "수주"가 아니라 "수주가 언제 매출이 되는가"였다.</li>
+    <li><strong>교훈</strong>: 잔고가 길수록 가시성은 높지만, 성장률은 잔고 전환 속도에 묶인다. 분기 보고서에서 잔고 외에 매출 인식 스케줄과 CAPA 가동 시점을 확인해야 한다.</li>
+  </ul>
+  <div class="think"><div class="lab">생각해 보기</div>학습자가 할 일은 어느 편이 맞는지 미리 정하는 것이 아니다. 분기마다 수주, 수출통계, 리드타임, 마진, 관세 다섯 지표를 갱신해 어느 쪽 증거가 쌓이는지 기록해 보자. 10장의 체크 순서가 그 틀이다.</div>
+
+  <div class="summary"><div class="lab">핵심 정리</div><ul><li>급락의 원인은 실적이 아니라 심리·수급이었고, 반등의 걸림돌은 "매출 전환 시점"이었다.</li><li>강세·약세 논쟁은 수주·수요·공급·마진·밸류 다섯 줄로 정리된다. 분기마다 표를 갱신하라.</li></ul></div>
+</section>
+
+<!-- ===================== 9장 ===================== -->
+<section class="chapter" id="ch9">
+  <div class="ch-num">제9장</div>
+  <h2>용어집</h2>
+  <input class="gsearch" id="gsearch" type="search" placeholder="용어 검색 (예: GIS, 권수비, 232조)" aria-label="용어 검색">
+  <div class="gloss" id="gloss">
+    <details><summary>초고압(EHV) / 고압 / 배전 변압기</summary><p>국내 업계는 154kV 이상(345·765kV 포함)을 초고압, 22.9kV 이하를 배전급으로 구분한다. 관세청 통계는 1만kVA 초과를 "초고압(대형)"으로 집계하고, 미 DOE는 100MVA 이상을 LPT로 정의한다.</p></details>
+    <details><summary>유입 변압기</summary><p>절연·냉각에 광유를 쓰는 대용량 송전급 표준.</p></details>
+    <details><summary>몰드(건식) 변압기</summary><p>에폭시로 권선을 성형한다. 기름이 없어 화재 위험이 낮아 빌딩·데이터센터 실내용.</p></details>
+    <details><summary>주상(pole) · 패드(pad-mounted) 변압기</summary><p>전주 위 또는 지상 기초 위에 설치하는 소형 배전변압기. 미국 교체 수요의 핵심.</p></details>
+    <details><summary>GSU (Generator Step-Up)</summary><p>발전기 출력 전압을 송전 전압으로 올리는 승압 변압기. 리드타임이 가장 길다.</p></details>
+    <details><summary>권수비</summary><p>2차 코일 감은 수를 1차로 나눈 값 N₂/N₁. 전압비와 같고 전류비의 역수다. V₂ = V₁ × N₂/N₁.</p></details>
+    <details><summary>GIS (가스절연개폐장치)</summary><p>차단기·단로기·모선을 SF6 또는 대체가스로 밀폐한 변전설비. 부지가 좁은 도심과 데이터센터 변전소에 필수.</p></details>
+    <details><summary>차단기 / 배전반(스위치기어)</summary><p>고장 전류를 끊는 기기와 이를 계기·보호계전기와 함께 패널로 구성한 설비. 저압(LV)·중압(MV)·고압(HV)으로 나뉜다.</p></details>
+    <details><summary>STATCOM</summary><p>전력전자 기반 무효전력 보상장치. 재생에너지 연계 시 전압을 안정시킨다.</p></details>
+    <details><summary>HVDC (LCC vs VSC)</summary><p>초고압 직류송전. LCC는 사이리스터 기반 대용량·저비용, VSC는 IGBT 기반으로 약계통·해상풍력 연계와 다단자가 가능하다. 서해안 사업은 VSC 중심.</p></details>
+    <details><summary>ESS / PCS</summary><p>배터리 저장장치와 전력변환장치(직류↔교류). MW는 출력, MWh는 저장량.</p></details>
+    <details><summary>SST (반도체 변압기)</summary><p>전력전자로 변압·제어하는 차세대 변압기. 데이터센터 직류 배전용으로 개발 중.</p></details>
+    <details><summary>중앙계약시장</summary><p>전력거래소가 필요한 ESS 용량을 경쟁입찰로 선정하고 15년 장기계약으로 보상하는 제도. 낙찰가는 원/kWh.</p></details>
+    <details><summary>전력수급기본계획(전기본) / 장기 송변전설비계획</summary><p>산업부가 2년마다 세우는 15년 전력 수급계획과, 한전이 이에 맞춰 세우는 송전·변전 투자 세부계획.</p></details>
+    <details><summary>리드타임</summary><p>발주부터 납품까지 걸리는 기간. 초고압 3~4년, 배전 6개월~1년.</p></details>
+    <details><summary>수주잔고(backlog) · 커버리지</summary><p>수주했으나 아직 매출로 인식되지 않은 계약 잔액. 잔고 ÷ 연매출로 가시성을 판단한다. 매출은 진행률·인도 기준으로 분할 인식되어 가격 인상 효과가 1~3년 늦게 반영된다.</p></details>
+    <details><summary>GOES (방향성 전기강판)</summary><p>압연 방향으로 자기 특성을 극대화한 규소강판. 변압기 철심용으로 원가의 약 25%.</p></details>
+    <details><summary>232조 / 상호관세 / AD(반덤핑)</summary><p>232조는 국가안보 근거 품목관세(철강·알루미늄·구리·파생제품). 상호관세는 IEEPA 근거 국가별 관세(한국 15%). AD는 기업별 덤핑마진 관세로 연례재심에서 다시 정한다.</p></details>
+    <details><summary>FOB</summary><p>본선인도조건. 관세와 운임은 수입자가 부담한다.</p></details>
+    <details><summary>PPI</summary><p>생산자물가지수. 미국 BLS 변압기 PPI로 가격 상승을 추적한다.</p></details>
+    <details><summary>IOU / T&amp;D</summary><p>투자자소유 유틸리티 / 송배전. CAPEX가 요금기반에 산입되어 투자 유인이 크다.</p></details>
+    <details><summary>OBBBA</summary><p>2025년 7월 미국 세제 법안. 태양광 세액공제(ITC/PTC)를 2026-07-04 착공·2027년 말 가동 조건으로 축소하고 ESS ITC는 2035년까지 30% 유지.</p></details>
+    <details><summary>액면분할</summary><p>주식 수를 늘리고 액면가를 낮추는 것. LS일렉트릭이 2026-04 5:1로 실시했다. 분할 전 주가·목표가·배당은 5로 나눠 비교한다.</p></details>
+  </div>
+</section>
+
+<!-- ===================== 10장 ===================== -->
+<section class="chapter" id="ch10">
+  <div class="ch-num">제10장</div>
+  <h2>학습 로드맵과 평가</h2>
+  <div class="objectives"><div class="lab">학습 목표</div><ul><li>4주 안에 이 책의 내용을 자기 자료(DART, IR, 수출통계)로 재구성한다.</li><li>분기 실적 시즌에 어떤 숫자를 어떤 순서로 볼지 몸에 익힌다.</li></ul></div>
+
+  <div class="tablewrap"><table><caption><b>표 10.1</b> 4주 학습 로드맵</caption>
+  <thead><tr><th>주차</th><th>목표</th><th>할 일</th><th>산출물</th></tr></thead>
+  <tbody>
+  <tr><td>1주차: 산업</td><td>밸류체인과 사이클 이해</td><td>0~3장 정독, 용어집 암기. EIA·NERC·IEA 원문 요약 1쪽씩 읽기. 관세청 수출입통계에서 HS 8504 월별 수출 그래프 그리기</td><td>밸류체인 그림 1장, 수출 그래프</td></tr>
+  <tr><td>2주차: 대형 2사</td><td>HD현대일렉트릭·효성중공업</td><td>두 회사 2026 반기보고서의 부문별 손익·지역별 매출·수주잔고 표를 찾아 이 책의 수치와 대조. 2Q26 IR 자료·컨콜 요약 읽기</td><td>두 회사 1쪽 요약 + 수치 대조표</td></tr>
+  <tr><td>3주차: LS·산일</td><td>LS일렉트릭·산일전기</td><td>반기보고서 대조. LS 분할 전후 수치 환산 연습. 산일 투자설명서(2024-07)에서 고객·용도 비중 확인</td><td>두 회사 1쪽 요약</td></tr>
+  <tr><td>4주차: 비교·판단</td><td>7장 매트릭스의 자기 버전</td><td>증권사 리포트 3개 이상 읽고 목표가 산출 방식(PER 몇 배 × 몇 년 EPS) 정리. 시나리오별 유불리 표 작성. 아래 셀프테스트</td><td>나만의 비교표, 모니터링 시트</td></tr>
+  </tbody></table></div>
+
+  <h3>10.1 분기 실적 시즌에 보는 순서</h3>
+  <ol class="prose">
+    <li>신규수주와 수주잔고 (달러/원화 구분, 북미 비중).</li>
+    <li>부문별 매출·영업이익률 (효성 중공업 vs 건설, HD현대 전력 vs 배전, LS 전력 vs 자동화).</li>
+    <li>지역별 매출 (북미 비중 변화).</li>
+    <li>컨콜 키워드: 매출 인식 스케줄, CAPA 가동 시점, 관세 전가율, 가격 코멘트, 가이던스 수정.</li>
+    <li>밸류: 발표 후 컨센서스 EPS 변화와 선행 PER.</li>
+    <li>공시: 단일판매공급계약(매출 5% 이상), 유형자산 취득, 배당.</li>
+  </ol>
+
+  <div class="tablewrap"><table><caption><b>표 10.2</b> 향후 6개월 이벤트 캘린더 (2026-10 ~ 2027-04)</caption>
+  <thead><tr><th>시점</th><th>이벤트</th><th>관련 회사</th></tr></thead>
+  <tbody>
+  <tr><td>2026-10</td><td>효성 콴타 JV 차단기 양산 개시</td><td>효성</td></tr>
+  <tr><td>2026-10-22</td><td>HD현대일렉트릭 3Q26 실적</td><td>HD현대</td></tr>
+  <tr><td>2026-10 말 ~ 11 초</td><td>효성·LS·산일 3Q26 실적</td><td>전체</td></tr>
+  <tr><td>2026-11-11</td><td>ESS 중앙계약시장 3차 입찰 마감(1,180MW, 약 2조), 11월 선정</td><td>LS, 효성</td></tr>
+  <tr><td>2026-11</td><td>빅테크 3Q 실적과 2027 CAPEX 가이던스</td><td>LS, 산일, 효성</td></tr>
+  <tr><td>2026년 말</td><td>울산·앨라배마 공장 완공, 효성 멤피스 1차 증설 완료</td><td>HD현대, 효성</td></tr>
+  <tr><td>2027-01~02</td><td>FY2026 잠정실적, 2027 가이던스, 배당 결정</td><td>전체</td></tr>
+  <tr><td>2027-02-19</td><td>산일전기 3공장 잔금·소유권 이전</td><td>산일</td></tr>
+  <tr><td>2027년 초</td><td>서해안 HVDC 해저케이블 발주</td><td>효성(변환설비 후속)</td></tr>
+  <tr><td>2027-03</td><td>정기주총, 사업보고서</td><td>전체</td></tr>
+  <tr><td>2027-08-31</td><td>미국 AD 연례재심 최종 판정</td><td>HD현대, 효성, LS</td></tr>
+  <tr><td>2027-12-31</td><td>232조 변압기 15% 특례 종료 예정</td><td>전체</td></tr>
+  </tbody></table></div>
+
+  <h3>10.2 자료 찾는 법</h3>
+  <ul class="prose">
+    <li><strong>공시</strong>: DART 사업·반기·분기보고서의 "사업의 내용"에 부문별 매출, 수주 현황, 생산능력·가동률 표가 있다. 단일판매공급계약 공시는 매출 5%(대규모법인 2.5%) 이상 계약.</li>
+    <li><strong>IR</strong>: 각사 홈페이지 IR 자료실(분기 실적 PDF, 컨콜 녹취). <strong>컨센서스</strong>: 네이버 증권, 한경 컨센서스, FnGuide.</li>
+    <li><strong>수출입</strong>: 관세청 수출입무역통계(HS 8504.23 유입식 변압기 1만kVA 초과 등), 무역협회 K-stat.</li>
+    <li><strong>미국</strong>: EIA STEO, NERC LTRA, DOE 보고서, EEI 자료, BLS PPI(변압기), 상무부 AD 공고(Federal Register).</li>
+    <li><strong>글로벌 경쟁사</strong>: Hitachi Energy·Siemens Energy·GE Vernova 분기 발표(백로그, 마진). <strong>국내 정책</strong>: 산업부(전기본), 한전(송변전설비계획), 전력거래소(ESS 중앙계약시장).</li>
+  </ul>
+
+  <h3>10.3 종합 셀프테스트</h3>
+  <details class="quiz"><summary>1. 전력기기 사이클의 수요 요인 네 가지를 말하라.</summary><p>노후망 교체, AI 데이터센터, 신재생·전기화, 유틸리티 CAPEX.</p></details>
+  <details class="quiz"><summary>2. 미국 초고압 변압기 리드타임은 2020년 이전 대비 2026년에 어떻게 변했나?</summary><p>24~30개월에서 160주 이상(약 3년)으로. 초고압은 최대 4~5년.</p></details>
+  <details class="quiz"><summary>3. 한국산 변압기에 적용되는 관세 3종의 차이는?</summary><p>232조는 품목·안보 관세(변압기 15% 한시), 상호관세는 국가별(한국 15%), AD는 기업별 덤핑마진 세율.</p></details>
+  <details class="quiz"><summary>4. 4사 중 FY25 영업이익률이 가장 높은 곳과 낮은 곳, 그 이유는?</summary><p>산일전기 36%(특수변압기·자동화·미국 가격), LS일렉트릭 8.6%(배전·자동화 믹스, 국내 비중).</p></details>
+  <details class="quiz"><summary>5. 시가총액이 가장 큰 회사와 영업이익이 가장 큰 회사가 다른 이유는?</summary><p>시장이 LS일렉트릭의 데이터센터 성장률에 높은 배수를 부여하기 때문. HD현대일렉트릭은 성숙한 수익성에 낮은 배수.</p></details>
+  <details class="quiz"><summary>6. 효성중공업이 다른 3사에 없는 리스크를 안고 있는 부문은?</summary><p>건설. 책임준공 PF 약정 6조대, 진흥기업 2년 연속 적자.</p></details>
+  <details class="quiz"><summary>7. 산일전기의 잔고가 1년치인데도 성장 가시성이 높다고 평가받는 근거는?</summary><p>리드타임이 짧아 잔고가 빨리 매출로 바뀌고, 분기 신규수주가 +163%로 늘었으며, 벤더 등록 기반 반복 수주가 가능하다.</p></details>
+  <details class="quiz"><summary>8. LS일렉트릭의 초고압 변압기가 관세에 더 취약한 이유는?</summary><p>미국 현지 초고압 공장이 없어 전량 국내 생산 수출.</p></details>
+  <details class="quiz"><summary>9. 2027년에 확인해야 할 통상 이벤트 두 가지와 시점은?</summary><p>2027-08-31 AD 최종판정, 2027-12-31 232조 15% 특례 종료.</p></details>
+  <details class="quiz"><summary>10. HD현대일렉트릭이 2Q26 호실적에도 급락한 이유를 "잔고 전환"으로 설명하라.</summary><p>1.1조 빅테크 계약이 잔고에는 잡히지만 매출 반영은 2029년 이후라 2027~28년 성장률에 기여하지 못한다는 우려.</p></details>
+</section>
+
+<!-- ===================== 부록 ===================== -->
+<section class="chapter" id="apx">
+  <div class="ch-num">부록</div>
+  <h2>출처와 데이터 신뢰도</h2>
+  <div class="note"><div class="lab">신뢰도 고지</div>이 책의 수치는 2026-10-06 기준 언론 보도, 증권사 리포트 요약, 공시 요약을 종합했다. 리서치 과정에서 DART·회사 IR·증권사 PDF 원문을 직접 열람하지 못한 항목이 많다. 특히 다음은 재확인이 필요하다. LS일렉트릭 부문별 손익과 FY25·2Q26 순이익, 효성중공업 FY25 순이익(역산)과 1Q26 잔고(추정), 산일전기 2Q26 순이익, AD 예비판정 세율(효성 4.32% / LS 16.87% vs 둘 다 4.32% 보도 상충), 효성중공업 52주 고가(474만 vs 486만). 주가·시가총액·PER은 2026-09-30~10-02 기준이며, 증권사 목표주가는 확인된 것만 실어 최신 개정치가 빠졌을 수 있다.</div>
+  <div class="src">
+    <details><summary>산업·수요·공급</summary><ul>
+      <li>IEA, Energy and AI (2025-04-10): <a href="https://www.iea.org/news/ai-is-set-to-drive-surging-electricity-demand-from-data-centres-while-offering-the-potential-to-transform-how-the-energy-sector-works">iea.org</a></li>
+      <li>DOE/LBNL 2024 Data Center Energy Report: <a href="https://www.energy.gov/articles/doe-releases-new-report-evaluating-increase-electricity-demand-data-centers">energy.gov</a></li>
+      <li>NERC 2025 Long-Term Reliability Assessment: <a href="https://www.nerc.com/globalassets/our-work/assessments/nerc_ltra_2025.pdf">nerc.com</a></li>
+      <li>DOE Large Power Transformer Resilience Report (2024-07): <a href="https://www.energy.gov/sites/default/files/2024-10/EXEC-2022-001242%20-%20Large%20Power%20Transformer%20Resilience%20Report%20signed%20by%20Secretary%20Granholm%20on%207-10-24.pdf">energy.gov</a></li>
+      <li>EEI / Utility Dive, IOU CAPEX 1.1조달러 (2025): <a href="https://www.utilitydive.com/news/investor-owned-utilities-spending-more-than-ever-eei/802315/">utilitydive.com</a></li>
+      <li>PowerLines, IOU CAPEX 1.4조달러 (2026-04): <a href="https://powerlines.org/utilities-are-planning-to-spend-1-4-trillion-on-capital-expenditures-through-2030-as-utility-bills-rise-study-finds/">powerlines.org</a></li>
+      <li>Wood Mackenzie 리드타임 정리: <a href="https://www.industrialsage.com/power-transformer-lead-times-us-grid-shortage/">industrialsage.com</a>, <a href="https://distroforge.com/blog/transformer-procurement-2026/">distroforge.com</a></li>
+      <li>BLS 변압기 PPI 정리: <a href="https://electricaltrader.com/blogs/news/historical-price-trends-breakers-transformers">electricaltrader.com</a>, CRS R48933: <a href="https://www.congress.gov/crs-product/R48933">congress.gov</a></li>
+      <li>Siemens Energy Q3 FY2026: <a href="https://assets.siemens-energy.com/dam/d0147174-31a9-4a78-b062-b49d00428fc4/earnings-release-q3-fy2026-en-pdf_Original%20file.pdf">siemens-energy.com</a></li>
+      <li>GE Vernova 2Q26: <a href="https://www.sec.gov/Archives/edgar/data/1996810/000199681026000147/gevpressrelease2q26.htm">sec.gov</a></li>
+      <li>Hitachi Energy South Boston 착공 (2026-06-29): <a href="https://www.wsls.com/news/local/2026/06/29/hitachi-energy-south-boston-groundbreaking/">wsls.com</a></li>
+      <li>GOES 가격지수: <a href="https://businessanalytiq.com/procurementanalytics/index/goes-price-index/">businessanalytiq.com</a>, EU 전기강판 세이프가드 (글로벌이코노믹 2026-09-21): <a href="https://www.g-enews.com/article/Industry/2026/09/202609211614153536ea14faf6f5_1">g-enews.com</a></li>
+    </ul></details>
+    <details><summary>관세·통상</summary><ul>
+      <li>232조 파생제품 추가 (전자신문 2025-08-18): <a href="https://www.etnews.com/20250818000230">etnews.com</a></li>
+      <li>232조 개편 (한국경제 2026-04-03): <a href="https://www.hankyung.com/article/2026040378411">hankyung.com</a>, 산업부 참고자료: <a href="https://www.motir.go.kr/kor/article/ATCL3f49a5a8c/171691/view">motir.go.kr</a></li>
+      <li>대형 변압기 15% 인하 (더구루 2026-06-28): <a href="https://www.theguru.co.kr/news/article.html?no=103645">theguru.co.kr</a>, GHY 발효일 정리: <a href="https://www.ghy.com/trade-compliance/us-adjusts-section-232-tariffs-on-aluminum-steel-and-copper-full-customs-value-now-applies/">ghy.com</a></li>
+      <li>AD 예비판정 (네이트 2026-02-19): <a href="https://news.nate.com/view/20260219n31361">nate.com</a>, 전기신문: <a href="https://www.electimes.com/news/articleView.html?idxno=365294">electimes.com</a></li>
+      <li>AD 연례재심 개시 (글로벌이코노믹 2026-10-02): <a href="https://www.g-enews.com/article/Global-Biz/2026/10/202610020721279546fbbec65dfb_1">g-enews.com</a></li>
+      <li>효성·LS CIT 제소 (네이트 2026-09-15): <a href="https://m.news.nate.com/view/20260915n31559">nate.com</a></li>
+      <li>한미 관세 협상 (무역협회): <a href="https://www.kita.net/board/totalTradeNews/totalTradeNewsDetail.do?no=96237&amp;siteId=1">kita.net</a></li>
+    </ul></details>
+    <details><summary>한국 수출·국내 수요</summary><ul>
+      <li>초고압 변압기 대미 수출 (국민일보 2026-01-19): <a href="https://www.kmib.co.kr/article/view.asp?arcid=1768811387">kmib.co.kr</a>, 아시아경제 2025-12-31: <a href="https://cm.asiae.co.kr/article/2025123109041694911">asiae.co.kr</a></li>
+      <li>2026 상반기 수출 (헤럴드경제): <a href="https://biz.heraldcorp.com/article/10811345">heraldcorp.com</a></li>
+      <li>11차 전기본 (경향 2025-02-21): <a href="https://www.khan.co.kr/article/202502211941001">khan.co.kr</a></li>
+      <li>11차 장기 송변전설비계획 (전기신문): <a href="https://www.electimes.com/news/articleView.html?idxno=355636">electimes.com</a>, 한전 2026 투자: <a href="https://www.electimes.com/news/articleView.html?idxno=364724">electimes.com</a></li>
+      <li>서해안 HVDC (ZDNet 2026-03-20): <a href="https://zdnet.co.kr/view/?no=20260320123044">zdnet.co.kr</a>, 에너지신문: <a href="https://www.energy-news.co.kr/news/articleView.html?idxno=223854">energy-news.co.kr</a></li>
+      <li>ESS 중앙계약시장 3차 (파이낸셜뉴스 2026-09-22): <a href="https://www.fnnews.com/news/202609221512246555">fnnews.com</a>, 2차 결과 (아시아경제 2026-02-12): <a href="https://view.asiae.co.kr/article/2026021216591940685">asiae.co.kr</a></li>
+      <li>2026 5~6월 급락 (이데일리): <a href="https://edaily.co.kr/News/Read?mediaCodeNo=257&amp;newsId=02594486645480736">edaily.co.kr</a>, LS증권 섹터 뷰 (2026-06-16): <a href="https://www.hankyung.com/koreamarket/consensus/pdf/2026-06-eebd15cdc72fd2fc109baf3acfdb5868">hankyung.com</a></li>
+    </ul></details>
+    <details><summary>HD현대일렉트릭</summary><ul>
+      <li>FY2025 실적 (아시아경제 2026-02-06): <a href="https://view.asiae.co.kr/article/2026020614542694750">asiae.co.kr</a></li>
+      <li>1Q26 (머니투데이 2026-04-28): <a href="https://www.mt.co.kr/industry/2026/04/28/2026042813430266764">mt.co.kr</a></li>
+      <li>2Q26 (머니투데이 2026-07-28): <a href="https://www.mt.co.kr/industry/2026/07/28/2026072814325897341">mt.co.kr</a>, 급락 사유 (이데일리 2026-07-29): <a href="https://edaily.co.kr/News/Read?mediaCodeNo=257&amp;newsId=03476806645519440">edaily.co.kr</a></li>
+      <li>수주 목표 상향 (한국경제 2026-07-06): <a href="https://www.hankyung.com/article/202607067655P">hankyung.com</a></li>
+      <li>빅테크 1.1조 계약 (글로벌이코노믹 2026-07-02): <a href="https://www.g-enews.com/article/Industry/2026/07/2026070215111126753084322ec9_1">g-enews.com</a></li>
+      <li>앨라배마 1,000대·증설 (글로벌이코노믹 2026-08-07): <a href="https://www.g-enews.com/article/Global-Biz/2026/08/2026080708232453800c8c1c064d_1">g-enews.com</a></li>
+      <li>3,968억 투자 (머니투데이 2025-01-19): <a href="https://www.mt.co.kr/industry/2025/01/19/2025011918420422012">mt.co.kr</a></li>
+      <li>관세 전가·세율 (데이터뉴스 2026): <a href="https://datanews.co.kr/news/article.html?no=144382">datanews.co.kr</a></li>
+      <li>밸류업·배당정책 (비즈니스포스트): <a href="https://www.businesspost.co.kr/BP?command=article_view&amp;num=377051">businesspost.co.kr</a></li>
+      <li>밸류에이션 (주달 2026-10-04): <a href="https://judal.co.kr/?shareToken=ul7e76XKEBVXAtQS&amp;view=stockAI">judal.co.kr</a></li>
+      <li>목표주가: KB 2026-04-29 <a href="https://kbthink.com/securities-view.html?docId=20260427134730887K">kbthink.com</a>, NH 하향 <a href="https://www.businesspost.co.kr/BP?command=article_view&amp;num=438313">businesspost.co.kr</a></li>
+    </ul></details>
+    <details><summary>효성중공업</summary><ul>
+      <li>FY2025 실적 (뉴데일리 2026-02-05): <a href="https://biz.newdaily.co.kr/site/data/html/2026/02/05/2026020500185.html">newdaily.co.kr</a></li>
+      <li>1Q26 (네이트 2026-04-24): <a href="https://m.news.nate.com/view/20260424n26888">nate.com</a></li>
+      <li>2Q26·수주 12조 (뉴스핌 2026-07-31): <a href="https://www.newspim.com/news/view/20260731001310">newspim.com</a>, 머니투데이 2026-07-31: <a href="https://www.mt.co.kr/industry/2026/07/31/2026073116310699564">mt.co.kr</a></li>
+      <li>북미 잔고 57% (머니투데이 2026-09-02): <a href="https://www.mt.co.kr/industry/2026/09/02/2026090214442337830">mt.co.kr</a></li>
+      <li>빅테크 3,865억 (뉴스핌 2026-09-15): <a href="https://www.newspim.com/news/view/20260915000253">newspim.com</a></li>
+      <li>멤피스 증설 (PR Newswire): <a href="https://www.prnewswire.com/news-releases/hyosung-chairman-cho-hyun-joon-announces-major-expansion-of-memphis-power-transformer-plant-302639733.html">prnewswire.com</a></li>
+      <li>콴타 JV (코리아타임스 2026-09-18): <a href="https://www.koreatimes.co.kr/business/companies/20260918/hyosung-heavy-industries-forms-us-joint-venture-to-make-high-voltage-circuit-breakers">koreatimes.co.kr</a></li>
+      <li>한전 HVDC 실증 (아시아타임 2026-09-17): <a href="https://www.asiatime.co.kr/article/20260917500451">asiatime.co.kr</a></li>
+      <li>유럽 수주 (한국경제 2025-12-22): <a href="https://www.hankyung.com/article/2025122292101">hankyung.com</a></li>
+      <li>부채비율·차입금 (데이터뉴스): <a href="https://www.datanews.co.kr/news/article.html?no=144455">datanews.co.kr</a></li>
+      <li>책임준공·PF (더벨 2025-06-25): <a href="https://www.thebell.co.kr/front/newsview.asp?key=202506251338279360101069">thebell.co.kr</a>, 잠원동 (블로터 2026-08-17): <a href="https://www.bloter.net/news/articleView.html?idxno=671023">bloter.net</a></li>
+      <li>진흥기업 (CEO스코어데일리 2026-05-12): <a href="https://m.ceoscoredaily.com/page/view/2026051214204659323">ceoscoredaily.com</a></li>
+      <li>배당 (네이트 2026-02-25): <a href="https://news.nate.com/view/20260225n37018">nate.com</a></li>
+      <li>밸류에이션 (중앙이코노미뉴스 2026-10-02): <a href="https://www.joongangenews.com/news/articleView.html?idxno=552273">joongangenews.com</a></li>
+      <li>목표주가: 대신 (한국경제 2026-08-04) <a href="https://www.hankyung.com/article/2026080430216">hankyung.com</a>, IBK (아주경제 2026-06-11) <a href="https://www.ajunews.com/view/20260611080538665">ajunews.com</a></li>
+    </ul></details>
+    <details><summary>LS일렉트릭</summary><ul>
+      <li>FY2025 실적 (LS홀딩스 2026-01-27): <a href="https://www.lsholdings.com/ko/media/news/6e706d385a2b484f434f664867617a7236693131387459724d77734f74753645">lsholdings.com</a></li>
+      <li>1Q26 (LS홀딩스 2026-04-21): <a href="https://www.lsholdings.com/ko/media/news/353137775a554171634d6f2f4936456f7741736e69336d50576e646f34736a76">lsholdings.com</a>, 한국경제 2026-04-22: <a href="https://www.hankyung.com/article/2026042274526">hankyung.com</a></li>
+      <li>2Q26 (머니투데이 2026-07-23): <a href="https://www.mt.co.kr/industry/2026/07/23/2026072310334543508">mt.co.kr</a></li>
+      <li>액면분할 (뉴데일리 2026-02-05): <a href="https://biz.newdaily.co.kr/site/data/html/2026/02/05/2026020500531.html">newdaily.co.kr</a></li>
+      <li>빅테크 1,703억 (아시아경제 2026-04-13): <a href="https://view.asiae.co.kr/article/2026041318163486877">asiae.co.kr</a></li>
+      <li>Bloom Energy 3,190억 (아시아경제 2026-04-29): <a href="https://view.asiae.co.kr/article/2026042909433117590">asiae.co.kr</a></li>
+      <li>345kV 1,812억 (인더뉴스 2026-10-01): <a href="https://www.inthenews.co.kr/news/article.html?no=92560">inthenews.co.kr</a></li>
+      <li>유타 투자 (서울경제 영문 2026-03-18): <a href="https://en.sedaily.com/finance/2026/03/18/ls-electric-invests-168m-in-us-subsidiary-secures-25-year">sedaily.com</a></li>
+      <li>부산 초고압 증설 (디일렉): <a href="https://www.thelec.kr/news/articleView.html?idxno=44812">thelec.kr</a></li>
+      <li>목표주가: 대신 1Q26 리뷰 <a href="https://file.alphasquare.co.kr/media/pdfs/company-report/57217_LSELEC_1Q26RE.pdf">alphasquare.co.kr</a>, LS증권 (뉴시스 2026-04-28) <a href="https://www.newsis.com/view/NISX20260428_0003608701">newsis.com</a>, NH (뉴스핌 2026-07-01) <a href="https://www.newspim.com/news/view/20260701000254">newspim.com</a></li>
+      <li>주가 (탑스타뉴스 2026-09-29): <a href="https://www.topstarnews.net/news/articleView.html?idxno=16226604">topstarnews.net</a></li>
+    </ul></details>
+    <details><summary>산일전기</summary><ul>
+      <li>FY2025 실적 (CBC뉴스): <a href="https://www.cbci.co.kr/news/articleView.html?idxno=555130">cbci.co.kr</a></li>
+      <li>1Q26 (다음 2026-04-30): <a href="https://v.daum.net/v/20260430160107449">daum.net</a></li>
+      <li>2Q26·수주 (한국경제TV 2026-08-07): <a href="https://www.wowtv.co.kr/NewsCenter/News/Read?articleId=A202608070390">wowtv.co.kr</a></li>
+      <li>SK증권 2026-02-06 (잔고 구성·단가): <a href="https://www.sks.co.kr/data1/research/qna_file/20260205150933836_0_ko.pdf">sks.co.kr</a></li>
+      <li>Bloom Energy 503억 (서울경제 2026-04-30): <a href="https://www.sedaily.com/article/20039101">sedaily.com</a></li>
+      <li>3공장 (뉴스핌 2026-08-27): <a href="https://www.newspim.com/news/view/20260827000148">newspim.com</a></li>
+      <li>블록딜 (ZDNet 2026-03-27): <a href="https://zdnet.co.kr/view/?no=20260327090736">zdnet.co.kr</a></li>
+      <li>관세 노출 (유안타 2025-10-12): <a href="https://file.myasset.com/sitemanager/upload/2025/1012/131733/20251012131733050_0_ko.pdf">myasset.com</a></li>
+      <li>OBBBA (한국경제 2025-06-18): <a href="https://www.hankyung.com/article/2025061842831">hankyung.com</a></li>
+      <li>밸류에이션 (탑스타뉴스 2026-10-02): <a href="https://www.topstarnews.net/news/articleView.html?idxno=16234642">topstarnews.net</a></li>
+      <li>목표주가: NH (머니투데이 2026-05-21) <a href="https://www.mt.co.kr/stock/2026/05/21/2026052108442029059">mt.co.kr</a>, KB (머니투데이 2026-08-31) <a href="https://www.mt.co.kr/stock/2026/08/31/2026083109083555774">mt.co.kr</a>, 한국투자 (머니투데이 2026-06-04) <a href="https://www.mt.co.kr/stock/2026/06/04/2026060408214866251">mt.co.kr</a></li>
+    </ul></details>
+  </div>
+  <div class="foot">전력기기 4사 교과서 · 기준일 2026-10-06 · 학습용 자료이며 투자 권유가 아닙니다. 3D 장면은 Three.js(r128)로 그렸고, 설비 크기와 간격은 축척을 무시했습니다.</div>
+</section>
+</div><!-- /col -->
+</main>
+</div><!-- /shell -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  'use strict';
+  const $ = (s, r) => (r || document).querySelector(s);
+  const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+  document.documentElement.lang = 'ko';
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const store = {
+    get(k){ try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } },
+    set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  };
+  const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+
+  /* ---------- rail, progress, checklists, glossary ---------- */
+  const rail = $('#rail'), scrim = $('#scrim');
+  function openRail(o){ rail.classList.toggle('open', o); scrim.classList.toggle('on', o); }
+  $('#rail-open').addEventListener('click', () => openRail(true));
+  $('#rail-close').addEventListener('click', () => openRail(false));
+  scrim.addEventListener('click', () => openRail(false));
+  $$('#toc a').forEach(a => a.addEventListener('click', () => openRail(false)));
+
+  const progKey = 'pe-textbook-progress';
+  const prog = store.get(progKey) || {};
+  const tocBoxes = $$('#toc input[type=checkbox]');
+  function renderProg(){
+    const n = tocBoxes.filter(b => b.checked).length;
+    $('#prog-t').textContent = n + ' / ' + tocBoxes.length + '장';
+    $('#prog-b').style.width = (100 * n / tocBoxes.length) + '%';
+  }
+  tocBoxes.forEach(b => {
+    b.checked = !!prog[b.dataset.ch];
+    b.addEventListener('change', () => { prog[b.dataset.ch] = b.checked; store.set(progKey, prog); renderProg(); });
+  });
+  renderProg();
+
+  const links = new Map($$('#toc a').map(a => [a.getAttribute('href').slice(1), a]));
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (!en.isIntersecting) return;
+        links.forEach(a => a.classList.remove('cur'));
+        const a = links.get(en.target.id); if (a) a.classList.add('cur');
+      });
+    }, { rootMargin: '-15% 0px -75% 0px' });
+    $$('.chapter, #cover').forEach(s => io.observe(s));
+  }
+
+  $$('.check').forEach(ul => {
+    const key = 'pe-check-' + ul.dataset.key; const saved = store.get(key) || {};
+    $$('input', ul).forEach(b => { b.checked = !!saved[b.id]; b.addEventListener('change', () => { saved[b.id] = b.checked; store.set(key, saved); }); });
+  });
+
+  const gs = $('#gsearch'), gitems = $$('#gloss details');
+  gs.addEventListener('input', () => {
+    const q = gs.value.trim().toLowerCase();
+    gitems.forEach(d => { const hit = !q || d.textContent.toLowerCase().includes(q); d.hidden = !hit; if (q && hit) d.open = true; });
+  });
+
+  /* ---------- charts ---------- */
+  const NS = 'http://www.w3.org/2000/svg';
+  function el(n, attrs, parent){ const e = document.createElementNS(NS, n); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
+  function txt(parent, attrs, s){ const t = el('text', attrs, parent); t.textContent = s; return t; }
+  function fmt(v, d){ const o = { maximumFractionDigits: d == null ? 0 : d, minimumFractionDigits: d == null ? 0 : d }; return v.toLocaleString('ko-KR', o); }
+  function roundTop(x, y, w, h, r){ r = Math.min(r, w / 2, h); return 'M' + x + ' ' + (y + h) + ' V' + (y + r) + ' Q' + x + ' ' + y + ' ' + (x + r) + ' ' + y + ' H' + (x + w - r) + ' Q' + (x + w) + ' ' + y + ' ' + (x + w) + ' ' + (y + r) + ' V' + (y + h) + ' Z'; }
+  function tipFor(c){ let t = c.querySelector('.tip'); if (!t) { t = document.createElement('div'); t.className = 'tip'; c.appendChild(t); } return t; }
+  function hover(node, c, tip, html){
+    node.addEventListener('mouseenter', () => { tip.innerHTML = html; tip.classList.add('on'); });
+    node.addEventListener('mousemove', e => { const r = c.getBoundingClientRect(); tip.style.left = (e.clientX - r.left) + 'px'; tip.style.top = (e.clientY - r.top - 8) + 'px'; });
+    node.addEventListener('mouseleave', () => tip.classList.remove('on'));
+  }
+  function barChart(id, o){
+    const c = document.getElementById(id); if (!c) return;
+    const W = 480, H = o.height || 300, m = { t: 40, r: 14, b: o.sub ? 58 : 44, l: 50 };
+    const svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': o.title }, c);
+    txt(svg, { x: m.l, y: 22, class: 'ttl' }, o.title);
+    if (o.note) txt(svg, { x: W - m.r, y: 22, 'text-anchor': 'end', class: 'lbl' }, o.note);
+    const series = o.series, n = o.labels.length;
+    let max = o.max || Math.max.apply(null, series.flatMap(s => s.values)) * 1.18; if (!(max > 0)) max = 1;
+    const iw = W - m.l - m.r, ih = H - m.t - m.b;
+    const y = v => m.t + ih - (v / max) * ih;
+    const ticks = o.ticks || 4;
+    for (let i = 0; i <= ticks; i++) {
+      const v = max * i / ticks, yy = y(v);
+      el('line', { x1: m.l, x2: W - m.r, y1: yy, y2: yy, class: i === 0 ? 'axis' : 'grid' }, svg);
+      txt(svg, { x: m.l - 8, y: yy + 4, 'text-anchor': 'end', class: 'lbl' }, o.tickFmt ? o.tickFmt(v) : fmt(v));
+    }
+    const gw = iw / n, bw = Math.min(60, (gw * 0.68) / series.length), gap = 3;
+    const tip = tipFor(c);
+    series.forEach((s, si) => {
+      s.values.forEach((v, i) => {
+        const x = m.l + gw * i + gw / 2 - (bw * series.length + gap * (series.length - 1)) / 2 + si * (bw + gap);
+        const h = Math.max(0, m.t + ih - y(v));
+        const color = s.colors ? s.colors[i] : s.color;
+        const p = el('path', { d: roundTop(x, y(v), bw, h, 4), class: 'bar', style: 'fill:' + color }, svg);
+        const label = o.valFmt ? o.valFmt(v, i, si) : fmt(v);
+        hover(p, c, tip, (series.length > 1 ? s.name + ' · ' : '') + o.labels[i] + '<br>' + label + (o.unit || '') + (o.sub ? '<br>' + o.sub[i] : ''));
+        if (o.direct !== false) txt(svg, { x: x + bw / 2, y: y(v) - 6, 'text-anchor': 'middle', class: 'val' }, label);
+      });
+    });
+    o.labels.forEach((l, i) => {
+      txt(svg, { x: m.l + gw * i + gw / 2, y: H - m.b + 20, 'text-anchor': 'middle', class: 'lbl' }, l);
+      if (o.sub) txt(svg, { x: m.l + gw * i + gw / 2, y: H - m.b + 36, 'text-anchor': 'middle', class: 'lbl', style: 'fill:var(--copper);font-size:11px' }, o.sub[i]);
+    });
+    if (series.length > 1) {
+      const lg = document.createElement('div'); lg.className = 'legend';
+      series.forEach(s => { const sp = document.createElement('span'); const i = document.createElement('i'); i.style.background = s.color; sp.appendChild(i); sp.appendChild(document.createTextNode(s.name)); lg.appendChild(sp); });
+      c.appendChild(lg);
+    }
+  }
+  function scatter(id, o){
+    const c = document.getElementById(id); if (!c) return;
+    const W = 480, H = 340, m = { t: 40, r: 18, b: 52, l: 50 };
+    const svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': o.title }, c);
+    txt(svg, { x: m.l, y: 22, class: 'ttl' }, o.title);
+    const iw = W - m.l - m.r, ih = H - m.t - m.b;
+    const X = v => m.l + (v / o.xmax) * iw, Y = v => m.t + ih - (v / o.ymax) * ih;
+    for (let i = 0; i <= 4; i++) { const v = o.ymax * i / 4; el('line', { x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v), class: i === 0 ? 'axis' : 'grid' }, svg); txt(svg, { x: m.l - 8, y: Y(v) + 4, 'text-anchor': 'end', class: 'lbl' }, v + '%'); }
+    for (let i = 0; i <= 4; i++) { const v = o.xmax * i / 4; el('line', { x1: X(v), x2: X(v), y1: m.t, y2: m.t + ih, class: 'grid' }, svg); txt(svg, { x: X(v), y: m.t + ih + 18, 'text-anchor': 'middle', class: 'lbl' }, v + '%'); }
+    txt(svg, { x: m.l + iw / 2, y: H - 10, 'text-anchor': 'middle', class: 'lbl' }, o.xlabel);
+    txt(svg, { x: 14, y: m.t + ih / 2, 'text-anchor': 'middle', class: 'lbl', transform: 'rotate(-90 14 ' + (m.t + ih / 2) + ')' }, o.ylabel);
+    const tip = tipFor(c);
+    o.points.forEach(p => {
+      const r = 6 + Math.sqrt(p.size) * 3.2;
+      const g = el('g', {}, svg);
+      const circ = el('circle', { cx: X(p.x), cy: Y(p.y), r: r, style: 'fill:' + p.color + ';fill-opacity:.85;stroke:var(--paper);stroke-width:2' }, g);
+      hover(circ, c, tip, p.name + '<br>북미 비중 ' + p.x + '% · 영업이익률 ' + p.y + '%<br>시가총액 ' + p.size + '조');
+      const ax = p.anchor === 'end' ? X(p.x) - r - 6 : X(p.x) + r + 6;
+      txt(g, { x: ax, y: Y(p.y) + (p.dy || 0) + 4, 'text-anchor': p.anchor || 'start', class: 'val', style: 'font-family:var(--font-body);font-weight:700;font-size:12.5px' }, p.name);
+      txt(g, { x: ax, y: Y(p.y) + (p.dy || 0) + 19, 'text-anchor': p.anchor || 'start', class: 'lbl', style: 'font-size:11px' }, '시총 ' + p.size + '조');
+    });
+    txt(svg, { x: W - m.r, y: 22, 'text-anchor': 'end', class: 'lbl' }, '원의 넓이 = 시가총액');
+  }
+
+  const CO = [
+    { key: 'hd', name: 'HD현대일렉트릭', color: 'var(--s1)', rev: [27028, 33223, 40795], op: [3152, 6690, 9953], opm: [11.7, 20.1, 24.4], mcap: 24.4, per: 28.5, fper: 25, na: 39.5, cover: 2.8 },
+    { key: 'hs', name: '효성중공업', color: 'var(--s2)', rev: [43005, 48950, 59685], op: [2578, 3625, 7470], opm: [6.0, 7.4, 12.5], mcap: 25.9, per: 44.3, fper: 33, na: 38, cover: 4.0 },
+    { key: 'ls', name: 'LS일렉트릭', color: 'var(--s3)', rev: [42305, 45518, 49622], op: [3249, 3897, 4269], opm: [7.7, 8.6, 8.6], mcap: 30.8, per: 79.7, fper: 65, na: 33, cover: 1.4 },
+    { key: 'sn', name: '산일전기', color: 'var(--s4)', rev: [2145, 3340, 5020], op: [466, 1092, 1812], opm: [21.7, 32.7, 36.1], mcap: 6.9, per: 38.3, fper: 33, na: 70, cover: 1.1 }
+  ];
+  const names = CO.map(c => c.name), cols = CO.map(c => c.color);
+  barChart('c-opm', { title: 'FY2025 영업이익률', labels: names, series: [{ name: 'OPM', values: CO.map(c => c.opm[2]), colors: cols }], valFmt: v => v.toFixed(1) + '%', tickFmt: v => Math.round(v) + '%', max: 44 });
+  barChart('c-cover', { title: '수주잔고 커버리지 (잔고 ÷ 연매출)', labels: names, series: [{ name: '년', values: CO.map(c => c.cover), colors: cols }], valFmt: v => v.toFixed(1) + '년', tickFmt: v => v.toFixed(0) + '년', max: 5, note: '2Q26 말 잔고 기준' });
+  barChart('c-lead', { title: '미국 전력변압기 리드타임 (주)', labels: ['2020년 이전', '2024년 GSU', '2Q 2025', '1Q 2026'], series: [{ name: '주', values: [104, 143, 128, 160], color: 'var(--s1)' }], valFmt: v => v + '주', note: 'Wood Mackenzie 서베이 정리', max: 200 });
+  barChart('c-export', { title: '한국 초고압 변압기 대미 수출 (억달러)', labels: ['2022', '2023', '2024', '2025'], series: [{ name: '억달러', values: [1.09, 2.0, 4.0, 7.38], color: 'var(--s1)' }], valFmt: (v, i) => (i === 1 || i === 2 ? '약 ' : '') + v.toFixed(2), tickFmt: v => v.toFixed(0), max: 9, note: '관세청 통계 보도 기준' });
+  CO.forEach(c => {
+    barChart('c-' + c.key + '-rev', { title: c.name + ' 매출 (억원)', labels: ['FY2023', 'FY2024', 'FY2025'], series: [{ name: '매출', values: c.rev, color: c.color }], tickFmt: v => fmt(v) });
+    barChart('c-' + c.key + '-op', { title: c.name + ' 영업이익 (억원)', labels: ['FY2023', 'FY2024', 'FY2025'], series: [{ name: '영업이익', values: c.op, color: c.color }], sub: c.opm.map(v => '이익률 ' + v.toFixed(1) + '%'), tickFmt: v => fmt(v) });
+  });
+  scatter('c-pos', { title: '북미 비중 × 영업이익률 × 시가총액', xlabel: '북미(미국) 매출 비중', ylabel: 'FY2025 영업이익률', xmax: 80, ymax: 40,
+    points: [
+      { name: 'HD현대일렉트릭', x: 39.5, y: 24.4, size: 24.4, color: 'var(--s1)' },
+      { name: '효성중공업', x: 38, y: 12.5, size: 25.9, color: 'var(--s2)', dy: -4 },
+      { name: 'LS일렉트릭', x: 33, y: 8.6, size: 30.8, color: 'var(--s3)', anchor: 'end', dy: 6 },
+      { name: '산일전기', x: 70, y: 36.1, size: 6.9, color: 'var(--s4)', anchor: 'end' }
+    ] });
+  barChart('c-val', { title: 'PER 비교 (배)', labels: names, series: [{ name: '최근 12개월 PER', values: CO.map(c => c.per), color: 'var(--s1)' }, { name: '2026 선행 PER (추정)', values: CO.map(c => c.fper), color: 'var(--s2)' }], valFmt: v => v.toFixed(0), tickFmt: v => v.toFixed(0), max: 95, note: '10/2 전후 주가 기준' });
+
+  /* ---------- three.js loader ---------- */
+  function loadScript(src){ return new Promise((res, rej) => { const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); }
+  async function ensureThree(){
+    if (window.THREE) return true;
+    const srcs = ['https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js', 'https://unpkg.com/three@0.128.0/build/three.min.js'];
+    for (const s of srcs) { try { await loadScript(s); if (window.THREE) return true; } catch (e) {} }
+    return false;
+  }
+  function fallback(simId, fbId, ctlId){
+    const sim = document.getElementById(simId); const st = sim.querySelector('.stage'); if (st) st.hidden = true;
+    document.getElementById(fbId).hidden = false;
+    const ctl = document.getElementById(ctlId); if (ctl) ctl.hidden = true;
+  }
+
+  /* ---------- viewer (orbit camera, labels, visibility) ---------- */
+  function makeViewer(stageId, canvasId, olId, o){
+    const T = window.THREE;
+    const stage = document.getElementById(stageId), canvas = document.getElementById(canvasId), ol = document.getElementById(olId);
+    let renderer;
+    try { renderer = new T.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true }); } catch (e) { return null; }
+    if (!renderer.getContext()) return null;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    const scene = new T.Scene();
+    const camera = new T.PerspectiveCamera(o.fov || 38, 1, 0.1, 400);
+    scene.add(new T.HemisphereLight(0xffffff, 0x6b7a8a, 0.95));
+    const dl = new T.DirectionalLight(0xffffff, 0.75); dl.position.set(12, 24, 14); scene.add(dl);
+    const rig = new T.Group(); scene.add(rig);
+    const st = { theta: o.theta, phi: o.phi, R: o.R, R0: o.R, fit: o.R, fitK: o.fitK || 0, tx: o.target.x, target: o.target.clone(), dragging: false, lx: 0, ly: 0, visible: true, labels: [] };
+    function resize(){ const w = stage.clientWidth, h = stage.clientHeight; if (!w || !h) return; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); if (st.fitK) { st.fit = Math.max(o.R * 0.8, st.fitK / (Math.tan(camera.fov * Math.PI / 360) * camera.aspect)); if (st.fitAll) st.R0 = st.fit; } }
+    if ('ResizeObserver' in window) new ResizeObserver(resize).observe(stage); window.addEventListener('resize', resize); resize();
+    stage.addEventListener('pointerdown', e => { st.dragging = true; st.lx = e.clientX; st.ly = e.clientY; try { stage.setPointerCapture(e.pointerId); } catch (x) {} });
+    stage.addEventListener('pointermove', e => { if (!st.dragging) return; st.theta += (e.clientX - st.lx) * 0.008; st.phi = Math.max(0.12, Math.min(1.1, st.phi + (e.clientY - st.ly) * 0.005)); st.lx = e.clientX; st.ly = e.clientY; });
+    const up = () => { st.dragging = false; }; stage.addEventListener('pointerup', up); stage.addEventListener('pointercancel', up); stage.addEventListener('lostpointercapture', up);
+    if ('IntersectionObserver' in window) new IntersectionObserver(es => { st.visible = es[0].isIntersecting; }, { threshold: 0.02 }).observe(stage);
+    function addLabel(pos, main, sub, short){ const d = document.createElement('div'); d.className = 'lb'; const f = document.createElement('span'); f.className = 'full'; f.textContent = main; const sh = document.createElement('span'); sh.className = 'short'; sh.textContent = short || main; const sm = document.createElement('small'); sm.textContent = sub || ''; d.appendChild(f); d.appendChild(sh); d.appendChild(sm); ol.appendChild(d); st.labels.push({ pos: pos, el: d }); return d; }
+    const v = new T.Vector3();
+    function updateCamera(){
+      st.target.x += (st.tx - st.target.x) * 0.06; st.R += (st.R0 - st.R) * 0.06;
+      camera.position.set(st.target.x + st.R * Math.cos(st.phi) * Math.sin(st.theta), st.target.y + st.R * Math.sin(st.phi), st.target.z + st.R * Math.cos(st.phi) * Math.cos(st.theta));
+      camera.lookAt(st.target);
+    }
+    function updateLabels(){
+      const w = stage.clientWidth, h = stage.clientHeight;
+      st.labels.forEach(l => { v.copy(l.pos).project(camera); const hide = v.z > 1 || v.x < -1.05 || v.x > 1.05 || v.y < -1.05 || v.y > 1.2; l.el.style.display = hide ? 'none' : ''; if (!hide) { const lw = l.el.offsetWidth || 80, lh = l.el.offsetHeight || 20; const x = Math.max(lw / 2 + 4, Math.min(w - lw / 2 - 4, (v.x + 1) / 2 * w)); const y = Math.max(lh + 4, Math.min(h - 4, (1 - v.y) / 2 * h)); l.el.style.left = x + 'px'; l.el.style.top = y + 'px'; } });
+    }
+    return { T: T, renderer: renderer, scene: scene, camera: camera, rig: rig, st: st, stage: stage, addLabel: addLabel, updateCamera: updateCamera, updateLabels: updateLabels };
+  }
+  function hexOf(tok, fb){ const s = css(tok); return /^#[0-9a-f]{6}$/i.test(s) ? parseInt(s.slice(1), 16) : fb; }
+
+  /* ---------- scene A: power grid ---------- */
+  function buildGrid(V){
+    const T = V.T;
+    const M = {
+      ground: new T.MeshStandardMaterial({ color: hexOf('--line', 0xd4dce6), roughness: 1 }),
+      steel: new T.MeshStandardMaterial({ color: 0x8d99a6, metalness: 0.5, roughness: 0.5 }),
+      conc: new T.MeshStandardMaterial({ color: 0xb9c2cc, roughness: 0.9 }),
+      tank: new T.MeshStandardMaterial({ color: 0x55657a, metalness: 0.3, roughness: 0.6 }),
+      bush: new T.MeshStandardMaterial({ color: 0xd9c9a0, roughness: 0.6 }),
+      dc: new T.MeshStandardMaterial({ color: 0x3b4a5a, metalness: 0.2, roughness: 0.7 }),
+      led: new T.MeshStandardMaterial({ color: 0x2a78d6, emissive: 0x2a78d6, emissiveIntensity: 0.7 }),
+      house: new T.MeshStandardMaterial({ color: 0xe8e0d0, roughness: 0.9 }),
+      roof: new T.MeshStandardMaterial({ color: 0x8a4a3a, roughness: 0.9 }),
+      line: new T.LineBasicMaterial({ color: 0x55657a }),
+      halo: new T.MeshBasicMaterial({ color: hexOf('--accent', 0x2a78d6), transparent: true, opacity: 0.28, side: T.DoubleSide })
+    };
+    const G = { gen: new T.Group(), tx: new T.Group(), sub: new T.Group(), dist: new T.Group(), load: new T.Group() };
+    Object.values(G).forEach(g => V.rig.add(g));
+    const ground = new T.Mesh(new T.PlaneGeometry(64, 28), M.ground); ground.rotation.x = -Math.PI / 2; V.rig.add(ground);
+    const box = (w, h, d, m, x, y, z, g) => { const mesh = new T.Mesh(new T.BoxGeometry(w, h, d), m); mesh.position.set(x, y, z); g.add(mesh); return mesh; };
+    const cyl = (rt, rb, h, m, x, y, z, g, seg) => { const mesh = new T.Mesh(new T.CylinderGeometry(rt, rb, h, seg || 16), m); mesh.position.set(x, y, z); g.add(mesh); return mesh; };
+    // generation
+    box(5, 3, 4, M.conc, -22, 1.5, 0, G.gen); cyl(0.5, 0.6, 5, M.conc, -20.6, 2.5, -2.6, G.gen); cyl(0.5, 0.6, 5, M.conc, -23.4, 2.5, -2.6, G.gen);
+    box(3, 2.4, 2.2, M.tank, -16, 1.2, 0, G.gen); box(0.8, 2.0, 2.2, M.steel, -14.1, 1.0, 0, G.gen);
+    for (let i = -1; i <= 1; i++) cyl(0.12, 0.16, 1.4, M.bush, -16 + i * 0.9, 3.1, 0, G.gen);
+    G.gen.add(new T.Line(new T.BufferGeometry().setFromPoints([new T.Vector3(-19.5, 3, 0), new T.Vector3(-16, 3.8, 0)]), M.line));
+    // transmission towers
+    const towerXs = [-10, -4, 2];
+    towerXs.forEach(x => {
+      [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(p => { const leg = cyl(0.06, 0.11, 8, M.steel, x + p[0] * 0.55, 4, p[1] * 0.55, G.tx, 8); leg.rotation.z = p[0] * 0.05; leg.rotation.x = -p[1] * 0.05; });
+      box(2.8, 0.12, 0.12, M.steel, x, 7.2, 0, G.tx); box(2.0, 0.12, 0.12, M.steel, x, 5.9, 0, G.tx); box(0.5, 0.6, 0.5, M.steel, x, 8.1, 0, G.tx);
+    });
+    const spanPts = [new T.Vector3(-16, 3.8, 0)].concat(towerXs.map(x => new T.Vector3(x, 7.2, 0)), [new T.Vector3(8, 3.9, 0)]);
+    [-1.1, 0, 1.1].forEach(dz => {
+      const pts = []; for (let i = 0; i < spanPts.length - 1; i++) { const a = spanPts[i], b = spanPts[i + 1]; for (let k = 0; k <= 12; k++) { const u = k / 12; const sag = (a.y > 6 && b.y > 6) ? 0.7 * Math.sin(Math.PI * u) : 0; pts.push(new T.Vector3(a.x + (b.x - a.x) * u, a.y + (b.y - a.y) * u - sag, dz * 0.55)); } }
+      G.tx.add(new T.Line(new T.BufferGeometry().setFromPoints(pts), M.line));
+    });
+    // substation
+    box(4, 3, 2.6, M.tank, 8, 1.5, 0, G.sub); box(1.2, 2.4, 2.6, M.steel, 10.8, 1.2, 0, G.sub);
+    for (let i = -1; i <= 1; i++) cyl(0.14, 0.18, 1.6, M.bush, 8 + i * 1.1, 3.8, 0, G.sub);
+    box(3.6, 1.3, 1.2, M.steel, 8, 0.65, 3.2, G.sub); for (let i = -1; i <= 1; i++) { const c = cyl(0.36, 0.36, 1.3, M.steel, 8 + i * 1.15, 1.6, 3.2, G.sub, 20); c.rotation.x = Math.PI / 2; }
+    G.sub.add(new T.Line(new T.BufferGeometry().setFromPoints([new T.Vector3(10, 3.9, 0), new T.Vector3(15, 5.9, 0)]), M.line));
+    // distribution
+    cyl(0.1, 0.14, 6, M.conc, 15, 3, 0, G.dist, 8); box(1.6, 0.1, 0.1, M.steel, 15, 5.9, 0, G.dist); cyl(0.42, 0.42, 1.0, M.tank, 15.6, 4.7, 0, G.dist);
+    box(1.4, 1.0, 1.0, M.dc, 15, 0.5, 3.0, G.dist);
+    G.dist.add(new T.Line(new T.BufferGeometry().setFromPoints([new T.Vector3(15, 5.9, 0), new T.Vector3(21, 2.8, -1.2)]), M.line));
+    // loads
+    box(5, 2.6, 3.5, M.dc, 21, 1.3, -1.2, G.load);
+    for (let r = 0; r < 2; r++) for (let i = 0; i < 6; i++) box(0.5, 0.3, 0.06, M.led, 19 + i * 0.8, 1.0 + r * 0.8, 0.56, G.load);
+    box(2, 1.4, 1.6, M.house, 21.5, 0.7, 3.2, G.load); const roof = new T.Mesh(new T.ConeGeometry(1.5, 0.9, 4), M.roof); roof.position.set(21.5, 1.85, 3.2); roof.rotation.y = Math.PI / 4; G.load.add(roof);
+    // halos
+    const H = {};
+    [['gen', -19, 0, 9, 7], ['tx', -4, 0, 16, 5], ['sub', 8.5, 1.5, 7, 7], ['dist', 15.3, 1.5, 4.5, 6], ['load', 21, 1, 8, 8]].forEach(h => { const m = new T.Mesh(new T.PlaneGeometry(h[3], h[4]), M.halo); m.rotation.x = -Math.PI / 2; m.position.set(h[1], 0.03, h[2]); m.visible = false; V.rig.add(m); H[h[0]] = m; });
+    // particles
+    const path = new T.CatmullRomCurve3([new T.Vector3(-20, 3.1, 0), new T.Vector3(-16, 3.8, 0), new T.Vector3(-10, 6.9, 0), new T.Vector3(-4, 6.9, 0), new T.Vector3(2, 6.9, 0), new T.Vector3(8, 3.9, 0), new T.Vector3(15, 5.9, 0), new T.Vector3(21, 2.8, -1.2)], false, 'centripetal');
+    const N = 56, pgeo = new T.SphereGeometry(0.17, 8, 8), P = [];
+    for (let i = 0; i < N; i++) { const p = new T.Mesh(pgeo, new T.MeshBasicMaterial({ color: 0xffffff, transparent: true })); p.userData.t = i / N; V.rig.add(p); P.push(p); }
+    V.addLabel(new T.Vector3(-23.4, 7.4, -2.6), '발전소', '약 22kV', '발전소');
+    V.addLabel(new T.Vector3(-16, 4.4, 0), '승압 변압기 (GSU)', '22kV → 765kV', 'GSU 승압');
+    V.addLabel(new T.Vector3(-4, 8.9, 0), '765kV 송전', '전류 ↓ 손실 ↓', '765kV 송전');
+    V.addLabel(new T.Vector3(8.5, 5.4, 0), '변전소: 초고압 변압기 · GIS', '765kV → 154kV → 22.9kV', '변전소');
+    V.addLabel(new T.Vector3(15.3, 6.8, 0), '배전: 주상·패드 변압기', '22.9kV → 380V', '배전');
+    V.addLabel(new T.Vector3(21, 3.6, -1.2), '데이터센터 · 주택', '380V · 몰드변압기 · PCS', '데이터센터');
+    return { G: G, H: H, P: P, path: path, M: M };
+  }
+  const INFO = {
+    all: '<b>전체 흐름</b> · 발전기 22kV → 승압 변압기 → 765kV 송전 → 변전소에서 154kV → 배전 22.9kV → 수용가 380V. 전압을 올리면 같은 전력을 더 작은 전류로 보낼 수 있어 선로 손실(전류의 제곱에 비례)이 줄어든다.',
+    gen: '<b>발전</b> · 발전기 출력(약 22kV)을 승압 변압기(GSU)가 765kV로 올린다. GSU는 리드타임이 가장 긴 품목이다. 공급: HD현대일렉트릭, 효성중공업.',
+    tx: '<b>송전</b> · 765/345kV 초고압 선로. 전압이 높을수록 전류가 작아 손실이 준다. 초고압 변압기·GIS·리액터는 HD현대일렉트릭·효성중공업이 주력이고 LS일렉트릭이 345kV로 뒤따른다. HVDC·STATCOM은 효성중공업.',
+    sub: '<b>변전</b> · 765kV를 154kV로, 다시 22.9kV로 낮추는 초고압·고압 변압기와 GIS. 미국 데이터센터는 이 단계부터 전용 변전소를 짓는다(LS 345kV 1,812억, 효성 3,865억). 공급: HD현대, 효성, LS, 산일(154kV는 2028년 양산 목표).',
+    dist: '<b>배전</b> · 22.9kV를 380V로 낮추는 주상·패드 변압기, 수배전반, 차단기, 38kV 스위치기어. 미국 배전변압기의 55%가 33년 이상 됐다. 공급: LS일렉트릭(국내 50% 이상), HD현대 배전, 산일전기(주상·패드).',
+    load: '<b>수용가</b> · 데이터센터·공장·주택. 데이터센터에는 몰드 변압기, 배전반, ESS, 온사이트 연료전지(Bloom Energy)용 승압 변압기가 들어간다. 공급: 산일전기(Bloom 503억), LS일렉트릭(Bloom 3,190억), HD현대일렉트릭(빅테크 1.1조).'
+  };
+  const STAGE_X = { gen: -19, tx: -4, sub: 8.5, dist: 15.3, load: 21 };
+  function inStage(s, x){ return s === 'gen' ? x < -13.5 : s === 'tx' ? (x >= -13.5 && x < 6.5) : s === 'sub' ? (x >= 6.5 && x < 12.5) : s === 'dist' ? (x >= 12.5 && x < 18.5) : x >= 18.5; }
+  function segColor(x){ return x < -16 ? 0xb5641f : x < 8 ? 0x2a78d6 : x < 15 ? 0x1baf7a : 0xeda100; }
+  function runGrid(){
+    const V = makeViewer('stage-grid', 'cv-grid', 'ol-grid', { theta: 0.42, phi: 0.36, R: 40, fitK: 28, target: new THREE.Vector3(0, 2.2, 0), fov: 36 });
+    if (V) { V.st.fitAll = true; V.st.R = V.st.fit; V.st.R0 = V.st.fit; }
+    if (!V) { fallback('sim-grid', 'fb-grid', 'ctl-grid'); return; }
+    const S = buildGrid(V);
+    const state = { stage: 'all', playing: true, speed: 1 };
+    const ctl = document.getElementById('ctl-grid');
+    $$('button[data-stage]', ctl).forEach(b => b.addEventListener('click', () => {
+      $$('button[data-stage]', ctl).forEach(x => x.classList.toggle('on', x === b));
+      state.stage = b.dataset.stage; document.getElementById('info-grid').innerHTML = INFO[state.stage];
+      Object.keys(S.H).forEach(k => { S.H[k].visible = k === state.stage; });
+      if (state.stage === 'all') { V.st.tx = 0; V.st.fitAll = true; V.st.R0 = V.st.fit; } else { V.st.tx = STAGE_X[state.stage]; V.st.fitAll = false; V.st.R0 = Math.max(16, V.st.fit * 0.5); }
+    }));
+    const play = document.getElementById('grid-play');
+    play.addEventListener('click', () => { state.playing = !state.playing; play.textContent = state.playing ? '일시정지' : '재생'; });
+    document.getElementById('grid-speed').addEventListener('input', e => { state.speed = parseFloat(e.target.value) || 1; });
+    const themeMq = matchMedia('(prefers-color-scheme: dark)');
+    const retheme = () => { S.M.ground.color.setHex(hexOf('--line', 0xd4dce6)); S.M.halo.color.setHex(hexOf('--accent', 0x2a78d6)); };
+    themeMq.addEventListener ? themeMq.addEventListener('change', retheme) : themeMq.addListener(retheme);
+    new MutationObserver(retheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    function frame(){
+      requestAnimationFrame(frame);
+      if (!V.st.visible) return;
+      if (!V.st.dragging && !reduced) V.st.theta += 0.0012;
+      if (state.playing && !reduced) { const dt = 0.0019 * state.speed; S.P.forEach(p => { p.userData.t = (p.userData.t + dt) % 1; }); }
+      S.P.forEach(p => { const pos = S.path.getPointAt(p.userData.t); p.position.copy(pos); p.material.color.setHex(segColor(pos.x)); const dim = state.stage !== 'all' && !inStage(state.stage, pos.x); p.material.opacity = dim ? 0.18 : 1; const big = pos.x > -16 && pos.x < 8; p.scale.setScalar(big ? 1.3 : 0.95); });
+      V.updateCamera(); V.renderer.render(V.scene, V.camera); V.updateLabels();
+    }
+    frame();
+  }
+
+  /* ---------- scene B: transformer ---------- */
+  function runTransformer(){
+    const V = makeViewer('stage-tr', 'cv-tr', 'ol-tr', { theta: 0.55, phi: 0.3, R: 17, fitK: 10, target: new THREE.Vector3(0, 0, 0), fov: 38 });
+    if (V) { V.st.fitAll = true; V.st.R = V.st.fit; V.st.R0 = V.st.fit; }
+    if (!V) { fallback('sim-tr', 'fb-tr', 'ctl-tr'); return; }
+    const T = V.T;
+    const coreMat = new T.MeshStandardMaterial({ color: 0x6b7785, metalness: 0.55, roughness: 0.45 });
+    const cuLow = new T.MeshStandardMaterial({ color: 0xb87333, metalness: 0.7, roughness: 0.35 });
+    const cuHigh = cuLow.clone();
+    const W = 10, H = 8, t = 1.6, d = 1.6;
+    const mk = (w, h, x, y) => { const m = new T.Mesh(new T.BoxGeometry(w, h, d), coreMat); m.position.set(x, y, 0); V.rig.add(m); };
+    mk(W, t, 0, H / 2 - t / 2); mk(W, t, 0, -H / 2 + t / 2); mk(t, H - 2 * t, -W / 2 + t / 2, 0); mk(t, H - 2 * t, W / 2 - t / 2, 0);
+    const coilL = new T.Group(), coilR = new T.Group(); V.rig.add(coilL); V.rig.add(coilR);
+    coilL.position.x = -W / 2 + t / 2; coilR.position.x = W / 2 - t / 2;
+    function setCoil(g, n, tube, mat){
+      while (g.children.length) { const c = g.children.pop(); c.geometry.dispose(); }
+      const span = H - 2 * t - 0.5, step = n > 1 ? span / (n - 1) : 0;
+      for (let i = 0; i < n; i++) { const ring = new T.Mesh(new T.TorusGeometry(1.45, tube, 10, 28), mat); ring.rotation.x = Math.PI / 2; ring.position.y = -span / 2 + i * step; g.add(ring); }
+    }
+    const cx = W / 2 - t / 2, cy = H / 2 - t / 2;
+    const flux = new T.CurvePath();
+    const P = [new T.Vector3(-cx, cy, 0), new T.Vector3(cx, cy, 0), new T.Vector3(cx, -cy, 0), new T.Vector3(-cx, -cy, 0)];
+    for (let i = 0; i < 4; i++) flux.add(new T.LineCurve3(P[i], P[(i + 1) % 4]));
+    const FN = 28, fgeo = new T.SphereGeometry(0.15, 8, 8), fluxMat = new T.MeshBasicMaterial({ color: hexOf('--accent', 0x2a78d6) }), F = [];
+    for (let i = 0; i < FN; i++) { const p = new T.Mesh(fgeo, fluxMat); p.userData.t = i / FN; p.userData.z = (i % 2 ? 1 : -1) * (d / 2 + 0.16); V.rig.add(p); F.push(p); }
+    const lbL = V.addLabel(new T.Vector3(-cx - 0.2, cy + 1.3, 0), '1차 코일 N₁', '', '1차 N₁'), lbR = V.addLabel(new T.Vector3(cx + 0.2, cy + 1.3, 0), '2차 코일 N₂', '', '2차 N₂');
+    V.addLabel(new T.Vector3(0, -cy - 2.3, 0), '철심 (방향성 전기강판)', '파란 점: 자속 Φ', '철심');
+    const els = { title: $('#tr-title'), v1: $('#tr-v1'), v2: $('#tr-v2'), n: $('#tr-n'), i: $('#tr-i'), l: $('#tr-l'), loss: $('#tr-loss'), slider: $('#tr-ratio') };
+    const fv = kv => kv < 1 ? Math.round(kv * 1000) + ' V' : (kv < 10 ? kv.toFixed(1) : Math.round(kv)) + ' kV';
+    let cur = { v1: 22, name: '발전소 승압 22kV → 765kV' };
+    function apply(ratio){
+      const v2 = cur.v1 * ratio;
+      let nL, nR;
+      if (ratio >= 1) { nL = Math.max(2, Math.round(8 / Math.sqrt(ratio))); nR = Math.min(22, Math.max(nL + 1, Math.round(nL * ratio))); }
+      else { nR = Math.max(2, Math.round(8 * Math.sqrt(ratio))); nL = Math.min(22, Math.max(nR + 1, Math.round(nR / ratio))); }
+      setCoil(coilL, nL, ratio >= 1 ? 0.27 : 0.17, cuLow); setCoil(coilR, nR, ratio >= 1 ? 0.17 : 0.27, cuHigh);
+      lbL.lastChild.textContent = '표시 ' + nL + '회 · V₁ ' + fv(cur.v1); lbR.lastChild.textContent = '표시 ' + nR + '회 · V₂ ' + fv(v2); lbL.querySelector('.short').textContent = 'N₁ ' + fv(cur.v1); lbR.querySelector('.short').textContent = 'N₂ ' + fv(v2);
+      els.title.innerHTML = '<b></b> · 권수비 N₂/N₁ ≈ ' + (ratio >= 10 ? ratio.toFixed(1) : ratio.toFixed(3)); els.title.firstChild.textContent = cur.name;
+      els.v1.textContent = fv(cur.v1); els.v2.textContent = fv(v2); els.n.textContent = ratio >= 10 ? ratio.toFixed(1) : ratio.toFixed(3);
+      els.i.textContent = (1 / ratio) >= 10 ? (1 / ratio).toFixed(1) : (1 / ratio).toFixed(3);
+      const loss = 100 / (ratio * ratio);
+      els.l.textContent = loss >= 100 ? (loss >= 1000 ? Math.round(loss).toLocaleString('ko-KR') + '%' : loss.toFixed(0) + '%') : (loss < 1 ? loss.toFixed(2) : loss.toFixed(1)) + '%';
+      els.loss.style.width = Math.min(100, loss) + '%';
+    }
+    const ctl = document.getElementById('ctl-tr');
+    $$('button[data-v1]', ctl).forEach(b => b.addEventListener('click', () => {
+      $$('button[data-v1]', ctl).forEach(x => x.classList.toggle('on', x === b));
+      cur = { v1: parseFloat(b.dataset.v1), name: b.dataset.nm };
+      const ratio = parseFloat(b.dataset.v2) / cur.v1; els.slider.value = Math.max(-2, Math.min(2, Math.log10(ratio))); apply(ratio);
+    }));
+    els.slider.addEventListener('input', () => { $$('button[data-v1]', ctl).forEach(x => x.classList.remove('on')); cur = { v1: cur.v1, name: '권수비 직접 조절 (V₁ ' + fv(cur.v1) + ' 기준)' }; apply(Math.pow(10, parseFloat(els.slider.value))); });
+    apply(765 / 22);
+    const themeMq = matchMedia('(prefers-color-scheme: dark)');
+    const retheme = () => { fluxMat.color.setHex(hexOf('--accent', 0x2a78d6)); };
+    themeMq.addEventListener ? themeMq.addEventListener('change', retheme) : themeMq.addListener(retheme);
+    new MutationObserver(retheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    function frame(){
+      requestAnimationFrame(frame);
+      if (!V.st.visible) return;
+      if (!V.st.dragging && !reduced) V.st.theta += 0.0015;
+      if (!reduced) F.forEach(p => { p.userData.t = (p.userData.t + 0.0025) % 1; });
+      F.forEach(p => { p.position.copy(flux.getPointAt(p.userData.t)); p.position.z = p.userData.z; });
+      V.updateCamera(); V.renderer.render(V.scene, V.camera); V.updateLabels();
+    }
+    frame();
+  }
+
+  ensureThree().then(ok => {
+    if (!ok) { fallback('sim-grid', 'fb-grid', 'ctl-grid'); fallback('sim-tr', 'fb-tr', 'ctl-tr'); return; }
+    try { runGrid(); } catch (e) { fallback('sim-grid', 'fb-grid', 'ctl-grid'); }
+    try { runTransformer(); } catch (e) { fallback('sim-tr', 'fb-tr', 'ctl-tr'); }
+  });
+})();
+</script>
