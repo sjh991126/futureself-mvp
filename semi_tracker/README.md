@@ -33,7 +33,7 @@ python -m pytest semi_tracker/tests -q   # 테스트 (네트워크 불필요)
 
 ## 자동 실행 (GitHub Actions)
 
-`.github/workflows/semi_tracker.yml` 이 **평일 08:10 KST** 에 수집을 실행하고 변경된 `data/` 를 커밋합니다. Actions 탭에서 **Run workflow** 로 수동 실행도 됩니다.
+`.github/workflows/semi_tracker.yml` 이 **평일 08:10 KST** 에 수집을 실행하고 변경된 `data/` 를 커밋합니다. Actions 탭에서 **Run workflow** 로 수동 실행도 됩니다 (워크플로가 기본 브랜치에 있어야 함). 트래커 코드를 바꾼 PR 에서는 테스트와 라이브 수집 검증이 커밋 없이 실행되고, 결과 리포트는 잡 요약(Job Summary)과 아티팩트로 남습니다.
 
 리포지토리 Settings → Secrets 에 넣을 값 (모두 선택):
 

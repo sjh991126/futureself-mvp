@@ -10,22 +10,42 @@ on:
         description: "실행할 소스 키 (쉼표 구분, 비우면 전체)"
         required: false
         default: ""
+  pull_request:
+    # 트래커 코드가 바뀐 PR 에서는 테스트 + 라이브 수집 검증(커밋 없음)
+    paths:
+      - "semi_tracker/**"
+      - "data/manual_inputs.yaml"
+      - ".github/workflows/semi_tracker.yml"
 
 permissions:
   contents: write
 
 concurrency:
-  group: semi-tracker
+  group: semi-tracker-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: semi_tracker/requirements.txt
+      - name: Install
+        run: pip install -r semi_tracker/requirements.txt
+      - name: Unit tests (no network)
+        run: python -m pytest semi_tracker/tests -q
+
   track:
+    needs: test
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref_name }}
 
       - uses: actions/setup-python@v5
         with:
@@ -40,20 +60,34 @@ jobs:
         env:
           DART_API_KEY: ${{ secrets.DART_API_KEY }}
           TRACKER_CONTACT_EMAIL: ${{ secrets.TRACKER_CONTACT_EMAIL }}
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          SLACK_WEBHOOK_URL: ${{ github.event_name == 'pull_request' && '' || secrets.SLACK_WEBHOOK_URL }}
+          TELEGRAM_BOT_TOKEN: ${{ github.event_name == 'pull_request' && '' || secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ github.event_name == 'pull_request' && '' || secrets.TELEGRAM_CHAT_ID }}
+          ONLY: ${{ github.event.inputs.only }}
         run: |
-          if [ -n "${{ github.event.inputs.only }}" ]; then
-            python -m semi_tracker.run --only "${{ github.event.inputs.only }}"
+          if [ -n "$ONLY" ]; then
+            python -m semi_tracker.run --only "$ONLY"
           else
             python -m semi_tracker.run
           fi
 
-      - name: Show report
-        run: cat data/reports/latest.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Report
+        if: always()
+        run: |
+          if [ -f data/reports/latest.md ]; then
+            cat data/reports/latest.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload data (PR verification)
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: semi-tracker-data
+          path: data
+          retention-days: 7
 
       - name: Commit data
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: |
           git config user.name "semi-tracker-bot"
           git config user.email "semi-tracker-bot@users.noreply.github.com"
