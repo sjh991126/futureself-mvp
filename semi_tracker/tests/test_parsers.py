@@ -195,3 +195,41 @@ def test_mops_parse_and_decode(fixture_text):
     assert mops.parse_mops(decoded)["revenue"] == 330979760.0
     utf = mops.decode_mops(html.replace("charset=big5", "charset=utf-8").encode("utf-8"))
     assert "台積電" in utf
+
+
+def test_twse_openapi_parse_and_roc_date():
+    rows = [
+        {"出表日期": "1140910", "資料年月": "11408", "公司代號": "2303", "公司名稱": "聯電", "產業別": "24",
+         "營業收入-當月營收": "19862113", "營業收入-上月營收": "19100000", "營業收入-去年當月營收": "18500000",
+         "營業收入-上月比較增減(%)": "3.99", "營業收入-去年同月增減(%)": "7.36",
+         "累計營業收入-當月累計營收": "170000000", "累計營業收入-去年累計營收": "160000000", "累計營業收入-前期比較增減(%)": "6.25", "備註": "-"},
+        {"出表日期": "1140910", "資料年月": "11408", "公司代號": "2330", "公司名稱": "台積電", "產業別": "24",
+         "營業收入-當月營收": "330979760", "營業收入-上月營收": "335770000", "營業收入-去年當月營收": "251866000",
+         "營業收入-上月比較增減(%)": "-1.43", "營業收入-去年同月增減(%)": "31.41",
+         "累計營業收入-當月累計營收": "2760000000", "累計營業收入-去年累計營收": "2025000000", "累計營業收入-前期比較增減(%)": "36.30", "備註": "-"},
+    ]
+    row = mops.parse_twse_openapi(rows)
+    assert row["name"] == "台積電" and row["revenue"] == 330979760.0 and row["yoy_pct"] == 31.41
+    assert row["date"] == "2025-08-01" and row["year"] == 2025 and row["month"] == 8
+    assert mops.parse_twse_openapi(rows, code="9999") is None
+    assert mops.roc_ym_to_date("11501") == "2026-01-01" and mops.roc_ym_to_date("abc") is None
+
+
+def test_edgar_merges_facts_across_tags():
+    """엔비디아처럼 태그를 바꾼 회사: 옛 태그(2020년까지) + 새 태그(이후)를 합쳐야 최근 분기가 나온다."""
+    client = edgar.EdgarClient.__new__(edgar.EdgarClient)
+    data = {
+        "RevenueFromContractWithCustomerExcludingAssessedTax": [
+            {"start": "2019-10-28", "end": "2020-01-26", "val": 3.1e9, "form": "10-K", "filed": "2020-02-20"}],
+        "Revenues": [
+            {"start": "2025-04-28", "end": "2025-07-27", "val": 46.7e9, "form": "10-Q", "filed": "2025-08-27"}],
+    }
+
+    def concept(cik, tag, unit="USD"):
+        if tag not in data:
+            raise RuntimeError("404")
+        return data[tag]
+
+    client.concept = concept
+    q = client.quarterly(1045810, edgar.REVENUE_TAGS)
+    assert [r["end"] for r in q] == ["2020-01-26", "2025-07-27"]

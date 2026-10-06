@@ -91,20 +91,22 @@ class EdgarClient:
         data = resp.json()
         return data.get("units", {}).get(unit, [])
 
-    def first_available(self, cik: int, tags: list[str]) -> tuple[Optional[str], list[dict]]:
+    def facts_for(self, cik: int, tags: list[str]) -> list[dict]:
+        """후보 태그 전부의 사실을 합친다.
+
+        회사가 태그를 바꾸면(예: 엔비디아 RevenueFromContract… → Revenues) 한 태그만으로는
+        옛 기간 또는 최근 기간만 남으므로, 전부 모아 기간별 최신 제출본을 쓴다.
+        """
+        out: list[dict] = []
         for tag in tags:
             try:
-                facts = self.concept(cik, tag)
-            except Exception:  # noqa: BLE001 - 다음 태그 시도
+                out.extend(self.concept(cik, tag))
+            except Exception:  # noqa: BLE001 - 없는 태그는 404
                 continue
-            if facts:
-                return tag, facts
-        return None, []
+        return out
 
     def quarterly(self, cik: int, tags: list[str]) -> list[dict]:
-        _, facts = self.first_available(cik, tags)
-        return derive_quarterly(facts)
+        return derive_quarterly(self.facts_for(cik, tags))
 
     def instants(self, cik: int, tags: list[str]) -> list[dict]:
-        _, facts = self.first_available(cik, tags)
-        return instant_series(facts)
+        return instant_series(self.facts_for(cik, tags))

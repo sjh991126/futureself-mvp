@@ -78,6 +78,11 @@ jobs:
             cat data/reports/latest.md >> "$GITHUB_STEP_SUMMARY"
           fi
 
+      - name: Source diagnostics (PR verification)
+        if: github.event_name == 'pull_request'
+        continue-on-error: true
+        run: python -m semi_tracker.diag
+
       - name: Upload data (PR verification)
         if: github.event_name == 'pull_request'
         uses: actions/upload-artifact@v4
