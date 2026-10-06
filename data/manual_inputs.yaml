@@ -1,0 +1,48 @@
+# ───────────────────────────────────────────────────────────────────────
+# 수동 입력 파일 — 자동 수집이 불가능(유료·컨콜 코멘트)하거나 실패한 지표를 직접 채웁니다.
+# 값을 바꾼 뒤 커밋하면 다음 실행부터 반영됩니다. 날짜는 YYYY-MM-DD, 월은 YYYY-MM.
+# 같은 날짜의 자동 수집 값보다 여기 값이 우선합니다. 비워 두면(빈 목록) 해당 항목은 자동 값만 씁니다.
+# ───────────────────────────────────────────────────────────────────────
+
+# 1. DRAM·NAND 고정거래가격 (TrendForce 월말 발표, USD). 제품 키별로 월을 누적 입력하세요.
+#    최근 2개월 이상이면 전월 대비, 3개월 이상이면 '상승률 둔화' 판정이 가능합니다.
+#    예) dram_ddr4_8gb: [{month: "2025-08", price: 1.95, note: "TrendForce 8/29"}, {month: "2025-09", price: 2.05}]
+contract_price:
+  dram_ddr4_8gb: []
+  dram_ddr5_16gb: []
+  nand_512gb_tlc: []
+
+# 2. 현물가격 — 보통 DRAMeXchange 에서 자동 수집. 실패 시 입력.
+#    예) dram_ddr4_8gb: [{date: "2025-09-30", price: 2.10}]
+spot_price:
+  dram_ddr4_8gb: []
+
+# 3. 재고 주수 — 고객(서버·PC) 재고 주수. 실적 발표/컨콜 코멘트 기준으로 입력(정상 4~6주, 10주 이상 경계).
+#    예) customer: [{date: "2025-07-24", weeks: 5, note: "SK하이닉스 2Q25 컨콜: 고객 재고 정상 수준"}]
+inventory_weeks:
+  customer: []
+
+# 4. 마이크론 가이던스 — 분기 실적 발표(12·3·6·9월) 직후 입력. 실적 자체는 SEC XBRL 에서 자동 수집.
+#    예) guidance: [{date: "2025-09-23", quarter: "FQ1-26", revenue_mid_usd_bn: 12.5, gross_margin_mid_pct: 51.5, note: "HBM 완판"}]
+micron:
+  guidance: []
+
+# 5. 엔비디아 데이터센터 매출(USD bn, 분기)·CoWoS 캐파 코멘트. 총매출은 자동 수집되나 데이터센터 세그먼트는 수동.
+#    예) data_center_revenue_usd_bn: [{date: "2025-08-27", quarter: "FQ2-26", value: 41.1}]
+#        cowos_capacity: [{date: "2025-09-01", note: "TrendForce: 2026년 CoWoS 캐파 전년比 +xx%"}]
+nvidia:
+  data_center_revenue_usd_bn: []
+  cowos_capacity: []
+
+# 6. CAPEX 가이던스 방향 — 증액 / 유지 / 감액 중 하나. 실제 집행액은 DART·EDGAR 에서 자동 수집.
+#    예) hynix: [{date: "2025-07-24", direction: "증액", amount_krw_tn: null, note: "M15X 조기 가동"}]
+capex:
+  samsung: []
+  hynix: []
+  micron: []
+
+# 10. P/B — 네이버 금융 자동 수집 실패 시. 예) [{date: "2025-09-30", samsung: 1.3, hynix: 2.4}]
+pbr: []
+
+# 9. 원/달러 — 자동 수집 실패 시. 예) [{date: "2025-09-30", rate: 1401.5}]
+usdkrw: []
