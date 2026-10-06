@@ -179,6 +179,8 @@ def fetch_prices(session=None, today: Optional[date] = None) -> list[dict]:
     for url in CONTRACT_URLS:
         try:
             page = get(session, url, headers={"Referer": HOME_URL})
+            if "/Member/Login" in page.url:  # 2026-10 기준 회원 전용 → 수동 입력으로 대체
+                continue
             records.extend(parse_price_tables(page.text, today, force_kind="contract"))
         except Exception:  # noqa: BLE001 - 고정가 페이지는 선택 사항
             continue

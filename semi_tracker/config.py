@@ -104,7 +104,7 @@ INDICATORS = [
         "interpretation": "전월 대비 상승 전환이 업사이클 시작 신호. 상승률 둔화가 고점 경고.",
         "lead_lag": "동행 (주가는 1~2분기 선행)",
         "cadence": "monthly",
-        "auto": "부분 자동 (DRAMeXchange 공개 표 스크랩 시도, 실패 시 수동 입력)",
+        "auto": "수동 (DRAMeXchange 고정가 페이지는 회원 전용 → manual_inputs.yaml 에 월별 입력, 공개 표가 열리면 자동 전환)",
         "links": ["https://www.dramexchange.com/", "https://www.trendforce.com/presscenter/news"],
     },
     {
@@ -144,7 +144,7 @@ INDICATORS = [
         "interpretation": "HBM 수요의 원천. 데이터센터 매출 증가율 둔화가 HBM 밸류체인 고점 신호.",
         "lead_lag": "선행 1~2분기",
         "cadence": "quarterly",
-        "auto": "혼합 (엔비디아 총매출·TSMC 월매출 자동, 데이터센터 매출·CoWoS 캐파는 수동)",
+        "auto": "혼합 (엔비디아 총매출은 SEC XBRL, TSMC 월매출은 TWSE OpenAPI 자동 · 데이터센터 매출·CoWoS 캐파는 수동)",
         "links": ["https://investor.nvidia.com/", "https://investor.tsmc.com/english/monthly-revenue"],
     },
     {
@@ -174,7 +174,7 @@ INDICATORS = [
         "interpretation": "삼성전자·하이닉스는 외국인 방향이 곧 주가 방향. 20일 누적 순매도 전환은 경계 신호.",
         "lead_lag": "동행",
         "cadence": "daily",
-        "auto": "자동 (네이버 금융 외국인·기관 순매매 표)",
+        "auto": "자동 (네이버 증권 모바일 JSON API: /api/stock/{code}/trend)",
         "links": ["https://finance.naver.com/item/frgn.naver?code=005930", "https://finance.naver.com/item/frgn.naver?code=000660"],
     },
     {
@@ -184,7 +184,7 @@ INDICATORS = [
         "interpretation": "원화 약세는 수출 이익에 플러스이나 외국인 자금 이탈과 겹치면 주가에는 마이너스.",
         "lead_lag": "동행",
         "cadence": "daily",
-        "auto": "자동 (Frankfurter/ECB → 네이버 환율 순으로 시도)",
+        "auto": "자동 (Frankfurter/ECB → 네이버 환율 JSON 순으로 시도)",
         "links": ["https://finance.naver.com/marketindex/"],
     },
     {
@@ -194,7 +194,7 @@ INDICATORS = [
         "interpretation": "과거 사이클 저점 1.0~1.2배, 고점 2.0~2.5배. 2025~26년은 과거 범위를 크게 벗어나 참고치로만.",
         "lead_lag": "—",
         "cadence": "daily",
-        "auto": "자동 (네이버 금융 PBR)",
+        "auto": "자동 (네이버 증권 모바일 JSON API: /api/stock/{code}/integration 의 PBR)",
         "links": ["https://finance.naver.com/item/main.naver?code=005930", "https://finance.naver.com/item/main.naver?code=000660"],
     },
 ]
