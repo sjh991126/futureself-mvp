@@ -12,7 +12,7 @@ from datetime import date
 
 from bs4 import BeautifulSoup
 
-from .fetchers.dramexchange import HOME_URL, match_product
+from .fetchers.dramexchange import CONTRACT_URLS, HOME_URL, match_product, parse_price_tables
 from .fetchers.mops import MOPS_URL, TWSE_OPENAPI_URL
 from .http import BROWSER_UA, make_session
 
@@ -25,11 +25,12 @@ def _targets(today: date) -> list[tuple[str, str, dict]]:
     return [
         ("naver_m_trend", "https://m.stock.naver.com/api/stock/005930/trend?pageSize=60&page=1", api),
         ("naver_m_integration", "https://m.stock.naver.com/api/stock/000660/integration", api),
-        ("naver_fx_front", "https://m.stock.naver.com/front-api/marketIndex/prices?category=exchange&reutersCode=FX_USDKRW&page=1&pageSize=5", api),
-        ("naver_fx_api", "https://m.stock.naver.com/api/marketIndex/exchange/FX_USDKRW/prices?page=1&pageSize=5", api),
+        ("naver_fx_front", "https://m.stock.naver.com/front-api/marketIndex/prices?category=exchange&reutersCode=FX_USDKRW&page=1&pageSize=10", api),
         ("twse_openapi", TWSE_OPENAPI_URL, {"Accept": "application/json"}),
         ("mops", MOPS_URL.format(roc_year=y - 1911, month=m), {}),
         ("dramexchange", HOME_URL, {}),
+        ("dramexchange_contract_dram", CONTRACT_URLS[0], {"Referer": HOME_URL}),
+        ("dramexchange_contract_nand", CONTRACT_URLS[1], {"Referer": HOME_URL}),
     ]
 
 
@@ -104,9 +105,22 @@ def main(argv=None) -> int:
         else:
             for line in summarize_html(text, interest):
                 print(line)
-            if key == "dramexchange":
-                prods = sorted({match_product(td.get_text(' ', strip=True)) for td in BeautifulSoup(text, 'lxml').find_all('td')} - {None})
+            if key.startswith("dramexchange"):
+                soup = BeautifulSoup(text, "lxml")
+                prods = sorted({match_product(td.get_text(' ', strip=True)) for td in soup.find_all('td')} - {None})
                 print(f"  products={prods}")
+            if key.startswith("dramexchange_contract"):
+                recs = parse_price_tables(text, date.today(), force_kind="contract")
+                print(f"  parsed contract records={recs[:8]}")
+                shown = 0
+                for table in soup.find_all("table"):
+                    if not any(match_product(td.get_text(" ", strip=True)) for td in table.find_all("td")):
+                        continue
+                    for tr in table.find_all("tr")[:4]:
+                        print(f"  tr={[c.get_text(' ', strip=True)[:18] for c in tr.find_all(['th', 'td'])][:10]}")
+                    shown += 1
+                    if shown >= 2:
+                        break
                 for i, mm in enumerate(re.finditer(r"(?i)contract", text)):
                     if i >= 6:
                         break

@@ -15,6 +15,10 @@ from ..config import PRODUCT_PATTERNS
 from ..http import get, make_session
 
 HOME_URL = "https://www.dramexchange.com/"
+CONTRACT_URLS = [
+    "https://www.dramexchange.com/Price/NationalContractDramDetail",
+    "https://www.dramexchange.com/Price/NationalContractFlashDetail",
+]
 TRENDFORCE_NEWS_URL = "https://www.trendforce.com/presscenter/news"
 NEWS_KEYWORDS = ("dram", "nand", "hbm", "cowos", "memory", "contract price", "spot price", "capex", "foundry")
 
@@ -88,15 +92,16 @@ def _table_kind(table) -> Optional[str]:
     return None
 
 
-def parse_price_tables(html: str, today: Optional[date] = None) -> list[dict]:
+def parse_price_tables(html: str, today: Optional[date] = None, force_kind: Optional[str] = None) -> list[dict]:
     """페이지 내 모든 표에서 제품 가격 레코드를 추출.
 
     반환 레코드: {product, item, kind(spot|contract), price, change_pct, period}
+    force_kind 를 주면(고정가 전용 페이지) 표 분류 없이 그 종류로 간주한다.
     """
     soup = BeautifulSoup(html, "lxml")
     records: list[dict] = []
     for table in soup.find_all("table"):
-        kind = _table_kind(table)
+        kind = force_kind or _table_kind(table)
         if kind is None:
             continue
         headers = [th.get_text(" ", strip=True).lower() for th in table.find_all("th")]
@@ -167,9 +172,17 @@ def parse_news(html: str, keywords=NEWS_KEYWORDS, limit: int = 12) -> list[dict]
 
 
 def fetch_prices(session=None, today: Optional[date] = None) -> list[dict]:
+    """홈(현물가) + 고정가 상세 페이지. 고정가 페이지는 실패해도 현물가는 돌려준다."""
     session = session or make_session()
     resp = get(session, HOME_URL)
-    return parse_price_tables(resp.text, today)
+    records = parse_price_tables(resp.text, today)
+    for url in CONTRACT_URLS:
+        try:
+            page = get(session, url, headers={"Referer": HOME_URL})
+            records.extend(parse_price_tables(page.text, today, force_kind="contract"))
+        except Exception:  # noqa: BLE001 - 고정가 페이지는 선택 사항
+            continue
+    return records
 
 
 def fetch_news(session=None) -> list[dict]:

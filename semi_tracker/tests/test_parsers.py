@@ -258,3 +258,11 @@ def test_naver_json_apis():
     fx = {"result": [{"localTradedAt": "2026-10-02", "closePrice": "1,344.00"}, {"localTradedAt": "2026-10-01", "closePrice": "1,350.50"}]}
     assert [(r["date"], r["rate"]) for r in naver.parse_fx_json(fx)] == [("2026-10-01", 1350.5), ("2026-10-02", 1344.0)]
     assert naver.parse_fx_json([{"bizdate": "20261002", "closePrice": "1,344"}])[0]["rate"] == 1344.0
+
+
+def test_dramexchange_force_kind_contract_page():
+    html = """<table><tr><th>Item</th><th>Period</th><th>High</th><th>Low</th><th>Average</th><th>Change</th></tr>
+    <tr><td>DDR4 8Gb (1Gx8) 3200</td><td>Sep. 2026</td><td>6.20</td><td>5.80</td><td>6.00</td><td>+4.0%</td></tr>
+    <tr><td>DDR4 8Gb (1Gx8) 3200</td><td>Aug. 2026</td><td>5.90</td><td>5.60</td><td>5.77</td><td>+2.5%</td></tr></table>"""
+    recs = dramexchange.parse_price_tables(html, date(2026, 10, 6), force_kind="contract")
+    assert [(r["kind"], r["period"], r["price"]) for r in recs] == [("contract", "2026-09-01", 6.0), ("contract", "2026-08-01", 5.77)]
