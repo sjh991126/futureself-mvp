@@ -1,7 +1,7 @@
 {
   "version": "0.1.0",
-  "generated_at": "2026-11-10T04:36:23+00:00",
-  "today": "2026-11-10",
+  "generated_at": "2026-11-11T02:44:40+00:00",
+  "today": "2026-11-11",
   "phase": {
     "phase": 3,
     "label": "③ 고점·과열",
@@ -18,7 +18,7 @@
         "key": "pbr",
         "name": "P/B (삼성전자·하이닉스)",
         "weight": 1.0,
-        "rationale": "삼성전자 P/B 2.30배 → 과거 고점(2.0~2.5) 구간 / SK하이닉스 P/B 3.27배 → 과거 고점(2.0~2.5) 구간 / 2025~26년은 과거 범위를 크게 벗어나 참고치로만 사용"
+        "rationale": "삼성전자 P/B 2.37배 → 과거 고점(2.0~2.5) 구간 / SK하이닉스 P/B 3.39배 → 과거 고점(2.0~2.5) 구간 / 2025~26년은 과거 범위를 크게 벗어나 참고치로만 사용"
       },
       {
         "key": "nvidia_tsmc",
@@ -30,7 +30,7 @@
         "key": "spot_price",
         "name": "현물가격 (spot)",
         "weight": 0.5,
-        "rationale": "현물가 1개월 -4.7% 하락 → 고정가 하락 선행"
+        "rationale": "현물가 1개월 -4.9% 하락 → 고정가 하락 선행"
       },
       {
         "key": "capex",
@@ -54,7 +54,7 @@
         "phase": 4,
         "phase_label": "④ 하강·침체",
         "weight": 1.5,
-        "rationale": "삼성전자 20일 누적 순매도 지속 -20,657,507주 (-43,705억원) / SK하이닉스 20일 누적 순매도 지속 -8,205,950주 (-107,177억원)"
+        "rationale": "삼성전자 20일 누적 순매도 지속 -14,667,451주 (-29,705억원) / SK하이닉스 20일 누적 순매도 지속 -6,487,923주 (-82,431억원)"
       },
       {
         "key": "spot_price",
@@ -62,7 +62,7 @@
         "phase": 4,
         "phase_label": "④ 하강·침체",
         "weight": 1.0,
-        "rationale": "현물가 1개월 -4.7% 하락 → 고정가 하락 선행"
+        "rationale": "현물가 1개월 -4.9% 하락 → 고정가 하락 선행"
       },
       {
         "key": "nvidia_tsmc",
@@ -99,10 +99,10 @@
       "key": "spot_price",
       "name": "현물가격 (spot)",
       "status": "bear",
-      "headline": "DDR4 8GB 현물 $5.69 · 1M -4.7%",
-      "rationale": "현물가 1개월 -4.7% 하락 → 고정가 하락 선행",
+      "headline": "DDR4 8GB 현물 $5.68 · 1M -4.9%",
+      "rationale": "현물가 1개월 -4.9% 하락 → 고정가 하락 선행",
       "lead_lag": "선행 1~3개월",
-      "as_of": "2026-11-10",
+      "as_of": "2026-11-11",
       "freshness": "fresh",
       "votes": {
         "4": 1.0,
@@ -110,14 +110,14 @@
       },
       "metrics": {
         "product": "dram_ddr4_8gb",
-        "spot": 5.69,
-        "chg_1m": -4.690117252931314,
-        "chg_1w": -4.369747899159659,
+        "spot": 5.68,
+        "chg_1m": -4.85762144053602,
+        "chg_1w": -4.3771043771043905,
         "contract": null,
         "premium_pct": null
       },
       "sources": [],
-      "next_release": "2026-11-11 · DRAMeXchange 현물가 (매 거래일)",
+      "next_release": "2026-11-12 · DRAMeXchange 현물가 (매 거래일)",
       "needs_manual": [],
       "status_label": "🔴 비우호"
     },
@@ -188,7 +188,7 @@
         "tsmc_yoy": 54.64861207105231
       },
       "sources": [],
-      "next_release": "2026-11-10 (예상) · TSMC 월매출 공시 (10일경)",
+      "next_release": "2026-11-25 (예상) · 엔비디아 분기 실적 (하순, 예상)",
       "needs_manual": [
         "엔비디아 데이터센터 매출 (분기, 수동)",
         "CoWoS 캐파 코멘트 (TrendForce/TSMC)"
@@ -232,7 +232,7 @@
       "votes": {},
       "metrics": {},
       "sources": [],
-      "next_release": "2026-11-11 · DART 단일판매·공급계약 공시 (수시)",
+      "next_release": "2026-11-12 · DART 단일판매·공급계약 공시 (수시)",
       "needs_manual": [
         "DART_API_KEY 설정"
       ],
@@ -242,10 +242,10 @@
       "key": "foreign_flow",
       "name": "외국인 순매수",
       "status": "bear",
-      "headline": "삼성전자 20일 -20,657,507주 · SK하이닉스 20일 -8,205,950주",
-      "rationale": "삼성전자 20일 누적 순매도 지속 -20,657,507주 (-43,705억원) / SK하이닉스 20일 누적 순매도 지속 -8,205,950주 (-107,177억원)",
+      "headline": "삼성전자 20일 -14,667,451주 · SK하이닉스 20일 -6,487,923주",
+      "rationale": "삼성전자 20일 누적 순매도 지속 -14,667,451주 (-29,705억원) / SK하이닉스 20일 누적 순매도 지속 -6,487,923주 (-82,431억원)",
       "lead_lag": "동행",
-      "as_of": "2026-11-09",
+      "as_of": "2026-11-10",
       "freshness": "fresh",
       "votes": {
         "4": 1.5
@@ -253,23 +253,23 @@
       "metrics": {
         "005930": {
           "name": "삼성전자",
-          "cum20_shares": -20657507.0,
-          "prev20_shares": -30712704.0,
-          "cum20_value_krw_bn": -43704.677995,
+          "cum20_shares": -14667451.0,
+          "prev20_shares": -33772017.0,
+          "cum20_value_krw_bn": -29705.042548999998,
           "days": 20,
-          "as_of": "2026-11-09"
+          "as_of": "2026-11-10"
         },
         "000660": {
           "name": "SK하이닉스",
-          "cum20_shares": -8205950.0,
-          "prev20_shares": -9940366.0,
-          "cum20_value_krw_bn": -107177.28456000001,
+          "cum20_shares": -6487923.0,
+          "prev20_shares": -11596011.0,
+          "cum20_value_krw_bn": -82431.38428000001,
           "days": 20,
-          "as_of": "2026-11-09"
+          "as_of": "2026-11-10"
         }
       },
       "sources": [],
-      "next_release": "2026-11-11 · KRX 투자자별 매매 (매 거래일)",
+      "next_release": "2026-11-12 · KRX 투자자별 매매 (매 거래일)",
       "needs_manual": [],
       "status_label": "🔴 비우호"
     },
@@ -277,19 +277,19 @@
       "key": "usdkrw",
       "name": "원/달러 환율",
       "status": "neutral",
-      "headline": "USD/KRW 1,346.8 · 20일 +1.0%",
-      "rationale": "환율 20일 변동 +1.0% → 중립",
+      "headline": "USD/KRW 1,339.0 · 20일 -0.2%",
+      "rationale": "환율 20일 변동 -0.2% → 중립",
       "lead_lag": "동행",
-      "as_of": "2026-11-09",
+      "as_of": "2026-11-10",
       "freshness": "fresh",
       "votes": {},
       "metrics": {
-        "rate": 1346.79,
-        "chg_window_pct": 1.027687552978418,
+        "rate": 1339.0,
+        "chg_window_pct": -0.18263819001826942,
         "foreign_status": "bear"
       },
       "sources": [],
-      "next_release": "2026-11-11 · 원/달러 환율 (매 거래일)",
+      "next_release": "2026-11-12 · 원/달러 환율 (매 거래일)",
       "needs_manual": [],
       "status_label": "⚪ 중립"
     },
@@ -297,20 +297,20 @@
       "key": "pbr",
       "name": "P/B (삼성전자·하이닉스)",
       "status": "caution",
-      "headline": "삼성전자 2.30배 · SK하이닉스 3.27배",
-      "rationale": "삼성전자 P/B 2.30배 → 과거 고점(2.0~2.5) 구간 / SK하이닉스 P/B 3.27배 → 과거 고점(2.0~2.5) 구간 / 2025~26년은 과거 범위를 크게 벗어나 참고치로만 사용",
+      "headline": "삼성전자 2.37배 · SK하이닉스 3.39배",
+      "rationale": "삼성전자 P/B 2.37배 → 과거 고점(2.0~2.5) 구간 / SK하이닉스 P/B 3.39배 → 과거 고점(2.0~2.5) 구간 / 2025~26년은 과거 범위를 크게 벗어나 참고치로만 사용",
       "lead_lag": "—",
-      "as_of": "2026-11-10",
+      "as_of": "2026-11-11",
       "freshness": "fresh",
       "votes": {
         "3": 1.0
       },
       "metrics": {
-        "삼성전자": 2.3,
-        "SK하이닉스": 3.27
+        "삼성전자": 2.37,
+        "SK하이닉스": 3.39
       },
       "sources": [],
-      "next_release": "2026-11-11 · P/B 갱신 (매 거래일)",
+      "next_release": "2026-11-12 · P/B 갱신 (매 거래일)",
       "needs_manual": [],
       "status_label": "🟡 경계"
     }
@@ -321,7 +321,7 @@
       "ok": true,
       "mode": "auto",
       "message": "9개 가격 (spot)",
-      "fetched_at": "2026-11-10T04:36:15+00:00",
+      "fetched_at": "2026-11-11T02:44:32+00:00",
       "count": 9
     },
     {
@@ -329,31 +329,31 @@
       "ok": true,
       "mode": "auto",
       "message": "헤드라인 6건",
-      "fetched_at": "2026-11-10T04:36:15+00:00",
+      "fetched_at": "2026-11-11T02:44:33+00:00",
       "count": 6
     },
     {
       "key": "fx",
       "ok": true,
       "mode": "auto",
-      "message": "frankfurter 64일 (최근 1346.8)",
-      "fetched_at": "2026-11-10T04:36:16+00:00",
+      "message": "frankfurter 64일 (최근 1339.0)",
+      "fetched_at": "2026-11-11T02:44:34+00:00",
       "count": 64
     },
     {
       "key": "naver_005930",
       "ok": true,
       "mode": "auto",
-      "message": "순매매 60일, PBR 2.30",
-      "fetched_at": "2026-11-10T04:36:18+00:00",
+      "message": "순매매 60일, PBR 2.37",
+      "fetched_at": "2026-11-11T02:44:35+00:00",
       "count": 60
     },
     {
       "key": "naver_000660",
       "ok": true,
       "mode": "auto",
-      "message": "순매매 60일, PBR 3.27",
-      "fetched_at": "2026-11-10T04:36:18+00:00",
+      "message": "순매매 60일, PBR 3.39",
+      "fetched_at": "2026-11-11T02:44:36+00:00",
       "count": 60
     },
     {
@@ -361,7 +361,7 @@
       "ok": true,
       "mode": "auto",
       "message": "분기 69개 (최근 2026-09-03 매출 $54.23B)",
-      "fetched_at": "2026-11-10T04:36:20+00:00",
+      "fetched_at": "2026-11-11T02:44:37+00:00",
       "count": 69
     },
     {
@@ -369,7 +369,7 @@
       "ok": true,
       "mode": "auto",
       "message": "분기 74개 (최근 2026-07-26 $96.2B)",
-      "fetched_at": "2026-11-10T04:36:21+00:00",
+      "fetched_at": "2026-11-11T02:44:38+00:00",
       "count": 74
     },
     {
@@ -377,7 +377,7 @@
       "ok": true,
       "mode": "auto",
       "message": "2026-09 NT$511.9B (YoY 54.64861207105231%)",
-      "fetched_at": "2026-11-10T04:36:23+00:00",
+      "fetched_at": "2026-11-11T02:44:40+00:00",
       "count": 1
     },
     {
@@ -385,7 +385,7 @@
       "ok": false,
       "mode": "needs_key",
       "message": "DART_API_KEY 미설정 (무료 발급: opendart.fss.or.kr)",
-      "fetched_at": "2026-11-10T04:36:23+00:00",
+      "fetched_at": "2026-11-11T02:44:40+00:00",
       "count": 0
     },
     {
@@ -393,50 +393,43 @@
       "ok": false,
       "mode": "needs_key",
       "message": "DART_API_KEY 미설정 (무료 발급: opendart.fss.or.kr)",
-      "fetched_at": "2026-11-10T04:36:23+00:00",
+      "fetched_at": "2026-11-11T02:44:40+00:00",
       "count": 0
     }
   ],
   "calendar": [
     {
-      "key": "nvidia_tsmc",
-      "label": "TSMC 월매출 공시 (10일경)",
-      "date": "2026-11-10",
-      "est": true,
-      "days": 0
-    },
-    {
       "key": "equipment_orders",
       "label": "DART 단일판매·공급계약 공시 (수시)",
-      "date": "2026-11-11",
+      "date": "2026-11-12",
       "est": false,
       "days": 1
     },
     {
       "key": "foreign_flow",
       "label": "KRX 투자자별 매매 (매 거래일)",
-      "date": "2026-11-11",
+      "date": "2026-11-12",
       "est": false,
       "days": 1
     },
     {
       "key": "pbr",
       "label": "P/B 갱신 (매 거래일)",
-      "date": "2026-11-11",
+      "date": "2026-11-12",
       "est": false,
       "days": 1
     },
     {
       "key": "spot_price",
       "label": "DRAMeXchange 현물가 (매 거래일)",
-      "date": "2026-11-11",
+      "date": "2026-11-12",
       "est": false,
       "days": 1
     },
     {
       "key": "usdkrw",
       "label": "원/달러 환율 (매 거래일)",
-      "date": "2026-11-11",
+      "date": "2026-11-12",
       "est": false,
       "days": 1
     },
@@ -445,74 +438,81 @@
       "label": "엔비디아 분기 실적 (하순, 예상)",
       "date": "2026-11-25",
       "est": true,
-      "days": 15
+      "days": 14
     },
     {
       "key": "contract_price",
       "label": "TrendForce 월말 고정거래가격 발표",
       "date": "2026-11-30",
       "est": true,
-      "days": 20
+      "days": 19
+    },
+    {
+      "key": "nvidia_tsmc",
+      "label": "TSMC 월매출 공시 (10일경)",
+      "date": "2026-12-10",
+      "est": true,
+      "days": 29
     },
     {
       "key": "micron",
       "label": "마이크론 분기 실적 (하순, 예상)",
       "date": "2026-12-25",
       "est": true,
-      "days": 45
+      "days": 44
     },
     {
       "key": "capex",
       "label": "삼성전자 잠정실적 (7일경)",
       "date": "2027-01-07",
       "est": true,
-      "days": 58
+      "days": 57
     },
     {
       "key": "capex",
       "label": "SK하이닉스 실적·CAPEX 코멘트 (하순, 예상)",
       "date": "2027-01-24",
       "est": true,
-      "days": 75
+      "days": 74
     },
     {
       "key": "inventory_weeks",
       "label": "삼성전자 확정실적·컨콜 (재고 코멘트, 하순)",
       "date": "2027-01-28",
       "est": true,
-      "days": 79
+      "days": 78
     }
   ],
   "news": [
     {
       "title": "Wafer Fabrication / Foundry",
       "url": "https://www.trendforce.com/research/wafer-fabrication-foundry",
-      "seen": "2026-11-10"
+      "seen": "2026-11-11"
     },
     {
       "title": "Mobile DRAM Contract Price",
       "url": "https://www.trendforce.com/price/dram/mobileDram_contract",
-      "seen": "2026-11-10"
+      "seen": "2026-11-11"
     },
     {
       "title": "NAND Flash Contract Price",
       "url": "https://www.trendforce.com/price/flash/flash_contract",
-      "seen": "2026-11-10"
+      "seen": "2026-11-11"
     },
     {
       "title": "PC-Client OEM SSD Contract Price",
       "url": "https://www.trendforce.com/price/flash/pcc_oem_ssd_contract",
-      "seen": "2026-11-10"
+      "seen": "2026-11-11"
     },
     {
       "title": "NAND Flash Wafer Contract Price",
       "url": "https://www.trendforce.com/price/flash/wafer_contract",
-      "seen": "2026-11-10"
+      "seen": "2026-11-11"
     },
     {
       "title": "Persistently High DRAM Prices Drive Adoption of Reballed Memory, with Smartphone Penetration Expected to Reach 7–9% in 2027, Says TrendForce",
       "url": "https://www.trendforce.com/presscenter/news/20261106-13297.html",
-      "seen": "2026-11-10"
+      "seen": "2026-11-11"
     }
   ],
   "changes": []
